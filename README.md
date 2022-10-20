@@ -22,5 +22,27 @@ now write the following lines, where instead of TYPE write global or local wheth
 
 (note the apices, you will need to write them)
 
+now you have downloaded the repository and set the configuration files.
 
+now when you want to download the changes just use the command:
+
+- git pull
+
+and when you want to add changes to the repository just write:
+
+- git add .
+
+to add all changes, 
+
+- git commit " bla bla bla "
+
+where you write what you are committing to the repository
+
+and eventually 
+
+- git push
+
+to push the changes on the repo.
+
+it's good practice to pull every time you have to push new commits, so that you remain updated and don't generate conflicts.
 
