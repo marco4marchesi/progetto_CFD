@@ -1,4 +1,4 @@
-# The following script produces the polar of the RAE2822 airfoil.
+# The following script produces the polar of an airfoil.
 # Place the script in the directory in which you want to generate
 # the files of the simulations. In the same folder there should be:
 # - the config file named "simulationCase.cfg". The configuration
