@@ -1,3 +1,0 @@
-sphere=Sphere()
-Show()
-Render()
