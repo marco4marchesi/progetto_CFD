@@ -1,0 +1,3 @@
+sphere=Sphere()
+Show()
+Render()
