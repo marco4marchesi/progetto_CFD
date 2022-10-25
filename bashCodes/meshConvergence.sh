@@ -48,7 +48,7 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	sed -i "s/MESH_OUT_FILENAME= mesh_out.su2/MESH_OUT_FILENAME= mesh_out_G${jj}.su2/" $caseName
 	
 	# Computing the optimal core number
-	optimalCoreNumber=$(head -n $jj | tail -1) 
+	optimalCoreNumber=$(head -n $jj ../../meshCores.txt | tail -1) 
 	if $optimalCoreNumber -gt $maxCoreNumber ; then
 		optimalCoreNumber=$maxCoreNumber
 	fi
