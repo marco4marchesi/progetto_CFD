@@ -1,4 +1,4 @@
-# The following script produces the polar of an airfoil.
+# The following script produces the polar of the RAE2822 airfoil.
 # Place the script in the directory in which you want to generate
 # the files of the simulations. In the same folder there should be:
 # - the config file named "simulationCase.cfg". The configuration
@@ -10,9 +10,13 @@
 
 # Definition of the angles of attack of interest
 aoaArray=(0 2 4 6)
-nPoints=4
+
+# Definition of the maximum allowed cores
+maxCoreNumber=6
+
+# Computing iterations number
+nPoints=${#aoaArray[@]}
 iter=$(echo "scale=0;$nPoints-1" | bc)
-coreNumber=3
 
 # Iterative setting of the test case
 for jj in $(seq 0 1 $iter) ; do 
@@ -38,7 +42,14 @@ for jj in $(seq 0 1 $iter) ; do
 	sed -i "s/RESTART_FILENAME= restart_flow.dat/RESTART_FILENAME= restart_flow_aoa${currentAoa}.dat/" $caseName
 	sed -i "s/VOLUME_FILENAME= flow/VOLUME_FILENAME= flow_aoa${currentAoa}/" $caseName
 	sed -i "s/SURFACE_FILENAME= surface_flow/SURFACE_FILENAME= surface_flow_aoa${currentAoa}/" $caseName
-	sed -i "s/MESH_OUT_FILENAME= mesh_out.su2/MESH_OUT_FILENAME= mesh_out_aoa${currentAoa}.su2/" $caseName	
+	sed -i "s/MESH_OUT_FILENAME= mesh_out.su2/MESH_OUT_FILENAME= mesh_out_aoa${currentAoa}.su2/" $caseName
+	
+	# Computing optimal core number
+	elemNumber=$(sed -n 's/^NELEM= \(.*\)/\1/p' < ../mesh/mesh.su2)
+	optimalCoreNumber=$(echo "scale=0;($elemNumber+10000)/20000" | bc)
+	if [ $optimalCoreNumber -gt $maxCoreNumber ] ; then
+		optimalCoreNumber=$maxCoreNumber
+	fi
 	
 	# Running SU2
 	mpirun -n $coreNumber SU2_CFD $caseName # >"logAoa${currentAoa}.log"

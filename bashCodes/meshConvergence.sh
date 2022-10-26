@@ -6,15 +6,12 @@
 #   and for th SU2 output filenames.
 # - the "meshG*" folders containing, each, a "meshG*.su2" file. 
 #   * corresponds to the mesh ID (from 1 to N).
-# - a "meshCores.txt" text file resuming the number of cores
-#   to be employed for each mesh. The *th row shall contain
-#   ONLY the number (no spaces either before or after).
 
 # Number of mesh to be simulated
-meshNumber=5
+meshNumber=3
 
 # Maximum number of cores allowed for SU2
-maxCoreNumber=6
+maxCoreNumber=5
 
 # Iterative setting of the test case
 for jj in $(seq 1 1 $meshNumber) ; do 
@@ -38,7 +35,7 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	cd $cfdFolderName
 	searchString="MESH_FILENAME= ../mesh/mesh.su2"
 	replaceString="MESH_FILENAME= ../meshG${jj}/meshG${jj}.su2"
-	sed -i "s/$searchString/$replaceString/" $caseName
+	sed -i "s%$searchString%$replaceString%" $caseName
 	
 	# Updating output files name
 	sed -i "s/CONV_FILENAME= history/CONV_FILENAME= history_G${jj}/" $caseName
@@ -48,11 +45,13 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	sed -i "s/MESH_OUT_FILENAME= mesh_out.su2/MESH_OUT_FILENAME= mesh_out_G${jj}.su2/" $caseName
 	
 	# Computing the optimal core number
-	optimalCoreNumber=$(head -n $jj ../../meshCores.txt | tail -1) 
-	if $optimalCoreNumber -gt $maxCoreNumber ; then
+	searchDir=../meshG${jj}/meshG${jj}.su2
+	elemNumber=$(sed -n 's/^NELEM= \(.*\)/\1/p' < $searchDir)
+	optimalCoreNumber=$(echo "scale=0;($elemNumber+10000)/20000" | bc)
+	if [ $optimalCoreNumber -gt $maxCoreNumber ] ; then
 		optimalCoreNumber=$maxCoreNumber
 	fi
-	
+
 	# Running SU2
 	mpirun -n $optimalCoreNumber SU2_CFD $caseName # >"logG${jj}.log"
 	
