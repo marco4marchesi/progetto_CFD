@@ -59,14 +59,12 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	searchDir=../meshG${jj}/meshG${jj}.su2
 	elemNumber=$(sed -n 's/^NELEM= \(.*\)/\1/p' < $searchDir)
 	optimalCoreNumber=$(echo "scale=0;($elemNumber+10000)/20000" | bc)
-	echo $optimalCoreNumber
-	echo h4
 	if [ $optimalCoreNumber -gt $maxCoreNumber ] ; then
 		optimalCoreNumber=$maxCoreNumber
 	fi
-	echo h3
 
 	# Running SU2
+	echo Starting simulation n. ${jj} of $meshNumber 
 	mpirun -n $optimalCoreNumber SU2_CFD $caseName >"logG${jj}.log"
 	
 	# Back to master folder
