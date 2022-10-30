@@ -4,32 +4,43 @@
 # - the config file named "simulationCase.cfg". The configuration
 #   file shall have all standard entries for mesh directory input
 #   and for th SU2 output filenames.
+# in a different directory, properly set in the code:
 # - the "meshG*" folders containing, each, a "meshG*.su2" file. 
 #   * corresponds to the mesh ID (from 1 to N).
 
 # Number of mesh to be simulated
-meshNumber=3
+echo "Input the number of meshes to be simulated"
+read meshNumber
 
 # Maximum number of cores allowed for SU2
-maxCoreNumber=5
+echo "Input the maximum number of cores allowed"
+read maxCoreNumber
+
+# Configuration template name
+echo "Input the name of the template config file"
+read templateName
 
 # Iterative setting of the test case
 for jj in $(seq 1 1 $meshNumber) ; do 
 
 	# Generating the test case folder
 	caseFolderName="caseG${jj}"
-	cfdFolderName="cfdG${jj}"
 	mkdir $caseFolderName  
 	
-	# Moving mesh folder inside test folder
-	mv "meshG${jj}" $caseFolderName
+	# Generating the cfd folder
+	cfdFolderName="cfdG${jj}"
+	cd $caseFolderName
+	mkdir $cfdFolderName  
+	cd ..
+	
+	# Copying the mesh folder inside test case folder
+	cp -r "../../../MeshFiles/meshG${jj}" $caseFolderName
 	
 	# Generating simulation recup file
-	cp simulationCase.cfg $caseFolderName
+	cp $templateName $caseFolderName
 	cd $caseFolderName
-	mkdir $cfdFolderName
 	caseName="simulationCase_G${jj}.cfg"
-	mv simulationCase.cfg $cfdFolderName/$caseName
+	mv $templateName $cfdFolderName/$caseName
 	
 	# Updating the mesh input in the test case file
 	cd $cfdFolderName
@@ -48,12 +59,15 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	searchDir=../meshG${jj}/meshG${jj}.su2
 	elemNumber=$(sed -n 's/^NELEM= \(.*\)/\1/p' < $searchDir)
 	optimalCoreNumber=$(echo "scale=0;($elemNumber+10000)/20000" | bc)
+	echo $optimalCoreNumber
+	echo h4
 	if [ $optimalCoreNumber -gt $maxCoreNumber ] ; then
 		optimalCoreNumber=$maxCoreNumber
 	fi
+	echo h3
 
 	# Running SU2
-	mpirun -n $optimalCoreNumber SU2_CFD $caseName # >"logG${jj}.log"
+	mpirun -n $optimalCoreNumber SU2_CFD $caseName >"logG${jj}.log"
 	
 	# Back to master folder
 	cd ..
