@@ -271,15 +271,15 @@ xte = C;
 le = 132;
 xle = 0.;
 
-LL = 20*C;
+LL = 60*C;
 
-npW = 100;
+npW = 115;
 npN = 82;
 npP = 150;
 npS = 150;
 
 progN = 1.2;
-progW = 1.09;
+progW = 1.076;
 bmp = 0.1;
 progC = 1.055;
 

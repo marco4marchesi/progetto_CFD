@@ -1,8 +1,0 @@
-
-
-Error in "void CConfig::SetPostprocessing(SU2_COMPONENT, short unsigned int, short unsigned int)": 
--------------------------------------------------------------------------
-For centered schemes the option NUM_METHOD_GRAD_RECON should not be set.
------------------------------- Error Exit -------------------------------
-
-

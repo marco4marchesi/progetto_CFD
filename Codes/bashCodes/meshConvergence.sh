@@ -65,7 +65,7 @@ for jj in $(seq 1 1 $meshNumber) ; do
 
 	# Running SU2
 	echo Starting simulation n. ${jj} of $meshNumber 
-	mpirun -n $optimalCoreNumber SU2_CFD $caseName >"logG${jj}.log"
+	mpirun -n $optimalCoreNumber SU2_CFD $caseName # >"logG${jj}.log"
 	
 	# Back to master folder
 	cd ..
