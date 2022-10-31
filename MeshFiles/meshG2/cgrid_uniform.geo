@@ -280,7 +280,7 @@ npS = 150;
 
 progN = 1.05;
 progW = 1.05;
-bmp = 0.1;
+bmp = 0.05;
 progC = 1.055;
 
 // UPPER TRAILING EDGE
