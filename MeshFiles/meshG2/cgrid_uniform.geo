@@ -284,7 +284,7 @@ bmp = 0.05;
 progC = 1.055;
 
 // UPPER TRAILING EDGE
-Point(401) = {LL, 0, 0};
+Point(401) = {LL, 10*C, 0};
 Point(402) = {LL, H, 0};
 Point(403) = {1, H, 0};
 
