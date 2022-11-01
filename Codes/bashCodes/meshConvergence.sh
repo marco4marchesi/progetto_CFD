@@ -1,28 +1,25 @@
+echo Mesh convergence cycle initialized...
+#
 # The following script runs mesh convergence simulations.
 # Place the script in the directory in which you want to generate
 # the files of the simulations. In the same folder there should be:
-# - the config file named "simulationCase.cfg". The configuration
+# - the config file named. The configuration
 #   file shall have all standard entries for mesh directory input
 #   and for th SU2 output filenames.
 # in a different directory, properly set in the code:
 # - the "meshG*" folders containing, each, a "meshG*.su2" file. 
 #   * corresponds to the mesh ID (from 1 to N).
-
-# Number of mesh to be simulated
-echo "Input the number of meshes to be simulated"
-read meshNumber
-
-# Maximum number of cores allowed for SU2
-echo "Input the maximum number of cores allowed"
-read maxCoreNumber
-
-# Configuration template name
-echo "Input the name of the template config file"
-read templateName
-
+#
+unset meshNumber
+read -p "Input the number of meshes to be simulated: " meshNumber
+unset maxCoreNumber
+read -p "Input the maximum number of cores allowed: " maxCoreNumber
+unset template
+read -p "Input the name of the template config file: " templateName
+#
 # Iterative setting of the test case
 for jj in $(seq 1 1 $meshNumber) ; do 
-
+	
 	# Generating the test case folder
 	caseFolderName="caseG${jj}"
 	mkdir $caseFolderName  
@@ -33,6 +30,7 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	mkdir $cfdFolderName  
 	cd ..
 	
+
 	# Copying the mesh folder inside test case folder
 	cp -r "../../../MeshFiles/meshG${jj}" $caseFolderName
 	
@@ -62,7 +60,7 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	if [ $optimalCoreNumber -gt $maxCoreNumber ] ; then
 		optimalCoreNumber=$maxCoreNumber
 	fi
-
+	
 	# Running SU2
 	echo Starting simulation n. ${jj} of $meshNumber 
 	mpirun -n $optimalCoreNumber SU2_CFD $caseName # >"logG${jj}.log"
@@ -70,11 +68,8 @@ for jj in $(seq 1 1 $meshNumber) ; do
 	# Back to master folder
 	cd ..
 	cd ..
-
-done
 	
+done
 
 
-
-
-
+exit
