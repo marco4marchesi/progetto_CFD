@@ -10,12 +10,15 @@ echo Mesh convergence cycle initialized...
 # - the "meshG*" folders containing, each, a "meshG*.su2" file. 
 #   * corresponds to the mesh ID (from 1 to N).
 #
+
 unset meshNumber
 read -p "Input the number of meshes to be simulated: " meshNumber
 unset maxCoreNumber
 read -p "Input the maximum number of cores allowed: " maxCoreNumber
 unset template
 read -p "Input the name of the template config file: " templateName
+
+
 #
 # Iterative setting of the test case
 for jj in $(seq 1 1 $meshNumber) ; do 

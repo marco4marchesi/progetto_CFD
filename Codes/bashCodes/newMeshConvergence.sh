@@ -1,8 +1,7 @@
-echo "Mesh convergence cycle initialized..."
-
-read -p "Input the number of meshes to be simulated: " meshNumber
-read -p "Input the maximum number of cores allowed: " maxCoreNumber
-read -p "Input the name of the template configuration file: " templateName
+echo "Mesh convergence cycle initialized"
+read -p "Input the number of meshes to be simulated: "meshNumber
+read -p "Input the maximum number of cores allowed "maxCoreNumber
+read -p "Input the name of the template configuration file: "templateName
 
 for jj in $(seq 1 1 $meshNumber) ; do
 
