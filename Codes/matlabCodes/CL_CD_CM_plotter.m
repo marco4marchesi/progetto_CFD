@@ -22,7 +22,7 @@ tried mesh
 
 clear; close all; clc;
 
-addpath("../Codes/matlabCodes/")
+cd("../../Simulations/")
 
 %% select which folder (P for prova, SC for Simulation Case)
 
@@ -47,7 +47,7 @@ end
 folderNamesSave = folderNames;
 idx = 0;
 for i = 1:length(folderNames)
-    if folderNames(i) == "SST_OPT2_6" || folderNames(i) == "SST_OPT2_7" || folderNames(i) == "SST_OPT4_1" || folderNames(i) == "SST_OPT5"
+    if folderNames(i) == "SST_OPT2_6" || folderNames(i) == "SST_OPT2_7" || folderNames(i) == "SST_OPT4_1" || folderNames(i) == "SST_OPT5" || folderNames(i) == "LAMINAR" || folderNames(i) == "LAMINAR2"
         folderNamesSave = folderNamesSave([1:i-idx-1, i-idx+1:end]);
         idx = idx +1;
     end

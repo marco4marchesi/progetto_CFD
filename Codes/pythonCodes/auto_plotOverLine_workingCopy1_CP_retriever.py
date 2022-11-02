@@ -16,17 +16,22 @@ import numpy as np
 #import importlib.util
 
 user = input("Who is plotting? ")
-if user == "Matteo" or user == "matteo":
-    savingFolder = "pippo"
+simulationFolder = "P/P1/caseG1/cfdG1/POL_results/"
+if user == "matteo":
+    savingFolder = "pippo"+simulationFolder
 
-if user == "Doppio" or user == "doppio":
-    savingFolder = "C:/Users/marco/Desktop/tutto/UNI/2 MAGISTRALE/CFD/CFD PROJECT/progetto_CFD/Simulations/"
+if user == "doppio pc":
+    savingFolder = "C:/Users/marco/Desktop/tutto/UNI/2 MAGISTRALE/CFD/CFD PROJECT/progetto_CFD/Simulations/"+simulationFolder
 
-if user == "Luca" or user == "luca":
-    savingFolder = "paperino"
+if user == "doppio fisso":
+    savingFolder = "C:/Users/marco/Desktop/UNI/2 MAGISTRALE/CFD/CFD PROJECT/progetto_CFD/Simulations/"+simulationFolder
 
-if user == "Marco" or user == "marco":
-    savingFolder = "topolino"
+
+if user == "luca":
+    savingFolder = "paperino"+simulationFolder
+
+if user == "marco":
+    savingFolder = "topolino"+simulationFolder
 
     
 # get source
@@ -34,16 +39,17 @@ a1 = FindSource('flow_G1.vtu') #mettere il nome del file che si ha importato
 
 # plot over line
 plotOverLine1 = PlotOverLine(Input=a1)  
+plotOverLine1.Resolution = 5001
 
 # select fields - here you write all the fields you want to export (if you want to xport all fields consider using python trace to automatically write the matrix)
 passArrays = ['Pressure', 'Pressure_Coefficient', 'Y_Plus']
 
 # points of interest:
-x_vec = np.linspace(0, 1.008, num=100, endpoint=True)
+x_vec = np.linspace(0, 1.008, num=201, endpoint=True)
 
 setFolder="folder1" #the folder must exist in this way, it is possible to write something like os.mkdir, but up to now it returns access denied
 for i in range(len(x_vec)) :
     plotOverLine1.Point1 = [x_vec[i], -0.1, 0 ]
     plotOverLine1.Point2 = [x_vec[i],  0.1, 0 ]
     
-    SaveData(savingFolder + "_sim{0}.csv".format(i), proxy=plotOverLine1, PointDataArrays= passArrays)
+    SaveData(savingFolder + "sim{0}.csv".format(i), proxy=plotOverLine1, PointDataArrays= passArrays)
