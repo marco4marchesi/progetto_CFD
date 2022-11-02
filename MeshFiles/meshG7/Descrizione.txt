@@ -1,0 +1,4 @@
+Mesh realizzata a partire da meshG4 incrementando il numero di elementi su dorso, ventre e scia in modo omogeneo
+modificando però la progressione sulla circonferenza esterna e sulla scia
+
+243478 elementi

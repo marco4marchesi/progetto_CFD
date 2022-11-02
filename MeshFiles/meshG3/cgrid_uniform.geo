@@ -273,15 +273,15 @@ xle = 0.;
 
 LL = 60*C;
 
-npW = 150;
-npN = 212;
-npP = 150;
-npS = 250;
+npW = 170;
+npN = 148;
+npP = 180;
+npS = 300;
 
-progN = 1.05;
-progW = 1.07;
-bmpS = 0.0167;
-bmpP = 0.01;
+progN = 1.075;
+progW = 1.05;
+bmpS = 0.08;
+bmpP = 0.08;
 progC = 1.055;
 
 // UPPER TRAILING EDGE
@@ -336,8 +336,8 @@ Line Loop(600) = {-403,600,601,-602};
 
 Transfinite Line{601} = npN Using Progression 1/progN;
 
-Transfinite Line{600} = npS Using Progression progC;
-Transfinite Line{602} = npS Using Bump bmpS;
+Transfinite Line{600} = npP Using Progression progC;
+Transfinite Line{602} = npP Using Bump bmpS;
 
 Plane Surface(600) = {600};
 Transfinite Surface{600};

@@ -273,16 +273,16 @@ xle = 0.;
 
 LL = 60*C;
 
-npW = 250;
-npN = 212;
-npP = 270;
-npS = 450;
+npW = 200;
+npN = 180;
+npP = 210;
+npS = 350;
 
-progN = 1.05;
-progW = 1.042;
-bmpS = 0.0167;
-bmpP = 0.01;
-progC = 1.03;
+progN = 1.06;
+progW = 1.045;
+bmpS = 0.09;
+bmpP = 0.05;
+progC = 1.055;
 
 // UPPER TRAILING EDGE
 Point(401) = {LL, 0, 0};

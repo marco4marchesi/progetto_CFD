@@ -273,18 +273,19 @@ xle = 0.;
 
 LL = 60*C;
 
-npW = 170;
-npN = 212;
-npP = 150;
-npS = 150;
+npW = 116;
+npN = 130;
+npP = 125;
+npS = 210;
 
-progN = 1.05;
-progW = 1.05;
-bmp = 0.05;
+progN = 1.1;
+progW = 1.072;
+bmpS = 0.1;
+bmpP = 0.1;
 progC = 1.055;
 
 // UPPER TRAILING EDGE
-Point(401) = {LL, 10*C, 0};
+Point(401) = {LL, 0, 0};
 Point(402) = {LL, H, 0};
 Point(403) = {1, H, 0};
 
@@ -336,7 +337,7 @@ Line Loop(600) = {-403,600,601,-602};
 Transfinite Line{601} = npN Using Progression 1/progN;
 
 Transfinite Line{600} = npP Using Progression progC;
-Transfinite Line{602} = npP Using Bump bmp;
+Transfinite Line{602} = npP Using Bump bmpS;
 
 Plane Surface(600) = {600};
 Transfinite Surface{600};
@@ -348,7 +349,7 @@ Circle(800) = {601,600,503};
 Spline(801) = {le:257,1};
 
 Transfinite Line{800} = npP Using Progression 1/progC;
-Transfinite Line{801} = npP Using Bump bmp;
+Transfinite Line{801} = npP Using Bump bmpP;
 
 Line Loop(800) = {-601,800,503,-801};
 Plane Surface(800) = {800};

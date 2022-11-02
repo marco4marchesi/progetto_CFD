@@ -273,15 +273,15 @@ xle = 0.;
 
 LL = 60*C;
 
-npW = 225;
-npN = 212;
-npP = 240;
-npS = 400;
+npW = 169;
+npN = 170;
+npP = 180;
+npS = 300;
 
-progN = 1.05;
-progW = 1.047;
-bmpS = 0.0167;
-bmpP = 0.01;
+progN = 1.065;
+progW = 1.053;
+bmpS = 0.11;
+bmpP = 0.06;
 progC = 1.055;
 
 // UPPER TRAILING EDGE
