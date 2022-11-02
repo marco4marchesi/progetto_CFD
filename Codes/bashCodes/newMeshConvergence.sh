@@ -1,10 +1,11 @@
 echo "Mesh convergence cycle initialized..."
 
-read -p "Input the number of meshes to be simulated: " meshNumber
+read -p "Input the mesh numbering starting index: " meshIndex
+read -p "Input the mesh numbering ending index: " meshNumber
 read -p "Input the maximum number of cores allowed: " maxCoreNumber
 read -p "Input the name of the template configuration file: " templateName
 
-for jj in $(seq 1 1 $meshNumber) ; do
+for jj in $(seq $meshIndex 1 $meshNumber) ; do
 
     # Generating the test case folder
     caseFolderName="caseG${jj}"
