@@ -273,13 +273,13 @@ xle = 0.;
 
 LL = 60*C;
 
-npW = 200;
-npN = 180;
-npP = 210;
-npS = 350;
+npW = 220;
+npN = 196; // mettere 203 per avere il primo layer 5e-5, con 212 invece si ha 3.1e-5
+npP = 230;
+npS = 390;
 
-progN = 1.06;
-progW = 1.045;
+progN = 1.055;
+progW = 1.041;
 bmpS = 0.09;
 bmpP = 0.05;
 progC = 1.055;

@@ -1,3 +1,4 @@
-Mesh realizzata a partire da meshG3 incrementand il numero di elementi su dorso, ventre e scia in modo omogeneo
+Mesh realizzata a partire da meshG5 incrementando il numero di elementi su dorso, ventre e scia in modo omogeneo
+modificando riducendo però la progressione sulla scia
 
-209052 elementi
+289868 elementi
