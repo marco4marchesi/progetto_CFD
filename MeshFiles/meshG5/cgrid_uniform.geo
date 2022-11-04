@@ -282,7 +282,8 @@ progN = 1.055;
 progW = 1.041;
 bmpS = 0.09;
 bmpP = 0.05;
-progC = 1.055;
+progCS = 1.03;
+progCP = 1.04;
 
 // UPPER TRAILING EDGE
 Point(401) = {LL, 0, 0};
@@ -336,7 +337,7 @@ Line Loop(600) = {-403,600,601,-602};
 
 Transfinite Line{601} = npN Using Progression 1/progN;
 
-Transfinite Line{600} = npS Using Progression progC;
+Transfinite Line{600} = npS Using Progression progCS;
 Transfinite Line{602} = npS Using Bump bmpS;
 
 Plane Surface(600) = {600};
@@ -348,7 +349,7 @@ Recombine Surface{600};
 Circle(800) = {601,600,503};
 Spline(801) = {le:257,1};
 
-Transfinite Line{800} = npP Using Progression 1/progC;
+Transfinite Line{800} = npP Using Progression 1/progCP;
 Transfinite Line{801} = npP Using Bump bmpP;
 
 Line Loop(800) = {-601,800,503,-801};
