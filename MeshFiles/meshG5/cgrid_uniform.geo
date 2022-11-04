@@ -268,8 +268,11 @@ Point(257) = {1, -0.00126, 0.0, 20*h};
 // LE points
 te = 1;
 xte = C;
-le = 132;
+le = 139; // 132 quello giusto
 xle = 0.;
+
+point_test_x = 0.00224;
+point_test_y = -0.00756;
 
 LL = 60*C;
 
@@ -280,10 +283,10 @@ npS = 390;
 
 progN = 1.055;
 progW = 1.041;
-bmpS = 0.09;
-bmpP = 0.05;
-progCS = 1.03;
-progCP = 1.04;
+bmpS = 0.085;
+bmpP = 0.046;
+progCS = 1.035;
+progCP = 1.035;
 
 // UPPER TRAILING EDGE
 Point(401) = {LL, 0, 0};
@@ -326,8 +329,8 @@ Transfinite Surface{500};
 Recombine Surface{500};
 
 // SUCTION SIDE 
-Point(601) = {xte-H,0,0};
-Point(600) = {xte,0,0};
+Point(601) = {-16.943508,-11.254517,0};
+Point(600) = {xte, 0 ,0};
 
 Circle(600) = {403,600,601};
 Line(601) = {601, le};
