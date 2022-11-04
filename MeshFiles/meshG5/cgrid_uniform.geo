@@ -286,7 +286,7 @@ progW = 1.041;
 bmpS = 0.085;
 bmpP = 0.046;
 progCS = 1.035;
-progCP = 1.035;
+progCP = 1.045;
 
 // UPPER TRAILING EDGE
 Point(401) = {LL, 0, 0};

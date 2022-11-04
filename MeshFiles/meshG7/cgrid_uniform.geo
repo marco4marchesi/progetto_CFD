@@ -268,21 +268,25 @@ Point(257) = {1, -0.00126, 0.0, 20*h};
 // LE points
 te = 1;
 xte = C;
-le = 132;
+le = 139; // 132 quello giusto
 xle = 0.;
+
+point_test_x = 0.00224;
+point_test_y = -0.00756;
 
 LL = 60*C;
 
-npW = 280;
-npN = 212;
-npP = 300;
-npS = 500;
+npW = 310;
+npN = 260; // mettere 203 per avere il primo layer 5e-5, con 212 invece si ha 3.1e-5
+npP = 340;
+npS = 560;
 
-progN = 1.05;
-progW = 1.032;
-bmpS = 0.09;
-bmpP = 0.05;
-progC = 1.03;
+progN = 1.04;
+progW = 1.03;
+bmpS = 0.08;
+bmpP = 0.045;
+progCS = 1.02;
+progCP = 1.027;
 
 // UPPER TRAILING EDGE
 Point(401) = {LL, 0, 0};
@@ -325,8 +329,8 @@ Transfinite Surface{500};
 Recombine Surface{500};
 
 // SUCTION SIDE 
-Point(601) = {xte-H,0,0};
-Point(600) = {xte,0,0};
+Point(601) = {-16.943508,-11.254517,0};
+Point(600) = {xte, 0 ,0};
 
 Circle(600) = {403,600,601};
 Line(601) = {601, le};
@@ -336,7 +340,7 @@ Line Loop(600) = {-403,600,601,-602};
 
 Transfinite Line{601} = npN Using Progression 1/progN;
 
-Transfinite Line{600} = npS Using Progression progC;
+Transfinite Line{600} = npS Using Progression progCS;
 Transfinite Line{602} = npS Using Bump bmpS;
 
 Plane Surface(600) = {600};
@@ -348,7 +352,7 @@ Recombine Surface{600};
 Circle(800) = {601,600,503};
 Spline(801) = {le:257,1};
 
-Transfinite Line{800} = npP Using Progression 1/progC;
+Transfinite Line{800} = npP Using Progression 1/progCP;
 Transfinite Line{801} = npP Using Bump bmpP;
 
 Line Loop(800) = {-601,800,503,-801};

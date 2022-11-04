@@ -276,17 +276,17 @@ point_test_y = -0.00756;
 
 LL = 60*C;
 
-npW = 220;
-npN = 196; // mettere 203 per avere il primo layer 5e-5, con 212 invece si ha 3.1e-5
-npP = 230;
-npS = 390;
+npW = 280;
+npN = 212; // mettere 203 per avere il primo layer 5e-5, con 212 invece si ha 3.1e-5
+npP = 300;
+npS = 500;
 
 progN = 1.055;
-progW = 1.041;
-bmpS = 0.085;
-bmpP = 0.046;
-progCS = 1.035;
-progCP = 1.035;
+progW = 1.032;
+bmpS = 0.08;
+bmpP = 0.039;
+progCS = 1.022;
+progCP = 1.027;
 
 // UPPER TRAILING EDGE
 Point(401) = {LL, 0, 0};

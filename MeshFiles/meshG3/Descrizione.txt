@@ -1,6 +1,3 @@
-mesh creata a partire da meahG2 andando a mantenendo il rapporto tra elementi nelle varie direzioni e adattando i
-parametri di bump e progressione al fine di avere una mesh regolare nella zona di raccordo tra blocchi diversi
+Mesh realizzata a partire da meshG3 incrementand il numero di elementi su dorso, ventre e scia in modo omogeneo
 
-
-
-104534 elementi
+209052 elementi
