@@ -1,6 +1,0 @@
-mesh creata a partire da meahG3 andando a mantenendo il rapporto tra elementi nelle varie direzioni e adattando i
-parametri di bump e progressione al fine di avere una mesh regolare nella zona di raccordo tra blocchi diversi
-
-
-
-140135 elementi

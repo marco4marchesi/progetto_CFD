@@ -1,7 +1,0 @@
-mesh creata a partire da meahG1 andando a modificare il numero di elementi tra dorso e ventre in rapporto 5/3,
-il numero di elementi nella scia e della direzione normale mantendendo il primo layer tale per cui il y+ target 
-sia sempre inferiore a 1 e quindi agendo sulla progressione. L'obietttivo è quello di mantenere sempre la dimensione
-degli elementi vicino al TE di dimensione simile
-
-
-63412 elementi
