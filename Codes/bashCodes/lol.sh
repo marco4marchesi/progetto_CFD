@@ -72,7 +72,7 @@ for jj in $(seq $meshIndex 1 $meshNumber) ; do
 	
 	# Running SU2
 	echo Starting simulation n. ${jj} of $meshNumber 
-	mpirun -n 6 --allow-run-as-root SU2_CFD $caseName >"logG${jj}.log"
+	mpirun -n 12 --allow-run-as-root SU2_CFD $caseName >"logG${jj}.log"
 	
 	# Back to master folder
 	cd ..
