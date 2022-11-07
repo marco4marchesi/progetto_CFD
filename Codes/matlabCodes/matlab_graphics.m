@@ -31,15 +31,15 @@ set(0, 'defaultStairLineWidth', defaultLineWidth); % needs a different command f
 
 %% legend:
 set(0, 'defaultLegendLocation','best');
+set(0, 'defaultLegendFontSize',7);
 
 %% axes:
-
 % grid 
-set(0, 'defaultAxesXMinorGrid', 'on');
-set(0, 'defaultAxesYMinorGrid', 'on');
+% set(0, 'defaultAxesXMinorGrid','on','defaultAxesXMinorGridMode','manual');
+% set(0, 'defaultAxesYMinorGrid','on','defaultAxesYMinorGridMode','manual');
 % font
 set(0, 'defaultAxesFontName', 'Palatino Linotype', 'defaultTextFontName', 'Palatino Linotype');
 % color
 set(0, 'defaultAxesColor', 'none');
 % fontSize
-set(groot,'DefaultAxesFontSize',16);
+set(0,'defaultAxesFontSize',16);

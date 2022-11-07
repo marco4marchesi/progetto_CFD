@@ -16,7 +16,7 @@ import numpy as np
 #import importlib.util
 
 user = input("Who is plotting? ")
-simulationFolder = "SC/SA/A9/O1/caseG3/POL_results/"
+simulationFolder = "SC/SA/A9/O1/caseG3/POL_results_CP/"
 if user == "matteo":
     savingFolder = "pippo"+simulationFolder
 
@@ -42,7 +42,7 @@ source1.PointArrayStatus = ['Pressure', 'Pressure_Coefficient', 'Velocity', 'Y_P
 
 # plot over line
 plotOverLine1 = PlotOverLine(Input=source1)  
-plotOverLine1.Resolution = 10001
+plotOverLine1.Resolution = 5001
 
 # select fields - here you write all the fields you want to export (if you want to xport all fields consider using python trace to automatically write the matrix)
 passArrays = ['Pressure', 'Pressure_Coefficient', 'Y_Plus']
@@ -52,7 +52,7 @@ x_vec = np.linspace(0, 1.008, num=101, endpoint=True)
 
 setFolder="folder1" #the folder must exist in this way, it is possible to write something like os.mkdir, but up to now it returns access denied
 for i in range(len(x_vec)) :
-    plotOverLine1.Point1 = [x_vec[i], -0.05, 0 ]
-    plotOverLine1.Point2 = [x_vec[i],  0.08, 0 ]
+    plotOverLine1.Point1 = [x_vec[i], -0.1, 0 ]
+    plotOverLine1.Point2 = [x_vec[i],  0.1, 0 ]
     
     SaveData(savingFolder + "sim{0}.csv".format(i), proxy=plotOverLine1, PointDataArrays= passArrays)

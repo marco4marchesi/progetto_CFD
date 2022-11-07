@@ -80,3 +80,29 @@ ylabel('y')
 zlabel('z')
 
 % useful tip: to customize the properties you can always use the get(PLOTNAME) command and infer for properties
+
+%% example 4: 
+figure
+t = tiledlayout(1,2,'TileSpacing','compact');
+bgAx = axes(t,'XTick',[],'YTick',[],'Box','off');
+bgAx.Layout.TileSpan = [1 1];
+
+ax1 = axes(t);
+plot(ax1,[1:5],[2:6])
+xline(ax1,15,':');
+ax1.Box = 'off';
+xlim(ax1,[0 15])
+xlabel(ax1, 'First Interval')
+
+% Create second plot
+ax2 = axes(t);
+ax2.Layout.Tile = 2;
+plot(ax2,[1:5],[2:6])
+xline(ax2,45,':');
+ax2.YAxis.Visible = 'off';
+ax2.Box = 'off';
+xlim(ax2,[45 60])
+xlabel(ax2,'Second Interval')
+
+% Link the axes
+linkaxes([ax1 ax2], 'y')

@@ -29,8 +29,8 @@ user = "doppio fisso"; % choices: "doppio fisso" "luca" ...
 
 if user == "doppio fisso"
     matlabCodesPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Codes\matlabCodes\";
-    simulationsFolderPath = "C:\Users\marco\OneDrive - Politecnico di Milano\MAGISTRALE\TerzoSemestre\CFD\PROGETTO CFD DRIVE\SIMULATIONS DRIVE\Simulations\"; % one drive
-%     simulationsFolderPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Simulations"; % locale
+%     simulationsFolderPath = "C:\Users\marco\OneDrive - Politecnico di Milano\MAGISTRALE\TerzoSemestre\CFD\PROGETTO CFD DRIVE\SIMULATIONS DRIVE\Simulations\"; % one drive
+    simulationsFolderPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Simulations\"; % locale
 end
 
 if user == "luca"
@@ -42,22 +42,23 @@ end
 clearvars -except matlabCodesPath simulationsFolderPath; 
 close all; clc;
 
-% currentFolder = pwd;
-% if not(strcmp(currentFolder, matlabCodesPath))
-%     cd(matlabCodesPath)
-% end
 addpath(genpath(matlabCodesPath))
 
 
 cd(simulationsFolderPath)
 matlab_graphics;
 
+%% PROFILE EXTRACTION   
+NACA_23012_points = readtable(matlabCodesPath+"../pythonCodes/Naca_23012_points.dat");
+x_profile = NACA_23012_points.Var1;
+y_profile = NACA_23012_points.Var2;
+
 %% select case folder (where you saved the .csv files)
 % select which folder (P for prova, SC for Simulation Case)
 
-caseFolder = "SC/SST/A14/O1/caseG3/";
+caseFolder = "SC/SA/A9/O1/caseG3/";
 addpath(genpath(caseFolder))
-cd(caseFolder+"POL_resultsG3")
+cd(caseFolder+"POL_results_CP")
 
 %% list folders and extract names
 listing = dir;
@@ -74,8 +75,6 @@ for i = 1:size(listing,1)
     caseNames = [caseNames; erase(convertCharsToStrings(listing(i).name),".csv")];
 end
 
-
-
 clearvars listing
 
 %% EXTRACTION   
@@ -89,94 +88,55 @@ for i = 1:size(caseNames,1)
 
     % extract variables 
     CP_vec = sim.Pressure_Coefficient;
-    Y_PLUS_vec = sim.Y_Plus;
 
     % find indeces for the parameters that we need
     idx_up = find(isnan(CP_vec),1,"last")+1;
     idx_bott = find(isnan(CP_vec),1,"first")-1;
 
-    if isempty(idx_up)
+    if isempty(idx_up) || idx_up > length(CP_vec)
         idx_up = floor(length(CP_vec)/2)+1;
     end
-    if isempty(idx_bott)
+    if isempty(idx_bott) || idx_bott == 0
         idx_bott = floor(length(CP_vec)/2)+1;
     end
 
     % save values for upper quantities
-    CP_upper(j) = CP_vec(idx_up);
-    Y_PLUS_upper(j) = Y_PLUS_vec(idx_up);
-        
+    CP_top(j) = CP_vec(idx_up);
+         
     % save values for bottom quantities
     CP_bottom(j) = CP_vec(idx_bott);
-    Y_PLUS_bottom(j) = Y_PLUS_vec(idx_bott);
     
 end
 
+
 %% save as a .mat file so that on github we can run the code without pushing the .csv files
 % save("../CP","CP_bottom","CP_upper","x_vec") 
-% save("../Y_PLUS","Y_PLUS_bottom","Y_PLUS_upper","x_vec") 
 
 
 %% PLOTS
 close all;
 cd(simulationsFolderPath + caseFolder)
 
-%----------------------- export figures? --------------------------------
-exportFigures = false;
+%----------------------- export figures? --------------------------------%
+exportFigures = true;
 if exportFigures
     mkdir("IMAGES")
 end
 
 %%% PRESSURE COEFFICIENT
     CP_FIGURE = figure('Name','CP for test case');
-    plot(x_vec,-CP_upper,'green')
-    hold on; grid on;
+    plot(x_vec,-CP_top,'red')
+    hold on; grid minor;
     plot(x_vec,-CP_bottom,'blue')
+    plot(x_profile,5*y_profile,'k--','LineWidth',0.8)
     yline(0,'r--')
     xlabel('x [-]')
     ylabel('CP [-]')
-    legend('Upper','Bottom')
+    legend('Top','Bottom')
     title('CP over airfoil')
 
     if exportFigures
         exportgraphics(CP_FIGURE,"IMAGES/CP_distribution.pdf")
         exportgraphics(CP_FIGURE,"IMAGES/CP_distribution.png")
     end
-
-%%% Y PLUS
-    % generate meshgrid for plane
-    x_mesh = [-10, +10];
-    
-    y_mesh1 = [0,1];
-    y_mesh2 = [1,2.5];
-    y_mesh3 = [2.5, 100];
-    
-    [X_surf, Y_surf1] = meshgrid(x_mesh, y_mesh1);
-    [~, Y_surf2] = meshgrid(x_mesh, y_mesh2);
-    [~, Y_surf3] = meshgrid(x_mesh, y_mesh3);
-    
-    Z_surf = zeros(size(X_surf, 1));
-    
-    % generate figure
-    YPLUS_FIGURE = figure('Name','Y\_PLUS for test case');
-    plot(x_vec,Y_PLUS_upper)
-    hold on; grid on;
-    plot(x_vec,Y_PLUS_bottom)
-    surf(X_surf, Y_surf1, Z_surf,'FaceAlpha',0.1,'FaceColor','green')
-    surf(X_surf, Y_surf2, Z_surf,'FaceAlpha',0.1,'FaceColor','white')
-    surf(X_surf, Y_surf3, Z_surf,'FaceAlpha',0.1,'FaceColor','red')
-    yline(0,'r--')
-    xlabel('x [-]')
-    ylabel('Y\_plus [-]')
-    legend('Upper','Bottom')
-    title('Y\_PLUS over airfoil')
-    xlim([min(x_vec)-0.05, max(x_vec)+0.05])
-    ylim([min(min(Y_PLUS_bottom),min(Y_PLUS_upper))-0.05, max(max(Y_PLUS_bottom),max(Y_PLUS_upper))+0.05])
-    
-    if exportFigures
-        exportgraphics(YPLUS_FIGURE,"IMAGES/YPLUS_distribution.pdf")
-        exportgraphics(YPLUS_FIGURE,"IMAGES/YPLUS_distribution.png")
-
-    end
-
 
