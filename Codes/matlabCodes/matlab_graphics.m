@@ -9,8 +9,12 @@ set(0, 'defaultAxesTickLabelInterpreter', 'tex')
 
 %% figure properties:
 
+%colors
 set(0, 'defaultFigureColormap',turbo(256));
 set(0, 'defaultFigureColor', [1; 1; 1]);
+% grid
+set(0,'defaultAxesXGrid','on')
+set(0,'defaultAxesYGrid','on')
 
 %% surfaces:
 % transparency

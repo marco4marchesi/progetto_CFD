@@ -22,11 +22,12 @@ tried mesh
 
 clear; close all; clc;
 
+matlabCodesPath = pwd;
 cd("../../Simulations/")
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "./P";
+mainFolder = "./SC_TEST";
 addpath(genpath(mainFolder))
 cd(mainFolder)
 %% list folders and extract names
@@ -101,16 +102,15 @@ clearvars i idx_C idx_F listing listingCases
 %% plot values
 
 
-meshElem = [40176];
-% uncomment when the simulations are done
-%             63412
-%             104534
-%             140135
-%             173996
-%             209052
-%             243478
-%             289868
-%             ] ;
+meshElem = [40176
+            63412
+            104534
+            140135
+            173996
+            209052
+            243478
+            289868
+            ] ;
 
 CDfigures = figure('Name','Drag Coefficient');
 CDfigs.h_tabgroup = uitabgroup(CDfigures);
@@ -123,12 +123,12 @@ for i = 1:length(folderNames)
     CDfigs.(tabName).BackgroundColor = 'white';
     axes('parent',CDfigs.(tabName)); 
 
-    plot(meshElem,CD.(folderNames(i)),'ro')
+    plot(meshElem(i),CD.(folderNames(i)),'ro')
     grid on;
 
 end
 
 
-
-
+%% return to the folder of the matlab code
+cd(matlabCodesPath)
 

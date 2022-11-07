@@ -119,7 +119,7 @@ close all;
 exportFigures = false;
 
 %%% PRESSURE COEFFICIENT
-    CP_FIGURE = figure('Name','CP for test case');
+    CPFIGURE = figure('Name','CP for test case');
     plot(x_vec,-CP_upper,'green')
     hold on; grid on;
     plot(x_vec,-CP_bottom,'blue')
@@ -129,8 +129,7 @@ exportFigures = false;
     legend('Upper','Bottom')
     title('CP over airfoil')
 if exportFigures
-    exportgraphics(CP_FIGURE,"CP_distribution.pdf")
-end
+    exportgraphics()
 
 %%% Y PLUS
     % generate meshgrid for plane
@@ -147,7 +146,7 @@ end
     Z_surf = zeros(size(X_surf, 1));
     
     % generate figure
-    YPLUS_FIGURE = figure('Name','Y\_PLUS for test case');
+    figure('Name','Y\_PLUS for test case')
     plot(x_vec,Y_PLUS_upper)
     hold on; grid on;
     plot(x_vec,Y_PLUS_bottom)
@@ -162,7 +161,5 @@ end
     xlim([min(x_vec)-0.05, max(x_vec)+0.05])
     ylim([min(min(Y_PLUS_bottom),min(Y_PLUS_upper))-0.05, max(max(Y_PLUS_bottom),max(Y_PLUS_upper))+0.05])
     
-if exportFigures
-    exportgraphics(YPLUS_FIGURE,"YPLUS_distribution.pdf")
-end
+
 
