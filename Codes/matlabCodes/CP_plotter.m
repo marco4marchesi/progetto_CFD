@@ -28,23 +28,26 @@ running the code, otherwise it will return errors:
 user = "doppio fisso"; % choices: "doppio fisso" "luca" ...
 
 if user == "doppio fisso"
-    matlabCodesPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Codes\matlabCodes";
-    simulationsFolderPath = "C:\Users\marco\OneDrive - Politecnico di Milano\MAGISTRALE\TerzoSemestre\CFD\PROGETTO CFD DRIVE\SIMULATIONS DRIVE\Simulations";
+    matlabCodesPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Codes\matlabCodes\";
+    simulationsFolderPath = "C:\Users\marco\OneDrive - Politecnico di Milano\MAGISTRALE\TerzoSemestre\CFD\PROGETTO CFD DRIVE\SIMULATIONS DRIVE\Simulations\"; % one drive
+%     simulationsFolderPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Simulations"; % locale
 end
 
 if user == "luca"
-    matlabCodesPath = "C:/Users/lucag/Desktop/Universit133/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Codes/matlabCodes";
-    simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations";
+    matlabCodesPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Codes/matlabCodes\";
+    simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations\";
 end
 
 
 clearvars -except matlabCodesPath simulationsFolderPath; 
 close all; clc;
 
-currentFolder = pwd;
-if not(strcmp(currentFolder, matlabCodesPath))
-    cd(matlabCodesPath)
-end
+% currentFolder = pwd;
+% if not(strcmp(currentFolder, matlabCodesPath))
+%     cd(matlabCodesPath)
+% end
+addpath(genpath(matlabCodesPath))
+
 
 cd(simulationsFolderPath)
 matlab_graphics;
@@ -52,9 +55,9 @@ matlab_graphics;
 %% select case folder (where you saved the .csv files)
 % select which folder (P for prova, SC for Simulation Case)
 
-caseFolder = "SC/SST/A14/O1/caseG3/POL_resultsG3";
+caseFolder = "SC/SST/A14/O1/caseG3/";
 addpath(genpath(caseFolder))
-cd(caseFolder)
+cd(caseFolder+"POL_resultsG3")
 
 %% list folders and extract names
 listing = dir;
@@ -76,6 +79,9 @@ end
 clearvars listing
 
 %% EXTRACTION   
+
+x_vec = linspace(0,1.008,size(caseNames,1));
+
 for i = 1:size(caseNames,1)
     j = str2double(erase(caseNames(i),"sim"))+1; % +1 because pyhton enumerates them from 0
 
@@ -90,10 +96,10 @@ for i = 1:size(caseNames,1)
     idx_bott = find(isnan(CP_vec),1,"first")-1;
 
     if isempty(idx_up)
-        idx_up = round(length(CP_vec)/2)+1;
+        idx_up = floor(length(CP_vec)/2)+1;
     end
     if isempty(idx_bott)
-        idx_bott = round(length(CP_vec)/2)+1;
+        idx_bott = floor(length(CP_vec)/2)+1;
     end
 
     % save values for upper quantities
@@ -106,9 +112,6 @@ for i = 1:size(caseNames,1)
     
 end
 
-x_vec = linspace(0,1.008,size(caseNames,1));
-
-
 %% save as a .mat file so that on github we can run the code without pushing the .csv files
 % save("../CP","CP_bottom","CP_upper","x_vec") 
 % save("../Y_PLUS","Y_PLUS_bottom","Y_PLUS_upper","x_vec") 
@@ -116,7 +119,13 @@ x_vec = linspace(0,1.008,size(caseNames,1));
 
 %% PLOTS
 close all;
+cd(simulationsFolderPath + caseFolder)
+
+%----------------------- export figures? --------------------------------
 exportFigures = false;
+if exportFigures
+    mkdir("IMAGES")
+end
 
 %%% PRESSURE COEFFICIENT
     CP_FIGURE = figure('Name','CP for test case');
@@ -128,9 +137,11 @@ exportFigures = false;
     ylabel('CP [-]')
     legend('Upper','Bottom')
     title('CP over airfoil')
-if exportFigures
-    exportgraphics(CP_FIGURE,"CP_distribution.pdf")
-end
+
+    if exportFigures
+        exportgraphics(CP_FIGURE,"IMAGES/CP_distribution.pdf")
+        exportgraphics(CP_FIGURE,"IMAGES/CP_distribution.png")
+    end
 
 %%% Y PLUS
     % generate meshgrid for plane
@@ -162,7 +173,10 @@ end
     xlim([min(x_vec)-0.05, max(x_vec)+0.05])
     ylim([min(min(Y_PLUS_bottom),min(Y_PLUS_upper))-0.05, max(max(Y_PLUS_bottom),max(Y_PLUS_upper))+0.05])
     
-if exportFigures
-    exportgraphics(YPLUS_FIGURE,"YPLUS_distribution.pdf")
-end
+    if exportFigures
+        exportgraphics(YPLUS_FIGURE,"IMAGES/YPLUS_distribution.pdf")
+        exportgraphics(YPLUS_FIGURE,"IMAGES/YPLUS_distribution.png")
+
+    end
+
 

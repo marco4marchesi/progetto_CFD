@@ -16,7 +16,7 @@ import numpy as np
 #import importlib.util
 
 user = input("Who is plotting? ")
-simulationFolder = "SC/SA/A9/O1/caseG3/POL_results/"
+simulationFolder = "SC/SA/A9/O1/caseG3/POL_results_Y_plus/"
 if user == "matteo":
     savingFolder = "pippo"+simulationFolder
 
@@ -25,7 +25,7 @@ if user == "doppio pc":
 
 if user == "doppio fisso":
     savingFolder = "C:/Users/marco/Desktop/UNI/2 MAGISTRALE/CFD/CFD PROJECT/progetto_CFD/Simulations/"+simulationFolder
-
+    pythonCodesFolder = "C:/Users/marco/Desktop/UNI/2 MAGISTRALE/CFD/CFD PROJECT/progetto_CFD/Codes/pythonCodes/"
 if user == "luca":
     savingFolder = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations"+simulationFolder
 
@@ -42,17 +42,23 @@ source1.PointArrayStatus = ['Pressure', 'Pressure_Coefficient', 'Velocity', 'Y_P
 
 # plot over line
 plotOverLine1 = PlotOverLine(Input=source1)  
-plotOverLine1.Resolution = 10001
+plotOverLine1.Resolution = 11
 
 # select fields - here you write all the fields you want to export (if you want to xport all fields consider using python trace to automatically write the matrix)
 passArrays = ['Pressure', 'Pressure_Coefficient', 'Y_Plus']
 
 # points of interest:
-x_vec = np.linspace(0, 1.008, num=101, endpoint=True)
+data = np.genfromtxt(pythonCodesFolder + "Naca_23012_points.dat",
+                     delimiter=' ')
+print(data)
+
+x_vec = data[:,0]
+y_vec1 = np.concatenate(data[0:131,1] -1e-5 , data[132:256,1] +1e-5)
+y_vec2 = [data[(0:131),1] +1e-5 , data[(132:end),1] -1e-5]
 
 setFolder="folder1" #the folder must exist in this way, it is possible to write something like os.mkdir, but up to now it returns access denied
 for i in range(len(x_vec)) :
-    plotOverLine1.Point1 = [x_vec[i], -0.05, 0 ]
-    plotOverLine1.Point2 = [x_vec[i],  0.08, 0 ]
+    plotOverLine1.Point1 = [x_vec[i], y_vec[i], 0 ]
+    plotOverLine1.Point2 = [x_vec[i], y_vec[i], 0 ]
     
     SaveData(savingFolder + "sim{0}.csv".format(i), proxy=plotOverLine1, PointDataArrays= passArrays)
