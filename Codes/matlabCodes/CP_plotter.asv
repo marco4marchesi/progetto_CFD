@@ -14,9 +14,6 @@ Necessary inputs:
     specific locations. 
     NOTE: You have to know if the export has been done with a linspace on x
     coordinates or using the coordinates of the points of the profile. This
-    is crucial for the code to work! - for CP it is most likely to be the
-    linspace,  for Y+ it is most likely to be the coordinates of the
-    profile.
 
 ---------------------- HOW TO USE THIS CODE: -----------------------------
 

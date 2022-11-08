@@ -1,8 +1,20 @@
 %{
 
-CP plotter: from the plot overlines exported by paraview
+Y+ plotter: from the plot overlines exported by paraview
 
+--------------------------------------------------------------------------
 Author: Marco Marchesi
+--------------------------------------------------------------------------
+This code aims to plot the Y+ distribution around an aerodynamic profile.
+
+Necessary inputs:
+-   a folder containing all the PlotOverLines exported from paraview at
+    specific locations. 
+    NOTE: You have to know if the export has been done with a linspace on x
+    coordinates or using the coordinates of the points of the profile. This
+    is crucial for the code to work! - for CP it is most likely to be the
+    linspace,  for Y+ it is most likely to be the coordinates of the
+    profile.
 
 ---------------------- HOW TO USE THIS CODE: -----------------------------
 
@@ -13,7 +25,7 @@ running the code, otherwise it will return errors:
     script. 
     To do so you have to change the line in the INIT section  (lines 20 -
     40) where you see your name. If you don't see your name just copy-paste
-    one if cycle and set your "matlabCodesPath" variable.
+    one "if" and set your "matlabCodesPath" variable.
 
 +   set the "simulationsFolderPath" to the folder where you have all you
     simulations saved. The last folder should be "Simulation/". if it's not
@@ -22,7 +34,7 @@ running the code, otherwise it will return errors:
 
 %}
 
-%% init
+%% select user
 
 % user: set who is running the code so that the folder is chosen:
 user = "doppio fisso"; % choices: "doppio fisso" "luca" ...
@@ -38,18 +50,14 @@ if user == "luca"
     simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations\";
 end
 
-
+%% init
 clearvars -except matlabCodesPath simulationsFolderPath; 
-% close all; 
-clc;
+close all; clc;
 
-% currentFolder = pwd;
-% if not(strcmp(currentFolder, matlabCodesPath))
-%     cd(matlabCodesPath)
-% end
+% add matlab functions to the path
 addpath(genpath(matlabCodesPath))
 
-
+% move to simulation folder
 cd(simulationsFolderPath)
 matlab_graphics;
 

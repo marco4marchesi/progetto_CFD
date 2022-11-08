@@ -39,7 +39,9 @@ set(0, 'defaultLegendFontSize',7);
 % set(0, 'defaultAxesYMinorGrid','on','defaultAxesYMinorGridMode','manual');
 % font
 set(0, 'defaultAxesFontName', 'Palatino Linotype', 'defaultTextFontName', 'Palatino Linotype');
+
 % color
 set(0, 'defaultAxesColor', 'none');
 % fontSize
 set(0,'defaultAxesFontSize',16);
+
