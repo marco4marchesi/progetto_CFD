@@ -94,9 +94,10 @@ deltaH = [  0.173
 graphics: list of options:
 
 - option1:  all plots for CD, CL, CMz in their window, one plot per tab 
-- option2:  all plots for CD, CL, CMz in their window, comparing 1st and 2nd
-            order on each tab
-- option3:  ---
+- option2:  all plots for CD, CL, CMz in a single window, comparing 1st and 2nd
+            order in each tab
+- option3:  all plots for CD, CL, CMz in a single window, comparing the
+            combinations of turbulence and angles of attack in each tab
 %}
 
 savePlots = false;

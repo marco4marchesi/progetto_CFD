@@ -143,7 +143,7 @@ x_bottom_plot = x_bottom(Y_PLUS_bottom~=0);
 cd(simulationsFolderPath + caseFolder)
 
 %----------------------- export figures? --------------------------------
-exportFigures = true;
+exportFigures = false;
 if exportFigures
     mkdir("IMAGES")
 end

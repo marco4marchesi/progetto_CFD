@@ -1,5 +1,3 @@
 - error bound sulle polari con il parametro di richardson di cui parlava teo
-da fare
+da fare - mi serve almeno un codice di una polare però per farlo
 
-- runnare la simulazione SA A9 O2 con le nuove mesh e i nuovi tvd -
-AAAAAAAAAAAAAAAA non sono riuscito

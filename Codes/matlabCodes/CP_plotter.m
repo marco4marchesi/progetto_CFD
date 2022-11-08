@@ -133,7 +133,7 @@ close all;
 cd(simulationsFolderPath + caseFolder)
 
 %----------------------- export figures? --------------------------------%
-exportFigures = true;
+exportFigures = false;
 if exportFigures
     mkdir("IMAGES")
 end
