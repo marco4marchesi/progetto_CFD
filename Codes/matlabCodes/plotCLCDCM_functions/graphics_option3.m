@@ -68,7 +68,7 @@ idx_color  = 0;
             plot(xAxisValues(2:length(CD_OO)), CD_increment,'o-','Color',lineColors(idx_color),'MarkerFaceColor',faceColors(idx_color))
             hold on;
             xlabel("Nelem")
-            ylabel("CD_%")
+            ylabel("\Delta CD_%")
             lgd1 = legend('SA A9','SA A14','SST A9','SST A14');
             lgd1.FontSize = 10;
 
@@ -77,7 +77,7 @@ idx_color  = 0;
             plot(xAxisValues(2:length(CL_OO)), CL_increment,'o-','Color',lineColors(idx_color),'MarkerFaceColor',faceColors(idx_color))
             hold on;
             xlabel("Nelem")
-            ylabel("CL_%")
+            ylabel("\Delta CL_%")
             lgd2 = legend('SA A9','SA A14','SST A9','SST A14');
             lgd2.FontSize = 10;
 
@@ -86,7 +86,7 @@ idx_color  = 0;
             plot(xAxisValues(2:length(CMz_OO)), CMz_increment,'o-','Color',lineColors(idx_color),'MarkerFaceColor',faceColors(idx_color))
             hold on;
             xlabel("Nelem")
-            ylabel("CMz_%")
+            ylabel("\Delta CMz_%")
             lgd3 = legend('SA A9','SA A14','SST A9','SST A14');
             lgd3.FontSize = 10;
 

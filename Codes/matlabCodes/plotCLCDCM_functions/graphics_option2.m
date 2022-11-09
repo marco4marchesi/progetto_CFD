@@ -58,7 +58,7 @@ for idx_T = 1:length(fieldnames(CD))
             plot(xAxisValues(2:length(CD_OO)), CD_increment,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
             hold on;
             xlabel("Nelem")
-            ylabel("CD_%")
+            ylabel("\Delta CD_%")
             legend('1st order','2nd order')
 
             % CL - plot
@@ -66,7 +66,7 @@ for idx_T = 1:length(fieldnames(CD))
             plot(xAxisValues(2:length(CL_OO)), CL_increment,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
             hold on;
             xlabel("Nelem")
-            ylabel("CL_%")
+            ylabel("\Delta CL_%")
             legend('1st order','2nd order')
             
             % CMz - plot
@@ -74,7 +74,7 @@ for idx_T = 1:length(fieldnames(CD))
             plot(xAxisValues(2:length(CMz_OO)), CMz_increment,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
             hold on;
             xlabel("Nelem")
-            ylabel("CMz_%")
+            ylabel("\Delta CMz_%")
             legend('1st order','2nd order')
         end
         sgtitle(figureNamer,'FontSize',20,'fontweight','bold')

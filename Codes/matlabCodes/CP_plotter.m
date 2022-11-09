@@ -146,7 +146,7 @@ end
     plot(x_profile,5*y_profile,'k--','LineWidth',0.8)
     yline(0,'r--')
     xlabel('x [-]')
-    ylabel('CP [-]')
+    ylabel('-CP [-]')
     lgd = legend('Top','Bottom');
     lgd.FontSize = 10;
     title('CP over airfoil')
