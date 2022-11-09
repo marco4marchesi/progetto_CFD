@@ -56,7 +56,7 @@ for jj in $(seq $meshIndex 1 $meshNumber) ; do
 
     if [ $simulationOrder -eq 2 ] ; then
         	sed -i "s/VENKAT_LIMITER_COEFF= 0.01/VENKAT_LIMITER_COEFF= ${TVD[$jj]}/" $caseName
-		    sed -i "s/SOLUTION_FILENAME= restart_solution.dat/RESTART_FILENAME= ../../../O1/caseG${jj}/cfdG${jj}/restart_flow_G${jj}.dat/" $caseName
+		    sed -i "s%SOLUTION_FILENAME= restart_solution.dat%SOLUTION_FILENAME= ../../../O1/caseG${jj}/cfdG${jj}/restart_flow_G${jj}.dat%" $caseName
 	fi
 
 	# Computing the optimal core number

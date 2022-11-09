@@ -281,7 +281,7 @@ npN = 160; // mettere 203 per avere il primo layer 5e-5, con 212 invece si ha 3.
 npP = 190;
 npS = 310;
 
-progN = 1.07;
+progN = 1.0697;
 progW = 1.052;
 bmpS = 0.085;
 bmpP = 0.046;
