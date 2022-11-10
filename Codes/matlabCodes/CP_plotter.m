@@ -127,6 +127,7 @@ end
 %% save as a .mat file so that on github we can run the code without pushing the .csv files
 % save("../CP","CP_bottom","CP_upper","x_vec") 
 
+cd(matlabCodesPath)
 
 %% PLOTS
 close all;

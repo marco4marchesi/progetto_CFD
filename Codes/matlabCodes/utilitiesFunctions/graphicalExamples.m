@@ -14,6 +14,15 @@ https://it.mathworks.com/help/matlab/ref/plot3.html
 
 useful tip: to customize the properties you can always use the get(PLOTNAME) 
 command and infer for properties
+
+
+MOVIES:
+A tutorial:
+https://www.youtube.com/watch?v=mvXJh_TDKG8
+
+matlab "Movie" on site:
+https://it.mathworks.com/help/matlab/ref/movie.html
+
 %}
 
 %% example 1: points with surface connected by lines:

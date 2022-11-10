@@ -102,7 +102,7 @@ graphics: list of options:
 
 savePlots = false;
 mkdir("IMAGES")
-graphics_option3;
+graphics_option2;
 
 
 
