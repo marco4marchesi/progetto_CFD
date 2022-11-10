@@ -126,7 +126,7 @@ Y_PLUS_bottom = Y_PLUS_bottom(idx_invert:end);
 %% save as a .mat file so that on github we can run the code without pushing the .csv files
 % save("../Y_PLUS","Y_PLUS_bottom","Y_PLUS_upper","x_vec") 
 
-
+cd(matlabCodesPath)
 %% PLOTS
 
 Y_PLUS_top_plot = Y_PLUS_top(Y_PLUS_top~=0);
