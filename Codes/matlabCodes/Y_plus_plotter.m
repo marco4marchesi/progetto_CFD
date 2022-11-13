@@ -35,7 +35,6 @@ running the code, otherwise it will return errors:
 %}
 
 %% select user
-
 % user: set who is running the code so that the folder is chosen:
 user = "doppio fisso"; % choices: "doppio fisso" "luca" ...
 

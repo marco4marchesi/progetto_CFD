@@ -9,7 +9,6 @@
 # }
 from paraview.simple import *
 from paraview.servermanager import *
-from os import *
 import numpy as np
 
 #from paraview import vtk

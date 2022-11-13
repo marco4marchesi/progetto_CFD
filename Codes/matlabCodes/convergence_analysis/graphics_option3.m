@@ -97,8 +97,8 @@ idx_color  = 0;
     sgtitle(figureNamer,'FontSize',18,'fontweight','bold')
 
     if savePlots
-        exportgraphics(COEFFfigs.(tabName),"IMAGES/CDPlot_"+figureNamer+".pdf")
-        exportgraphics(COEFFfigs.(tabName),"IMAGES/CDPlot_"+figureNamer+".png")
+        exportgraphics(COEFFfigs.(tabName),"IMAGES/coeffsConvergencePlot_"+figureNamer+".pdf")
+        exportgraphics(COEFFfigs.(tabName),"IMAGES/coeffsConvergencePlot_"+figureNamer+".png")
     end
 
 end

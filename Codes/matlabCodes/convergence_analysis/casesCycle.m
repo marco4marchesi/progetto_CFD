@@ -26,18 +26,18 @@ if ~isempty(casesNames)
     for idx_C = 1:length(casesNames)
 
         % move in the simulation folder
-        cfdCase = erase(casesNames(idx_C),"case");
-        cd(casesNames(idx_C) + "/cfd" + cfdCase)
+        angleCase = erase(casesNames(idx_C),"case_A");
+        cd(casesNames(idx_C))
 
         % extract history.csv data
-        currentHistory= csvDataLogExtractor("history_"+cfdCase+".csv");
+        currentHistory= csvDataLogExtractor("history_aoa"+angleCase+".csv");
 
         % simulation name
         CD(idx_C) = currentHistory.CD(end);
         CL(idx_C) = currentHistory.CL(end);
         CMz(idx_C) = currentHistory.CMz(end);
 
-        cd("../../")
+        cd("../")
     end
 else
     CD = 0;

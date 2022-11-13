@@ -1,14 +1,14 @@
 %{
 
-Matlab code for extracting data from history files of multiple mesh simulations.
+Matlab code for extracting data from history files of multiple angles simulations.
 
 --------------------------------------------------------------------------
 Author: Marco Marchesi
 --------------------------------------------------------------------------
 
-+   this code aims to extract the CD, CL, and CM values from the simulations
-    and to automatically save them in a vector that contains the number of
-    elements in the mesh
++   this code aims to extract the CD, CL, and CM ---curves--- w.r.t. the angle of 
+    attack from the simulations and to automatically save them in a vector that 
+    contains the number of elements in the mesh
 
 +   this is done for checking the convergence of the meshes, we need to
     investigate whether the mesh returns a better result w.r.t. the precedent
@@ -54,8 +54,8 @@ close all; clc;
 
 % add matlab functions to the path
 addpath(matlabCodesPath)
-addpath(matlabCodesPath+"/convergence_analysis")
-addpath(matlabCodesPath+"/utilitiesFunctions")
+addpath(matlabCodesPath+"/polar_plotter")
+addpath(matlabCodesPath+"/utillitiesFunctions")
 
 % move to simulation folder
 cd(simulationsFolderPath)
@@ -63,34 +63,25 @@ matlab_graphics;
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "SC2/";
+mainFolder = "PO/";
 addpath(genpath(mainFolder))
 cd(mainFolder)
+%% retrieve values from multiple angles simulations:
 
-%% retrieve all the CD, CL, CMz values
 [CD,CL,CMz] = turboCycle();
 
 cd(matlabCodesPath)
-
 %% plot values
 
 % elements of the meshes - plug here the values
-meshElem = [88546
-            136104
-            209052
-            289868
-            392644
-            549126
-            782484  ];
-
-deltaH = [  0.173
-            0.139
-            0.112
-            0.096
-            0.082
-            0.069
-            0.058   ];
-
+angles = [  0
+            2
+            4
+            6
+            8
+            10
+            12
+            14];
 
 %{ 
 graphics: list of options:
@@ -103,11 +94,5 @@ graphics: list of options:
 %}
 
 savePlots = false;
-mkdir("IMAGES_convergence")
-graphics_option2;
-
-
-
-
-
-
+mkdir("IMAGES_polar")
+graphics_option;
