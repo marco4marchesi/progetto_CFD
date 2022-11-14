@@ -14,7 +14,7 @@ lineColors = ["blue";"red"];
 
 %% plot cycles
 
-COEFFfigures = figure('Name','Drag Coefficient');
+COEFFfigures = figure('Name','Drag Coefficient','Position',[0,0,1000,1000]);
 COEFFfigs.h_tabgroup = uitabgroup(COEFFfigures);
 
 idx_tab = 0;

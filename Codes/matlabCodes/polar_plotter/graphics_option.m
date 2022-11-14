@@ -7,12 +7,13 @@ GRAPHICS OPTION 2 - TWO ORDER OF CONVERGENCE ON ONE PLOT
 
 %% define graphical properties: 
 
-faceColors = ["green","yellow"];
-lineColors = ["blue";"red"];
-
+faceColors = ["green";"yellow";"magenta"];
+lineColors = ["blue";"red";"black"];
+markerForm  = ["d-";"o-";"s-";"p-";"^-"];
 %% PLOT COEFFICIENT W.R.T. ANGLE
 
-COEFFfigures = figure('Name','Drag Coefficient');
+COEFFfigures = figure('Name','Drag Coefficient','Position',[0 0 1000 1000]);
+
 COEFFfigs.h_tabgroup = uitabgroup(COEFFfigures);
 
 idx_tab = 0;
@@ -21,51 +22,51 @@ for idx_T = 1:length(fieldnames(CD))
     CD_TT = CD.(turboNames(idx_T));
     CL_TT = CL.(turboNames(idx_T));
     CMz_TT = CMz.(turboNames(idx_T));
+    angles_TT = angles.(turboNames(idx_T));
 
+    % plot parameters
+    figureNamer = turboNames(idx_T);
     
+    % dynamic tab index
+    idx_tab = idx_tab + 1;
+    tabName = "tab"+num2str(idx_tab);
+
+    % CD - dynamic generation of the tabs
+    COEFFfigs.(tabName) = uitab(COEFFfigs.h_tabgroup,'Title',figureNamer);
+    COEFFfigs.(tabName).BackgroundColor = 'white';
+    axes('parent',COEFFfigs.(tabName));
+
     for idx_O = 1:length(fieldnames(CD_TT))
 
         orderNames = convertCharsToStrings(fieldnames(CD_TT));
         CD_OO = CD_TT.(orderNames(idx_O));
         CL_OO = CL_TT.(orderNames(idx_O));
         CMz_OO = CMz_TT.(orderNames(idx_O));
-
-        % plot parameters
-        figureNamer = turboNames(idx_T)+" "+orderNames(idx_O);
-    
-        % dynamic tab index
-        idx_tab = idx_tab + 1;
-        tabName = "tab"+num2str(idx_tab);
-    
-        % CD - dynamic generation of the tabs
-        COEFFfigs.(tabName) = uitab(COEFFfigs.h_tabgroup,'Title',figureNamer);
-        COEFFfigs.(tabName).BackgroundColor = 'white';
-        axes('parent',COEFFfigs.(tabName));
-
-
+        angles_OO = angles_TT.(orderNames(idx_O));
+        
         % CD - plot
         subplot(2,2,[1,3])
-        plot(angles(1:length(CD_OO)), CD_OO,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
+        plot(angles_OO, CD_OO,markerForm(idx_O),'Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
         hold on;
         xlabel("Angle of attack \alpha [°]")
         ylabel("CD")
-        legend('1st order','2nd order')
-
+        legend(orderNames)
+        
         % CL - plot
         subplot(2,2,2)
-        plot(angles(1:length(CL_OO)), CL_OO,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
+        plot(angles_OO, CL_OO,markerForm(idx_O),'Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
         hold on;
         xlabel("Angle of attack \alpha [°]")
         ylabel("CL")
-        legend('1st order','2nd order')
+        legend(orderNames)
         
         % CMz - plot
         subplot(2,2,4)
-        plot(angles(1:length(CMz_OO)), CMz_OO,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
+        plot(angles_OO, CMz_OO,markerForm(idx_O),'Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
         hold on;
         xlabel("Angle of attack \alpha [°]")
         ylabel("CMz")
-        legend('1st order','2nd order')
+        legend(orderNames)
 
         
     end
@@ -81,7 +82,7 @@ end
 
 %% POLAR PLOT
 
-POLARfigures = figure('Name','Drag Coefficient');
+POLARfigures = figure('Name','Drag Coefficient','Position',[0,0,1000,1000]);
 POLARfigs.h_tabgroup = uitabgroup(POLARfigures);
 
 idx_tab = 0;
@@ -91,7 +92,17 @@ for idx_T = 1:length(fieldnames(CD))
     CL_TT = CL.(turboNames(idx_T));
     CMz_TT = CMz.(turboNames(idx_T));
 
-    
+    % plot parameters
+    figureNamer = turboNames(idx_T);
+
+    % dynamic tab index
+    idx_tab = idx_tab + 1;
+    tabName = "tab"+num2str(idx_tab);
+
+    % CD - dynamic generation of the tabs
+    POLARfigs.(tabName) = uitab(POLARfigs.h_tabgroup,'Title',figureNamer);
+    POLARfigs.(tabName).BackgroundColor = 'white';
+    axes('parent',POLARfigs.(tabName));
     for idx_O = 1:length(fieldnames(CD_TT))
 
         orderNames = convertCharsToStrings(fieldnames(CD_TT));
@@ -99,25 +110,12 @@ for idx_T = 1:length(fieldnames(CD))
         CL_OO = CL_TT.(orderNames(idx_O));
         CMz_OO = CMz_TT.(orderNames(idx_O));
 
-        % plot parameters
-        figureNamer = turboNames(idx_T)+" "+orderNames(idx_O);
-    
-        % dynamic tab index
-        idx_tab = idx_tab + 1;
-        tabName = "tab"+num2str(idx_tab);
-    
-        % CD - dynamic generation of the tabs
-        POLARfigs.(tabName) = uitab(POLARfigs.h_tabgroup,'Title',figureNamer);
-        POLARfigs.(tabName).BackgroundColor = 'white';
-        axes('parent',POLARfigs.(tabName));
-
-
         % CD - plot
-        plot(CD_OO,CL_OO,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
+        plot(CD_OO,CL_OO,markerForm(idx_O),'Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
         hold on;
         xlabel("CD")
         ylabel("CL")
-        legend('1st order','2nd order')
+        legend(orderNames)
 
         
     end
@@ -127,3 +125,76 @@ for idx_T = 1:length(fieldnames(CD))
         exportgraphics(COEFFfigs.(tabName),"IMAGES/PolarPlot_"+figureNamer+".png")
     end
 end
+
+
+%% comparison between experimental data and our simulations
+
+% ZANOTTI ET AL 2021
+alpha_zano = [  -5.290116797
+                -2.222117986
+                0.505339525
+                3.831636881
+                6.562221493
+                9.121128258
+                11.72084369
+                12.74199853
+                14.10275654
+                14.61091046
+                15.01962256
+                18.22255578];
+
+CL_zano = [ -0.313204184
+            -0.07034101
+            0.150457339
+            0.4508279
+            0.715905999
+            0.950025799
+            1.161996341
+            1.221548853
+            1.289882265
+            1.285341714
+            1.072705099
+            0.826239505
+            ];
+
+% NASA TECH REPORT
+alpha_NASA = [  -6.292483255
+                -3.210617713
+                -1.670057058
+                1.325477549
+                2.780079385
+                5.774497643
+                8.856735301
+                11.85413049
+                13.65740511
+                15.03572315
+                15.65157529
+                16.17142148
+                20.58992806
+                ];
+
+CL_NASA = [ -0.517241379
+            -0.215517241
+            -0.060344828
+            0.24137931
+            0.392241379
+            0.706896552
+            1.004310345
+            1.284482759
+            1.396551724
+            1.431034483
+            1.297413793
+            1.275862069
+            1.094827586
+            ];
+
+figure('Name','Comparison experimental data vs simulations','Position',[0,0,1000,1000])
+plot(alpha_NASA,CL_NASA,'dk--','DisplayName','NASA')
+hold on; grid on;
+plot(alpha_zano,CL_zano,'sb--','DisplayName','Zanotti et al')
+plot(angles.SA.O2G5 ,CL.SA.O2G5,'or-','MarkerFaceColor','yellow','DisplayName','Simulated order 2');
+% plot(angles.SA.O1G5,CL.SA.O1G5,'^g-','MarkerFaceColor','white','displayName','Simulated order 1')
+legend
+title('Experimental data vs simulations')
+xlabel('Angle of attack \alpha [°]')
+ylabel('CL')

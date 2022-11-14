@@ -1,4 +1,4 @@
-function [CD,CL,CMz] = turboCycle()
+function [CD,CL,CMz,angles] = turboCycle()
 %{
 cycle on the order of the numerical scheme, first order or second order
 --------------------------------------------------------------------------
@@ -23,7 +23,7 @@ for idx_T = 1:length(turboNames)
 
     cd(turboNames(idx_T))
 
-    [CD.(turboNames(idx_T)),CL.(turboNames(idx_T)),CMz.(turboNames(idx_T))] = orderCycle();
+    [CD.(turboNames(idx_T)),CL.(turboNames(idx_T)),CMz.(turboNames(idx_T)),angles.(turboNames(idx_T))] = orderCycle();
 
     cd("../")
 end

@@ -53,6 +53,7 @@ clearvars -except matlabCodesPath simulationsFolderPath;
 close all; clc;
 
 % add matlab functions to the path
+rmpath(matlabCodesPath+"/polar_plotter")
 addpath(matlabCodesPath)
 addpath(matlabCodesPath+"/convergence_analysis")
 addpath(matlabCodesPath+"/utilitiesFunctions")
@@ -104,7 +105,7 @@ graphics: list of options:
 
 savePlots = false;
 mkdir("IMAGES_convergence")
-graphics_option2;
+graphics_option3;
 
 
 

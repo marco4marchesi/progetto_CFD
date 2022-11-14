@@ -1,4 +1,4 @@
-function [CD,CL,CMz] = casesCycle()
+function [CD,CL,CMz,angles] = casesCycle()
 %{
 cycle on the cases considered for POLAR construction, basically on the N angles used, first order or second order
 --------------------------------------------------------------------------
@@ -18,7 +18,7 @@ end
 
 sortVector = str2double(erase(casesNames,"case_A"));
 
-[s,idx_sort] = sort(sortVector);
+[~,idx_sort] = sort(sortVector);
 casesNames = casesNames(idx_sort);
 
 if ~isempty(casesNames)
@@ -41,7 +41,11 @@ if ~isempty(casesNames)
         CD(idx_C) = currentHistory.CD(end);
         CL(idx_C) = currentHistory.CL(end);
         CMz(idx_C) = currentHistory.CMz(end);
-
+        angle = str2double(angleCase);
+        if angle >= 100
+            angle = angle /10;
+        end
+        angles(idx_C) = angle;
         cd("../")
     end
 else
