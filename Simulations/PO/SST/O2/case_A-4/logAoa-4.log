@@ -1,0 +1,441 @@
+
+-------------------------------------------------------------------------
+|    ___ _   _ ___                                                      |
+|   / __| | | |_  )   Release 7.4.0 "Blackbird"                         |
+|   \__ \ |_| |/ /                                                      |
+|   |___/\___//___|   Suite (Computational Fluid Dynamics Code)         |
+|                                                                       |
+-------------------------------------------------------------------------
+| SU2 Project Website: https://su2code.github.io                        |
+|                                                                       |
+| The SU2 Project is maintained by the SU2 Foundation                   |
+| (http://su2foundation.org)                                            |
+-------------------------------------------------------------------------
+| Copyright 2012-2022, SU2 Contributors                                 |
+|                                                                       |
+| SU2 is free software; you can redistribute it and/or                  |
+| modify it under the terms of the GNU Lesser General Public            |
+| License as published by the Free Software Foundation; either          |
+| version 2.1 of the License, or (at your option) any later version.    |
+|                                                                       |
+| SU2 is distributed in the hope that it will be useful,                |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU      |
+| Lesser General Public License for more details.                       |
+|                                                                       |
+| You should have received a copy of the GNU Lesser General Public      |
+| License along with SU2. If not, see <http://www.gnu.org/licenses/>.   |
+-------------------------------------------------------------------------
+
+Parsing config file for zone 0
+
+----------------- Physical Case Definition ( Zone 0 ) -------------------
+Incompressible RANS equations.
+Turbulence model: Menter's k-omega SST-2003m with no production modification.
+Hybrid RANS/LES: No Hybrid RANS/LES
+Reading and writing binary SU2 native restart files.
+Read flow solution from: ../../O1/case_A-4/restart_flow_aoa-4.dat.
+Non-Dimensional simulation using intialization values.
+The reference area is 1 m^2.
+The semi-span will be computed using the max y(3D) value.
+The reference length is 1.00898 m.
+Reference origin for moment evaluation is (-0.756, 0, 0).
+Surface(s) where the force coefficients are evaluated: AIRFOIL.
+
+Surface(s) plotted in the output file: AIRFOIL.
+Input mesh file name: ../meshG5/meshG5.su2
+
+--------------- Space Numerical Integration ( Zone 0 ) ------------------
+Flux difference splitting (FDS) upwind scheme for the flow inviscid terms.
+Second order integration in space, with slope limiter.
+Venkatakrishnan slope-limiting method, with constant: 0.056.
+The reference element size is: 1. 
+Average of gradients with correction (viscous flow terms).
+Average of gradients with correction (viscous turbulence terms).
+Gradient for upwind reconstruction: unweighted Least-Squares.
+Gradient for viscous and source terms: Green-Gauss.
+
+--------------- Time Numerical Integration  ( Zone 0 ) ------------------
+Local time stepping (steady state simulation).
+Euler implicit method for the flow equations.
+FGMRES is used for solving the linear system.
+Using a ILU(0) preconditioning.
+Convergence criteria of the linear solver: 1e-06.
+Max number of linear iterations: 10.
+CFL adaptation. Factor down: 0.1, factor up: 1.2,
+                lower limit: 1, upper limit: 1000,
+                acceptable linear residual: 0.001.
+Courant-Friedrichs-Lewy number:        2
+Euler implicit time integration for the turbulence model.
+
+------------------ Convergence Criteria  ( Zone 0 ) ---------------------
+Maximum number of solver subiterations: 9999.
+Begin convergence monitoring at iteration 10.
+Residual minimum value: 1e-9.
+Cauchy series min. value: 1e-06.
+Number of Cauchy elements: 250.
+Begin windowed time average at iteration 0.
+
+-------------------- Output Information ( Zone 0 ) ----------------------
+File writing frequency: 
++------------------------------------+
+|                     File| Frequency|
++------------------------------------+
+|                  RESTART|       200|
+|                 PARAVIEW|       200|
+|         SURFACE_PARAVIEW|       200|
++------------------------------------+
+Writing the convergence history file every 1 inner iterations.
+Writing the screen convergence history every 10 inner iterations.
+The tabular file format is CSV (.csv).
+Convergence history file name: history_aoa-4.
+Forces breakdown file name: forces_breakdown.dat.
+Surface file name: surface_flow_aoa-4.
+Volume file name: flow_aoa-4.
+Restart file name: restart_flow_aoa-4.dat.
+
+------------- Config File Boundary Information ( Zone 0 ) ---------------
++-----------------------------------------------------------------------+
+|                        Marker Type|                        Marker Name|
++-----------------------------------------------------------------------+
+|                          Far-field|                           FARFIELD|
++-----------------------------------------------------------------------+
+|                     Heat flux wall|                            AIRFOIL|
++-----------------------------------------------------------------------+
+
+-------------------- Output Preprocessing ( Zone 0 ) --------------------
+
+WARNING: SURFACE_PRESSURE_DROP can only be computed for at least 2 surfaces (outlet, inlet, ...)
+
+Screen output fields: INNER_ITER, MIN_CFL, MAX_CFL, RMS_PRESSURE, CAUCHY_DRAG, DRAG
+History output group(s): INNER_ITER, MIN_CFL, MAX_CFL, RMS_RES, LIFT, DRAG, MOMENT_Z, CAUCHY
+Convergence field(s): RMS_PRESSURE, DRAG
+Warning: No (valid) fields chosen for time convergence monitoring. Time convergence monitoring inactive.
+Volume output fields: COORDINATES, SOLUTION, PRIMITIVE, RESIDUAL, MESH_QUALITY
+
+------------------- Geometry Preprocessing ( Zone 0 ) -------------------
+Two dimensional problem.
+361479 grid points before partitioning.
+360180 volume elements before partitioning.
+2 surface markers.
+724 boundary elements in index 0 (Marker = AIRFOIL).
+1874 boundary elements in index 1 (Marker = FARFIELD).
+Executing the partitioning functions.
+Building the graph adjacency structure.
+Calling ParMETIS... graph partitioning complete (4050 edge cuts).
+Distributing ParMETIS coloring.
+Rebalancing vertices.
+Rebalancing volume element connectivity.
+Rebalancing markers and surface elements.
+369602 vertices including ghost points. 
+364230 interior elements including halo cells. 
+364230 quadrilaterals.
+Establishing MPI communication patterns.
+Setting point connectivity.
+Renumbering points (Reverse Cuthill McKee Ordering).
+Recomputing point connectivity.
+Setting element connectivity.
+Checking the numerical grid orientation.
+All volume elements are correctly orientend.
+There has been a re-orientation of 1305 LINE surface elements.
+Identifying edges and vertices.
+Setting the control volume structure.
+Area of the computational grid: 103207.
+Searching for the closest normal neighbors to the surfaces.
+Storing a mapping from global to local point index.
+Compute the surface curvature.
+Max K: 227502. Mean K: 205.598. Standard deviation K: 4719.73.
+Checking for periodicity.
+Computing mesh quality statistics for the dual control volumes.
++--------------------------------------------------------------+
+|           Mesh Quality Metric|        Minimum|        Maximum|
++--------------------------------------------------------------+
+|    Orthogonality Angle (deg.)|        75.9136|             90|
+|     CV Face Area Aspect Ratio|        1.00002|    3.17894e+06|
+|           CV Sub-Volume Ratio|              1|         387.07|
++--------------------------------------------------------------+
+Finding max control volume width.
+Communicating number of neighbors.
+Wetted area = 2.0597 m.
+Area projection in the x-plane = 0.121116 m, y-plane = 1.00881 m.
+Max. coordinate in the x-direction = 1.00898 m, y-direction = 0.0759837 m.
+Min. coordinate in the x-direction = 4.86614e-06 m, y-direction = -0.0451345 m.
+Computing wall distances.
+
+-------------------- Solver Preprocessing ( Zone 0 ) --------------------
+ Warning: There is no restart file (flow.meta).
+ Computation will continue without updating metadata parameters.
+Incompressible flow: rho_ref, vel_ref, and temp_ref
+are based on the initial values, p_ref = rho_ref*vel_ref^2.
+Force coefficients computed using initial values.
+The reference area for force coeffs. is 1 m^2.
+The reference length for force coeffs. is 1.00898 m.
+The pressure is decomposed into thermodynamic and dynamic components.
+The initial value of the dynamic pressure is 0.
+Mach number: 0.0276747, computed using the Bulk modulus.
+For external flows, the initial state is imposed at the far-field.
+Angle of attack (deg): -3.99999, computed using the initial velocity.
+Side slip angle (deg): 0, computed using the initial velocity.
+Reynolds number per meter: 595000, computed using initial values.
+Reynolds number is a byproduct of inputs only (not used internally).
+SI units only. The grid should be dimensional (meters).
+No energy equation.
+
+-- Models:
++------------------------------------------------------------------------------+
+|          Viscosity Model|        Conductivity Model|              Fluid Model|
++------------------------------------------------------------------------------+
+|       CONSTANT_VISCOSITY|          CONSTANT_PRANDTL|         CONSTANT_DENSITY|
++------------------------------------------------------------------------------+
+-- Fluid properties:
++------------------------------------------------------------------------------+
+|                  Name|    Dim. value|    Ref. value|      Unit|Non-dim. value|
++------------------------------------------------------------------------------+
+|             Viscosity|      1.92e-05|        11.424|   N.s/m^2|   1.68067e-06|
++------------------------------------------------------------------------------+
+|        Prandtl (Lam.)|             -|             -|         -|          0.72|
+|       Prandtl (Turb.)|             -|             -|         -|           0.9|
++------------------------------------------------------------------------------+
+|          Bulk Modulus|        142000|             1|        Pa|        142000|
++------------------------------------------------------------------------------+
+-- Initial and free-stream conditions:
++------------------------------------------------------------------------------+
+|                  Name|    Dim. value|    Ref. value|      Unit|Non-dim. value|
++------------------------------------------------------------------------------+
+|      Dynamic Pressure|             0|       108.756|        Pa|             0|
+|        Total Pressure|       54.3782|       108.756|        Pa|           0.5|
+|               Density|           1.2|           1.2|    kg/m^3|             1|
+|            Velocity-X|       9.49681|          9.52|       m/s|      0.997564|
+|            Velocity-Y|      -0.66408|          9.52|       m/s|    -0.0697563|
+|    Velocity Magnitude|          9.52|          9.52|       m/s|             1|
++------------------------------------------------------------------------------+
+|             Viscosity|      1.92e-05|        11.424|   N.s/m^2|   1.68067e-06|
+|          Conductivity|             -|       3.59313|   W/m^2.K|             -|
+|     Turb. Kin. Energy|       1.35946|       90.6304|   m^2/s^2|         0.015|
+|     Spec. Dissipation|        8496.6|          9.52|       1/s|         892.5|
++------------------------------------------------------------------------------+
+|           Mach Number|             -|             -|         -|     0.0276747|
+|       Reynolds Number|             -|             -|         -|        595000|
++------------------------------------------------------------------------------+
+Initialize Jacobian structure (Navier-Stokes). MG level: 0.
+Initialize Jacobian structure (SST model).
+
+------------------- Numerics Preprocessing ( Zone 0 ) -------------------
+
+----------------- Integration Preprocessing ( Zone 0 ) ------------------
+
+------------------- Iteration Preprocessing ( Zone 0 ) ------------------
+Euler/Navier-Stokes/RANS fluid iteration.
+
+------------------------------ Begin Solver -----------------------------
+
+Simulation Run using the Single-zone Driver
++-----------------------------------------------------------------------------+
+|  Inner_Iter|     Min CFL|     Max CFL|      rms[P]|  Cauchy[CD]|          CD|
++-----------------------------------------------------------------------------+
+|           0|  2.4000e+00|  2.4000e+00|   -9.008801|  1.0000e+00|    0.001857|
+|          10|  1.4860e+01|  1.4860e+01|   -3.911731|  1.3090e-03|    0.006095|
+|          20|  9.2010e+01|  9.2010e+01|   -4.030811|  1.6737e-03|    0.012410|
+|          30|  4.7475e+01|  4.7475e+01|   -4.323709|  2.1184e-03|    0.012148|
+|          40|  2.9395e+02|  2.9395e+02|   -4.426752|  2.2135e-03|    0.009807|
+|          50|  7.3145e+01|  7.3145e+01|   -4.602559|  2.2982e-03|    0.011653|
+|          60|  3.7741e+01|  3.7741e+01|   -4.716914|  2.3239e-03|    0.011588|
+|          70|  2.3368e+02|  2.3368e+02|   -4.804403|  2.3784e-03|    0.012851|
+|          80|  1.2058e+02|  1.2058e+02|   -4.902798|  2.4364e-03|    0.014301|
+|          90|  3.0003e+02|  3.0003e+02|   -5.027245|  2.5730e-03|    0.011255|
+|         100|  8.9589e+01|  8.9589e+01|   -5.101223|  2.6115e-03|    0.011132|
+|         110|  4.6226e+01|  4.6226e+01|   -5.138069|  2.6347e-03|    0.011610|
+|         120|  2.8622e+02|  2.8622e+02|   -5.156840|  2.6423e-03|    0.011554|
+|         130|  2.8622e+02|  2.8622e+02|   -5.205805|  2.6506e-03|    0.011755|
+|         140|  3.4346e+02|  3.4346e+02|   -5.259099|  2.6587e-03|    0.011958|
+|         150|  1.2307e+02|  1.2307e+02|   -5.289198|  2.6637e-03|    0.012025|
+|         160|  6.3501e+01|  6.3501e+01|   -5.318746|  2.6693e-03|    0.012155|
+|         170|  3.2765e+02|  3.2765e+02|   -5.340902|  2.6735e-03|    0.012245|
+|         180|  1.4088e+02|  1.4088e+02|   -5.360082|  2.6763e-03|    0.012308|
+|         190|  2.9214e+02|  2.9214e+02|   -5.397895|  2.6810e-03|    0.012426|
+|         200|  2.9214e+02|  2.9214e+02|   -5.441621|  2.6827e-03|    0.012469|
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_aoa-4.dat             |
+|Paraview                           |flow_aoa-4.vtu                     |
+|Paraview surface                   |surface_flow_aoa-4.vtu             |
++-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+|  Inner_Iter|     Min CFL|     Max CFL|      rms[P]|  Cauchy[CD]|          CD|
++-----------------------------------------------------------------------------+
+|         210|  8.7231e+01|  8.7231e+01|   -5.465200|  2.6838e-03|    0.012495|
+|         220|  4.5010e+01|  4.5010e+01|   -5.488430|  2.6853e-03|    0.012470|
+|         230|  2.7869e+02|  2.7869e+02|   -5.501529|  2.6866e-03|    0.012497|
+|         240|  2.7869e+02|  2.7869e+02|   -5.538354|  2.6879e-03|    0.012510|
+|         250|  2.7869e+02|  2.7869e+02|   -5.571770|  2.6887e-03|    0.012531|
+|         260|  4.8157e+01|  4.8157e+01|   -5.599946|  1.3803e-03|    0.012544|
+|         270|  2.9818e+02|  2.9818e+02|   -5.609876|  1.0160e-03|    0.012553|
+|         280|  2.9818e+02|  2.9818e+02|   -5.638001|  5.7202e-04|    0.012568|
+|         290|  1.0684e+02|  1.0684e+02|   -5.653081|  4.7754e-04|    0.012585|
+|         300|  3.1903e+02|  3.1903e+02|   -5.670619|  3.9322e-04|    0.012594|
+|         310|  1.3718e+02|  1.3718e+02|   -5.683457|  3.6818e-04|    0.012610|
+|         320|  7.0780e+01|  7.0780e+01|   -5.698858|  3.1402e-04|    0.012615|
+|         330|  3.6521e+02|  3.6521e+02|   -5.709923|  2.5644e-04|    0.012622|
+|         340|  3.6521e+02|  3.6521e+02|   -5.737445|  1.2043e-04|    0.012637|
+|         350|  6.3108e+01|  6.3108e+01|   -5.758677|  8.2510e-05|    0.012651|
+|         360|  3.9075e+02|  3.9075e+02|   -5.767710|  5.9657e-05|    0.012656|
+|         370|  2.0162e+02|  2.0162e+02|   -5.777136|  5.2384e-05|    0.012662|
+|         380|  1.0403e+02|  1.0403e+02|   -5.788057|  4.4544e-05|    0.012671|
+|         390|  3.1063e+02|  3.1063e+02|   -5.803216|  3.6809e-05|    0.012676|
+|         400|  9.2755e+01|  9.2755e+01|   -5.817687|  3.2105e-05|    0.012684|
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_aoa-4.dat             |
+|Paraview                           |flow_aoa-4.vtu                     |
+|Paraview surface                   |surface_flow_aoa-4.vtu             |
++-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+|  Inner_Iter|     Min CFL|     Max CFL|      rms[P]|  Cauchy[CD]|          CD|
++-----------------------------------------------------------------------------+
+|         410|  3.3236e+02|  3.3236e+02|   -5.830871|  2.6777e-05|    0.012689|
+|         420|  3.9883e+02|  3.9883e+02|   -5.851920|  2.2895e-05|    0.012696|
+|         430|  2.0579e+02|  2.0579e+02|   -5.858919|  2.0211e-05|    0.012699|
+|         440|  1.0618e+02|  1.0618e+02|   -5.867286|  1.5632e-05|    0.012701|
+|         450|  5.4787e+01|  5.4787e+01|   -5.877377|  1.4011e-05|    0.012701|
+|         460|  3.3923e+02|  3.3923e+02|   -5.882404|  1.3058e-05|    0.012702|
+|         470|  3.3923e+02|  3.3923e+02|   -5.896629|  1.1625e-05|    0.012700|
+|         480|  4.0707e+01|  4.0707e+01|   -5.907790|  1.0495e-05|    0.012697|
+|         490|  2.5205e+02|  2.5205e+02|   -5.909807|  9.2516e-06|    0.012695|
+|         500|  3.0246e+02|  3.0246e+02|   -5.919135|  8.5461e-06|    0.012692|
+|         510|  3.6295e+01|  3.6295e+01|   -5.928771|  8.1217e-06|    0.012689|
+|         520|  2.2473e+02|  2.2473e+02|   -5.931084|  7.7458e-06|    0.012688|
+|         530|  1.1596e+02|  1.1596e+02|   -5.935809|  7.0649e-06|    0.012688|
+|         540|  5.9830e+01|  5.9830e+01|   -5.941437|  6.4081e-06|    0.012687|
+|         550|  3.0871e+01|  3.0871e+01|   -5.947110|  6.0870e-06|    0.012686|
+|         560|  1.9115e+02|  1.9115e+02|   -5.951235|  5.4755e-06|    0.012686|
+|         570|  9.8627e+01|  9.8627e+01|   -5.956740|  5.1521e-06|    0.012686|
+|         580|  5.0890e+01|  5.0890e+01|   -5.964521|  4.7595e-06|    0.012685|
+|         590|  2.6258e+01|  2.6258e+01|   -5.970995|  4.2065e-06|    0.012684|
+|         600|  1.6258e+02|  1.6258e+02|   -5.975720|  3.6474e-06|    0.012684|
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_aoa-4.dat             |
+|Paraview                           |flow_aoa-4.vtu                     |
+|Paraview surface                   |surface_flow_aoa-4.vtu             |
++-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+|  Inner_Iter|     Min CFL|     Max CFL|      rms[P]|  Cauchy[CD]|          CD|
++-----------------------------------------------------------------------------+
+|         610|  8.3889e+01|  8.3889e+01|   -5.983623|  3.2960e-06|    0.012683|
+|         620|  3.0059e+01|  3.0059e+01|   -5.995226|  2.9750e-06|    0.012682|
+|         630|  1.8612e+02|  1.8612e+02|   -5.999858|  2.6149e-06|    0.012682|
+|         640|  9.6032e+01|  9.6032e+01|   -6.008009|  2.2597e-06|    0.012682|
+|         650|  2.3896e+02|  2.3896e+02|   -6.021613|  1.9766e-06|    0.012680|
+|         660|  5.9460e+01|  5.9460e+01|   -6.033617|  1.7402e-06|    0.012679|
+|         670|  3.0680e+01|  3.0680e+01|   -6.044734|  1.4841e-06|    0.012679|
+|         680|  1.8996e+02|  1.8996e+02|   -6.050187|  1.3454e-06|    0.012678|
+|         690|  2.2796e+02|  2.2796e+02|   -6.066898|  1.2690e-06|    0.012677|
+|         700|  2.7355e+01|  2.7355e+01|   -6.083906|  1.2132e-06|    0.012676|
+|         710|  1.6937e+02|  1.6937e+02|   -6.088859|  1.1361e-06|    0.012676|
+|         720|  8.7393e+01|  8.7393e+01|   -6.096434|  1.0617e-06|    0.012675|
+|         730|  2.1746e+02|  2.1746e+02|   -6.106988|  9.5876e-07|    0.012674|
+|         740|  2.1746e+02|  2.1746e+02|   -6.118142|  9.3588e-07|    0.012674|
+|         750|  2.1746e+02|  2.1746e+02|   -6.127968|  8.1624e-07|    0.012673|
+|         760|  7.7921e+01|  7.7921e+01|   -6.132456|  7.1174e-07|    0.012672|
+|         770|  4.0205e+01|  4.0205e+01|   -6.138612|  6.9594e-07|    0.012672|
+|         780|  2.0745e+02|  2.0745e+02|   -6.142678|  6.9032e-07|    0.012672|
+|         790|  2.0745e+02|  2.0745e+02|   -6.144528|  6.7617e-07|    0.012671|
+|         800|  2.0745e+02|  2.0745e+02|   -6.148055|  6.5648e-07|    0.012671|
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_aoa-4.dat             |
+|Paraview                           |flow_aoa-4.vtu                     |
+|Paraview surface                   |surface_flow_aoa-4.vtu             |
++-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+|  Inner_Iter|     Min CFL|     Max CFL|      rms[P]|  Cauchy[CD]|          CD|
++-----------------------------------------------------------------------------+
+|         810|  2.0745e+02|  2.0745e+02|   -6.153757|  6.5566e-07|    0.012670|
+|         820|  2.0745e+02|  2.0745e+02|   -6.160907|  6.5832e-07|    0.012669|
+|         830|  2.0745e+02|  2.0745e+02|   -6.170535|  6.4174e-07|    0.012669|
+|         840|  2.0745e+02|  2.0745e+02|   -6.185101|  6.2522e-07|    0.012669|
+|         850|  2.0745e+02|  2.0745e+02|   -6.206636|  6.2389e-07|    0.012668|
+|         860|  2.0745e+02|  2.0745e+02|   -6.237528|  6.0868e-07|    0.012668|
+|         870|  4.3017e+01|  4.3017e+01|   -6.272483|  5.7709e-07|    0.012668|
+|         880|  2.2196e+02|  2.2196e+02|   -6.298469|  5.6024e-07|    0.012668|
+|         890|  3.1962e+01|  3.1962e+01|   -6.364426|  5.5041e-07|    0.012668|
+|         900|  1.9790e+02|  1.9790e+02|   -6.393720|  5.0189e-07|    0.012668|
+|         910|  2.3748e+02|  2.3748e+02|   -6.494592|  4.7192e-07|    0.012668|
+|         920|  1.0211e+02|  1.0211e+02|   -6.572042|  4.5119e-07|    0.012668|
+|         930|  5.2688e+01|  5.2688e+01|   -6.645129|  4.3410e-07|    0.012668|
+|         940|  2.7186e+02|  2.7186e+02|   -6.730790|  3.9140e-07|    0.012668|
+|         950|  2.7186e+02|  2.7186e+02|   -6.862585|  3.5590e-07|    0.012668|
+|         960|  2.7186e+02|  2.7186e+02|   -6.869967|  3.4594e-07|    0.012668|
+|         970|  8.1176e+01|  8.1176e+01|   -6.871050|  3.3641e-07|    0.012668|
+|         980|  2.4239e+02|  2.4239e+02|   -6.866473|  3.0654e-07|    0.012668|
+|         990|  8.6853e+01|  8.6853e+01|   -6.896328|  2.7565e-07|    0.012668|
+|        1000|  2.1612e+02|  2.1612e+02|   -6.967919|  2.4755e-07|    0.012668|
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_aoa-4.dat             |
+|Paraview                           |flow_aoa-4.vtu                     |
+|Paraview surface                   |surface_flow_aoa-4.vtu             |
++-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+|  Inner_Iter|     Min CFL|     Max CFL|      rms[P]|  Cauchy[CD]|          CD|
++-----------------------------------------------------------------------------+
+|        1010|  6.4532e+01|  6.4532e+01|   -7.056441|  2.3791e-07|    0.012668|
+|        1020|  3.3297e+01|  3.3297e+01|   -7.138010|  2.2616e-07|    0.012668|
+|        1030|  2.0617e+02|  2.0617e+02|   -7.240384|  2.1258e-07|    0.012668|
+|        1040|  8.8648e+01|  8.8648e+01|   -7.328423|  1.8845e-07|    0.012668|
+|        1050|  4.5741e+01|  4.5741e+01|   -7.438703|  1.6804e-07|    0.012668|
+|        1060|  2.3601e+01|  2.3601e+01|   -7.558037|  1.4775e-07|    0.012668|
+|        1070|  1.4613e+02|  1.4613e+02|   -7.624617|  1.3000e-07|    0.012668|
+|        1080|  4.3635e+01|  4.3635e+01|   -7.617695|  1.1612e-07|    0.012668|
+|        1090|  2.2515e+02|  2.2515e+02|   -7.683477|  1.0310e-07|    0.012668|
+|        1100|  5.6024e+01|  5.6024e+01|   -7.742122|  9.2455e-08|    0.012668|
+|        1110|  2.0074e+02|  2.0074e+02|   -7.871158|  8.5011e-08|    0.012668|
+|        1120|  2.0074e+02|  2.0074e+02|   -8.180564|  7.9767e-08|    0.012668|
+|        1130|  3.4688e+01|  3.4688e+01|   -8.460564|  7.3362e-08|    0.012668|
+|        1140|  2.1478e+02|  2.1478e+02|   -8.560924|  6.9690e-08|    0.012668|
+|        1150|  1.1082e+02|  1.1082e+02|   -8.635620|  6.4593e-08|    0.012668|
+|        1160|  2.7576e+01|  2.7576e+01|   -8.725519|  6.1892e-08|    0.012668|
+|        1170|  1.7074e+02|  1.7074e+02|   -8.832485|  5.7550e-08|    0.012668|
+|        1180|  8.8100e+01|  8.8100e+01|   -8.870801|  5.2400e-08|    0.012668|
+|        1190|  2.1922e+01|  2.1922e+01|   -8.931397|  4.3947e-08|    0.012668|
+|        1193|  3.7881e+01|  3.7881e+01|   -9.028752|  4.2311e-08|    0.012668|
+
+----------------------------- Solver Exit -------------------------------
+All convergence criteria satisfied.
++-----------------------------------------------------------------------+
+|      Convergence Field     |     Value    |   Criterion  |  Converged |
++-----------------------------------------------------------------------+
+|                      rms[P]|      -9.02875|          < -9|         Yes|
+|                  Cauchy[CD]|   4.23108e-08|       < 1e-06|         Yes|
++-----------------------------------------------------------------------+
+-------------------------------------------------------------------------
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 binary restart                 |restart_flow_aoa-4.dat             |
+|Paraview                           |flow_aoa-4.vtu                     |
+|Paraview surface                   |surface_flow_aoa-4.vtu             |
++-----------------------------------------------------------------------+
+
+------------------------- Solver Postprocessing -------------------------
+Deleted CNumerics container.
+Deleted CIntegration container.
+Deleted CSolver container.
+Deleted CIteration container.
+Deleted CInterface container.
+Deleted CGeometry container.
+Deleted CFreeFormDefBox class.
+Deleted CSurfaceMovement class.
+Deleted CVolumetricMovement class.
+Deleted CConfig container.
+Deleted nInst container.
+Deleted COutput class.
+-------------------------------------------------------------------------
+
+------------------------- Exit Success (SU2_CFD) ------------------------
+
