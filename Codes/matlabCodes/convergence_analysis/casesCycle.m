@@ -9,7 +9,7 @@ Author: Marco Marchesi
 listingCases = dir;
 casesNames = [];
 for i = 1:size(listingCases,1)
-    if contains(convertCharsToStrings(listingCases(i).name),"case")
+    if contains(convertCharsToStrings(listingCases(i).name),"case") && not(contains(convertCharsToStrings(listingCases(i).name),"old"))
         casesNames = [casesNames; convertCharsToStrings(listingCases(i).name)];
     else
         continue
@@ -27,7 +27,7 @@ if ~isempty(casesNames)
 
         % move in the simulation folder
         cfdCase = erase(casesNames(idx_C),"case");
-        cd(casesNames(idx_C))
+        cd(casesNames(idx_C)+"/cfd"+cfdCase)
 
         % extract history.csv data
         currentHistory= csvDataLogExtractor("history_"+cfdCase+".csv");
@@ -37,7 +37,7 @@ if ~isempty(casesNames)
         CL(idx_C) = currentHistory.CL(end);
         CMz(idx_C) = currentHistory.CMz(end);
 
-        cd("../")
+        cd("../../")
     end
 else
     CD = 0;
