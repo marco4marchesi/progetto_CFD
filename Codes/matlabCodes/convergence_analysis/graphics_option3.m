@@ -17,7 +17,7 @@ lineColors = ["blue";"red";"black";"#A2142F";"#4DBEEE";	"#0072BD"];
 
 %% plot cycle
 
-COEFFfigures = figure('Name','Drag Coefficient');
+COEFFfigures = figure('Name','Drag Coefficient','Position',[0,0,1000,1000]);
 COEFFfigs.h_tabgroup = uitabgroup(COEFFfigures);
 
 idx_tab = 0;
@@ -97,8 +97,8 @@ idx_color  = 0;
     sgtitle(figureNamer,'FontSize',18,'fontweight','bold')
 
     if savePlots
-        exportgraphics(COEFFfigs.(tabName),"IMAGES/CDPlot_"+figureNamer+".pdf")
-        exportgraphics(COEFFfigs.(tabName),"IMAGES/CDPlot_"+figureNamer+".png")
+        exportgraphics(COEFFfigs.(tabName),"IMAGES/coeffsConvergencePlot_"+figureNamer+".pdf")
+        exportgraphics(COEFFfigs.(tabName),"IMAGES/coeffsConvergencePlot_"+figureNamer+".png")
     end
 
 end

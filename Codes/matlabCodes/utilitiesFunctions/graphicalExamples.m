@@ -115,3 +115,96 @@ xlabel(ax2,'Second Interval')
 
 % Link the axes
 linkaxes([ax1 ax2], 'y')
+
+%% example 5 - movies
+
+h = figure;
+Z = peaks;
+surf(Z)
+axis tight manual
+ax = gca;
+ax.NextPlot = 'replaceChildren';
+loops = 40;
+M(loops) = struct('cdata',[],'colormap',[]);
+h.Visible = 'off';
+for j = 1:loops
+    X = sin(j*pi/10)*Z;
+    surf(X,Z)
+    drawnow
+    M(j) = getframe;
+end
+h.Visible = 'on';
+movie(M);
+
+%% example 6
+h = figure;
+Z = peaks;
+surf(Z)
+axis tight manual
+ax = gca;
+ax.NextPlot = 'replaceChildren';
+for j = 1:loops
+    X = sin(j*pi/10)*Z;
+    surf(X,Z)
+    drawnow
+    M(j) = getframe;
+end
+movie(M);
+
+%% example 7
+h = figure;
+Z = peaks;
+surf(Z)
+axis tight manual
+ax = gca;
+ax.NextPlot = 'replaceChildren';
+loops = 40;
+M(loops) = struct('cdata',[],'colormap',[]);
+h.Visible = 'off';
+for j = 1:loops
+    X = sin(j*pi/10)*Z;
+    surf(X,Z)
+    drawnow
+    M(j) = getframe;
+end
+h.Visible = 'on';
+movie(M,[2 1 15 23 36],12);
+
+
+%% example 8
+h = figure;
+Z = peaks;
+surf(Z)
+axis tight manual
+ax = gca;
+ax.NextPlot = 'replaceChildren';
+loops = 40;
+M(loops) = struct('cdata',[],'colormap',[]);
+h.Visible = 'off';
+for j = 1:loops
+    X = sin(j*pi/10)*Z;
+    surf(X,Z)
+    drawnow
+    M(j) = getframe;
+end
+h.Visible = 'on';
+movie(M,1,6);
+
+%% example 9
+h = figure;
+Z = peaks;
+surf(Z)
+axis tight manual
+ax = gca;
+ax.NextPlot = 'replaceChildren';
+loops = 40;
+M(loops) = struct('cdata',[],'colormap',[]);
+h.Visible = 'off';
+for j = 1:loops
+    X = sin(j*pi/10)*Z;
+    surf(X,Z)
+    drawnow
+    M(j) = getframe(h);
+end
+h.Visible = 'on';
+movie(h,M,1,12,[30 30 0 0]);

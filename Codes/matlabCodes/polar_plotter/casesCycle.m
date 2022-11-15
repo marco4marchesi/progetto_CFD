@@ -1,6 +1,6 @@
-function [CD,CL,CMz] = casesCycle()
+function [CD,CL,CMz,angles] = casesCycle()
 %{
-cycle on the cases considered, basically on the N meshes used, first order or second order
+cycle on the cases considered for POLAR construction, basically on the N angles used, first order or second order
 --------------------------------------------------------------------------
 Author: Marco Marchesi
 --------------------------------------------------------------------------
@@ -16,6 +16,16 @@ for i = 1:size(listingCases,1)
     end
 end
 
+sortVector = str2double(erase(casesNames,"case_A"));
+for i = 1:length(sortVector)
+    if sortVector(i)>100
+        sortVector(i) = sortVector(i)/10;
+    end
+end
+
+[~,idx_sort] = sort(sortVector);
+casesNames = casesNames(idx_sort);
+
 if ~isempty(casesNames)
     % initialize for faster performance
     CD = zeros(1,length(casesNames));
@@ -26,18 +36,22 @@ if ~isempty(casesNames)
     for idx_C = 1:length(casesNames)
 
         % move in the simulation folder
-        cfdCase = erase(casesNames(idx_C),"case");
-        cd(casesNames(idx_C) + "/cfd" + cfdCase)
+        angleCase = erase(casesNames(idx_C),"case_A");
+        cd(casesNames(idx_C))
 
         % extract history.csv data
-        currentHistory= csvDataLogExtractor("history_"+cfdCase+".csv");
+        currentHistory= csvDataLogExtractor("history_aoa"+angleCase+".csv");
 
         % simulation name
         CD(idx_C) = currentHistory.CD(end);
         CL(idx_C) = currentHistory.CL(end);
         CMz(idx_C) = currentHistory.CMz(end);
-
-        cd("../../")
+        angle = str2double(angleCase);
+        if angle >= 100
+            angle = angle /10;
+        end
+        angles(idx_C) = angle;
+        cd("../")
     end
 else
     CD = 0;
