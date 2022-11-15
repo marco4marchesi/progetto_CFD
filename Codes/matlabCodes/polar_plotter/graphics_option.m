@@ -7,8 +7,8 @@ GRAPHICS OPTION 2 - TWO ORDER OF CONVERGENCE ON ONE PLOT
 
 %% define graphical properties: 
 
-faceColors = ["green";"yellow";"magenta"];
-lineColors = ["blue";"red";"black"];
+faceColors = ["green";"yellow";"cyan";"white";"green"];
+lineColors = ["blue";"red";"magenta";"black";"yellow"];
 markerForm  = ["d-";"o-";"s-";"p-";"^-"];
 %% PLOT COEFFICIENT W.R.T. ANGLE
 
@@ -154,8 +154,7 @@ CL_zano = [ -0.313204184
             1.289882265
             1.285341714
             1.072705099
-            0.826239505
-            ];
+            0.826239505];
 
 % NASA TECH REPORT
 alpha_NASA = [  -6.292483255
@@ -170,8 +169,7 @@ alpha_NASA = [  -6.292483255
                 15.03572315
                 15.65157529
                 16.17142148
-                20.58992806
-                ];
+                20.58992806];
 
 CL_NASA = [ -0.517241379
             -0.215517241
@@ -185,15 +183,44 @@ CL_NASA = [ -0.517241379
             1.431034483
             1.297413793
             1.275862069
-            1.094827586
-            ];
+            1.094827586];
+
+% ABBOT BOOK EXTRAPOLATION
+alpha_abbot = [ 0
+                2
+                4
+                6
+                8
+                10
+                12
+                14];
+
+CL_abbot = [0.125224075
+            0.316567685
+            0.507911296
+            0.699254907
+            0.890598518
+            1.081942129
+            1.27328574
+            1.464629351];
+
+CD_abbot = [0.009863507
+            0.010270891
+            0.010678275
+            0.011085659
+            0.011493043
+            0.011900427
+            0.012307811
+            0.012715195];
 
 figure('Name','Comparison experimental data vs simulations','Position',[0,0,1000,1000])
-plot(alpha_NASA,CL_NASA,'dk--','DisplayName','NASA')
+plot(alpha_NASA,CL_NASA,'d--','Color','black','DisplayName','NASA')
 hold on; grid on;
-plot(alpha_zano,CL_zano,'sb--','DisplayName','Zanotti et al')
-plot(angles.SA.O2G5 ,CL.SA.O2G5,'or-','MarkerFaceColor','yellow','DisplayName','Simulated order 2');
-% plot(angles.SA.O1G5,CL.SA.O1G5,'^g-','MarkerFaceColor','white','displayName','Simulated order 1')
+plot(alpha_zano,CL_zano,'s--','Color','blue','DisplayName','Zanotti et al')
+plot(alpha_abbot,CL_abbot,'^--','Color','#7E2F8E','MarkerFaceColor','white','displayName','Abbot')
+plot(angles.SA.O2G5 ,CL.SA.O2G5,'o-','Color','red','MarkerFaceColor','yellow','DisplayName','Simulated SA O2 G5');
+plot(angles.SST.O2G5 ,CL.SST.O2G5,'o-','Color','magenta','MarkerFaceColor','green','DisplayName','Simulated SST O2 G5');
+
 legend
 title('Experimental data vs simulations')
 xlabel('Angle of attack \alpha [°]')

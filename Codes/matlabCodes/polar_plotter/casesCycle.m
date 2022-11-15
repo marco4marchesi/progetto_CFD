@@ -17,6 +17,11 @@ for i = 1:size(listingCases,1)
 end
 
 sortVector = str2double(erase(casesNames,"case_A"));
+for i = 1:length(sortVector)
+    if sortVector(i)>100
+        sortVector(i) = sortVector(i)/10;
+    end
+end
 
 [~,idx_sort] = sort(sortVector);
 casesNames = casesNames(idx_sort);
