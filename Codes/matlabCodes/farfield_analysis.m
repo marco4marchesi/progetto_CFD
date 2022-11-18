@@ -54,9 +54,9 @@ close all; clc;
 
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/convergence_analysis")
-rmpath(matlabCodesPath+"/farfield_analysis")
+rmpath(matlabCodesPath+"/polar_plotter")
 addpath(matlabCodesPath)
-addpath(matlabCodesPath+"/polar_plotter")
+addpath(matlabCodesPath+"/farfield_analysis")
 addpath(matlabCodesPath+"/utilitiesFunctions")
 
 % move to simulation folder
@@ -65,18 +65,19 @@ matlab_graphics;
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "PO/";
+mainFolder = "FARFIELD2/";
 addpath(genpath(mainFolder))
 cd(mainFolder)
 %% retrieve values from multiple angles simulations:
 
-[CD,CL,CMz,angles] = turboCycle();
+[CD,CL,CMz,iterations,cauchyCD] = turboCycle();
 
 cd(matlabCodesPath)
 %% plot values
 
+
 savePlots = false;
 mkdir("IMAGES_polar")
-graphics_option;
+graphics_option_farfield1;
 
 

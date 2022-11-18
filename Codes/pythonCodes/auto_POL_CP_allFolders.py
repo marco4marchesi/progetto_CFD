@@ -9,6 +9,7 @@
 # }
 from paraview.simple import *
 from paraview.servermanager import *
+import os as os
 import numpy as np
 
 #from paraview import vtk
@@ -31,10 +32,12 @@ if user == "luca":
 if user == "marco":
     savingFolder = "topolino"+simulationFolder
 
-    
+# IMPORT SOURCE create a new 'XML Unstructured Grid Reader'
+source1 = XMLUnstructuredGridReader(registrationName='flow_G6.vtu', FileName=['C:\\Users\\marco\\OneDrive - Politecnico di Milano\\MAGISTRALE\\TerzoSemestre\\CFD\\PROGETTO CFD DRIVE\\SIMULATIONS DRIVE\\Simulations\\SC2\\SA\\A14\\O2\\caseG6\\cfdG6\\flow_G6.vtu'])
+
 # get source
 #source1 = FindSource('flow_G3.vtu') #mettere il nome del file che si ha importato
-source1 = GetActiveSource() 
+#source1 = GetActiveSource() 
 
 # Properties modified on flow_G3vtu
 source1.PointArrayStatus = ['Pressure', 'Pressure_Coefficient', 'Velocity', 'Y_Plus']

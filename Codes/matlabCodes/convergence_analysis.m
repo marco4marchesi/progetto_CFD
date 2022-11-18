@@ -54,6 +54,7 @@ close all; clc;
 
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/polar_plotter")
+rmpath(matlabCodesPath+"/farfield_analysis")
 addpath(matlabCodesPath)
 addpath(matlabCodesPath+"/convergence_analysis")
 addpath(matlabCodesPath+"/utilitiesFunctions")
