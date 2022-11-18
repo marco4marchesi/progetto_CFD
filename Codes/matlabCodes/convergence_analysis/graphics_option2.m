@@ -55,26 +55,26 @@ for idx_T = 1:length(fieldnames(CD))
            
             % CD - plot
             subplot(2,2,[1,3])
-            plot(xAxisValues(2:length(CD_OO)), CD_increment,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
+            plot(xAxisValues(2:length(CD_OO)), abs(CD_increment),'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
             hold on;
             xlabel("Nelem")
-            ylabel("\Delta CD_%")
+            ylabel("|\Delta CD_%|")
             legend('1st order','2nd order')
 
             % CL - plot
             subplot(2,2,2)
-            plot(xAxisValues(2:length(CL_OO)), CL_increment,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
+            plot(xAxisValues(2:length(CL_OO)), abs(CL_increment),'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
             hold on;
             xlabel("Nelem")
-            ylabel("\Delta CL_%")
+            ylabel("|\Delta CL_%|")
             legend('1st order','2nd order')
             
             % CMz - plot
             subplot(2,2,4)
-            plot(xAxisValues(2:length(CMz_OO)), CMz_increment,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
+            plot(xAxisValues(2:length(CMz_OO)), abs(CMz_increment),'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O))
             hold on;
             xlabel("Nelem")
-            ylabel("\Delta CMz_%")
+            ylabel("|\Delta CMz_%|")
             legend('1st order','2nd order')
         end
         sgtitle(figureNamer,'FontSize',20,'fontweight','bold')
