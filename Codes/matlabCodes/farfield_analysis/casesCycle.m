@@ -25,13 +25,27 @@ if ~isempty(casesNames)
     CD = zeros(1,length(casesNames));
     CL = zeros(1,length(casesNames));
     CMz = zeros(1,length(casesNames));
+    
+
 
     % array saving cycle
     for idx_C = 1:length(casesNames)
 
         % move in the simulation folder
         meshNum = erase(casesNames(idx_C),"caseG");
-        cd(casesNames(idx_C)+"/cfdG"+meshNum)
+        cd(casesNames(idx_C));
+
+        % count how many restart happened for reaching max iterations
+        listingCFD = dir;
+        restart_counter = 0;
+        for i = 1:size(listingCFD,1)
+            if contains(convertCharsToStrings(listingCFD(i).name),"10000")
+                restart_counter = restart_counter +1;
+            end
+        end
+        
+        cd("cfdG"+meshNum)
+
 
         % extract history.csv data
         currentHistory= csvDataLogExtractor("history_G"+meshNum+".csv");
@@ -40,9 +54,10 @@ if ~isempty(casesNames)
         CD(idx_C) = currentHistory.CD(end);
         CL(idx_C) = currentHistory.CL(end);
         CMz(idx_C) = currentHistory.CMz(end);
-        iter(idx_C) = currentHistory.Inner_Iter(end);
+        iter(idx_C) = currentHistory.Inner_Iter(end) + restart_counter*9999;
         cauchyCD(idx_C) = currentHistory.Cauchy_CD_(end);
         cd("../../")
+        rmpath(casesNames(idx_C)+"/cfdG"+meshNum)
     end
 else
     CD = 0;

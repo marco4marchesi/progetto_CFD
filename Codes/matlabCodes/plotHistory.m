@@ -56,7 +56,8 @@ end
 
 %% init 
 clearvars -except matlabCodesPath simulationsFolderPath; 
-close all; clc;
+clc; close all;
+
 
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/polar_plotter")
@@ -69,53 +70,73 @@ addpath(matlabCodesPath+"/utilitiesFunctions")
 cd(simulationsFolderPath)
 matlab_graphics;
 
-%% select which folder (P for prova, SC for Simulation Case)
+%% 
+mesh = "27";
+testcase = "FARFIELD2/SST/O2/caseG"+mesh;
+cd(testcase)
 
-mainFolder = "FARFIELD2/";
-addpath(genpath(mainFolder))
-cd(mainFolder)
+%% define from which files do the extraction
+% currentHistory{1} = csvDataLogExtractor("first10000iter/history_G"+mesh+".csv","raw");
+% currentHistory{2} = csvDataLogExtractor("second10000iter/history_G"+mesh+".csv","raw");
+% currentHistory{3} = csvDataLogExtractor("third10000iter/history_G"+mesh+".csv","raw");
 
-%% retrieve all the CD, CL, CMz values
-[CD,CL,CMz] = turboCycle();
+if exist('currentHistory','var')==1
+    counter = length(currentHistory)+1;
+else
+    counter = 1;
+end
+currentHistory{counter} = csvDataLogExtractor("cfdG"+mesh+"/history_G"+mesh+".csv","raw");
 
-cd(matlabCodesPath)
+%% select field
+fields = ["Cauchy_CD_";"rms_P_";"CD";"CL"];
+% target for the field chosen
+target = [1e-7,-9,1e-3,1];
 
-%% plot values
+idx = 1;
+for i = idx
+    evolution.(fields(i)) = [];
+    for j = 1:length(currentHistory)
+        evolution.(fields(i)) = [evolution.(fields(i)); currentHistory{j}.(fields(i))(10:end)];
+    end
+end
+%% plot
+figure('Name',"Convergence history",'Position',[100,100,800,500])
+for i = idx
+    plot(evolution.(fields(i)),'DisplayName',fields(i))
+    hold on;
+    xlabel('Iterations')
+    ylabel(fields(i))
+    if contains(fields(i),"rms")
+        yline(10.^target(i),'r--','DisplayName','Convergence target')
+    else
+        yline(target(i),'r--','DisplayName','Convergence target')
+    end
+    xlim([0,length(evolution.(fields(i)))])
+    title("Convergence history of " + fields(i))
+    legend
+end
 
-% elements of the meshes - plug here the values
-meshElem = [88546
-            136104
-            209052
-            289868
-            392644
-            549126
-            782484  ];
+% evolution.(field+"_filtered") = movmean()
+figure('Name',"Convergence history logarithmic",'Position',[100,100,800,500])
+for i = idx%:length(fields)
+%     subplot(2,1,i)
+    if contains(fields(i),"rms")
+        semilogy(10.^(movmean(evolution.(fields(i)),100)),'DisplayName',fields(i))
+    else
+        semilogy(movmean(evolution.(fields(i)),100),'DisplayName',fields(i))
+    end
+    hold on;
+    xlabel('Iterations')
+    ylabel(fields(i))
+    if contains(fields(i),"rms")
+        yline(10.^target(i),'r--','DisplayName','Convergence target')
+        ylim([10.^target(i)/10,10.^target(i)*100])
+    else
+        yline(target(i),'r--','DisplayName','Convergence target')
+        ylim([target(i)/10,target(i)*1000])
+    end
+    xlim([0,length(evolution.(fields(i)))])
+    title("Filtered logarithmic history of " + fields(i))
+    legend
 
-deltaH = [  0.173
-            0.139
-            0.112
-            0.096
-            0.082
-            0.069
-            0.058   ];
-
-
-%{ 
-graphics: list of options:
-
-- option1:  all plots for CD, CL, CMz in their window, one plot per tab 
-- option2:  all plots for CD, CL, CMz in a single window, comparing 1st and 2nd
-            order in each tab
-- option3:  all plots for CD, CL, CMz in a single window, comparing the
-            combinations of turbulence and angles of attack in each tab
-%}
-
-savePlots = false;
-mkdir("IMAGES_convergence")
-graphics_option2;
-
-
-
-
-
-
+end

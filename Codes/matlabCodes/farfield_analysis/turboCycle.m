@@ -24,6 +24,6 @@ for idx_T = 1:length(turboNames)
     cd(turboNames(idx_T))
 
     [CD.(turboNames(idx_T)),CL.(turboNames(idx_T)),CMz.(turboNames(idx_T)),iter.(turboNames(idx_T)),cauchyCD.(turboNames(idx_T))] = orderCycle();
-
+    rmpath(turboNames(idx_T))
     cd("../")
 end

@@ -25,10 +25,11 @@ set(0, 'defaultSurfaceEdgeAlpha', 0.3);
 defaultLineWidth = 1.5;
 
 % plots
-set(0, 'defaultLineLineWidth', defaultLineWidth);
+set(0,'defaultLineLineWidth', defaultLineWidth);
 % stairs
-set(0, 'defaultStairLineWidth', defaultLineWidth); % needs a different command for no reason apparently
-
+set(0,'defaultStairLineWidth', defaultLineWidth); % needs a different command for no reason apparently
+% ylines
+% set(0,'defaultYLineLineWidth', defaultLineWidth)
 %% legend:
 set(0, 'defaultLegendLocation','best');
 set(0, 'defaultLegendFontSize',7);
