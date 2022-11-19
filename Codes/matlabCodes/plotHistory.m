@@ -71,8 +71,10 @@ cd(simulationsFolderPath)
 matlab_graphics;
 
 %% 
-mesh = "27";
-testcase = "FARFIELD2/SST/O2/caseG"+mesh;
+mesh = "21";
+folder = "SA_restart_mesh_piccola";
+
+testcase = "FARFIELD2/"+folder+"/O2/caseG"+mesh;
 cd(testcase)
 
 %% define from which files do the extraction
@@ -90,7 +92,7 @@ currentHistory{counter} = csvDataLogExtractor("cfdG"+mesh+"/history_G"+mesh+".cs
 %% select field
 fields = ["Cauchy_CD_";"rms_P_";"CD";"CL"];
 % target for the field chosen
-target = [1e-7,-9,1e-3,1];
+target = [1e-8,-13,1e-3,1];
 
 idx = 1;
 for i = idx
@@ -102,7 +104,7 @@ end
 %% plot
 figure('Name',"Convergence history",'Position',[100,100,800,500])
 for i = idx
-    plot(evolution.(fields(i)),'DisplayName',fields(i))
+    plot(evolution.(fields(i)),'DisplayName',replace(folder,'_',' '))
     hold on;
     xlabel('Iterations')
     ylabel(fields(i))
@@ -112,7 +114,7 @@ for i = idx
         yline(target(i),'r--','DisplayName','Convergence target')
     end
     xlim([0,length(evolution.(fields(i)))])
-    title("Convergence history of " + fields(i))
+    title("Convergence history of " + replace(fields(i),"_"," "))
     legend
 end
 
@@ -121,9 +123,9 @@ figure('Name',"Convergence history logarithmic",'Position',[100,100,800,500])
 for i = idx%:length(fields)
 %     subplot(2,1,i)
     if contains(fields(i),"rms")
-        semilogy(10.^(movmean(evolution.(fields(i)),100)),'DisplayName',fields(i))
+        semilogy(10.^(movmean(evolution.(fields(i)),100)),'DisplayName',replace(folder,'_',' '))
     else
-        semilogy(movmean(evolution.(fields(i)),100),'DisplayName',fields(i))
+        semilogy(evolution.(fields(i)),'DisplayName',replace(folder,'_',' '))
     end
     hold on;
     xlabel('Iterations')
@@ -136,7 +138,7 @@ for i = idx%:length(fields)
         ylim([target(i)/10,target(i)*1000])
     end
     xlim([0,length(evolution.(fields(i)))])
-    title("Filtered logarithmic history of " + fields(i))
+    title("Filtered logarithmic history of " + replace(fields(i),"_"," "))
     legend
 
 end
