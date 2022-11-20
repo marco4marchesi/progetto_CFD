@@ -110,6 +110,8 @@ target = 1e-9;
 
 %% -------------------------------------- Loop on folder simulations! Let's goooooooooooooooooooo -------------------------%%
 
+
+%% NORMAL PLOT
 figure('Name',"Convergence history of " + field,'Position',[100,100,800,500])
     
 for idx_f = 1: length(simuFolders)
@@ -121,6 +123,7 @@ for idx_f = 1: length(simuFolders)
     foldVec = ["first","second","third","fourth","fifth","sixth","seventh"]; % i frankly doubt you will have more than that
     
     listing = dir;
+    j = 0;
     % extract how many restart of 10000 iterations have been done:
     for i = 1:size(listing,1)
         if contains(convertCharsToStrings(listing(i).name),"10000")
@@ -147,17 +150,81 @@ for idx_f = 1: length(simuFolders)
         hold on;
         xlabel('Iterations')
         ylabel(field)
-        yline(10.^target,'r--','DisplayName','Convergence target')
-        title("Convergence history of " + replace(field,"_"," "))
-        legend
     else   
         plot(evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
         hold on;
         xlabel('Iterations')
         ylabel(field)
-        yline(target,'r--','DisplayName','Convergence target')
-        title("Filtered logarithmic history of " + replace(field,"_"," "))
+    end
+    cd("../../../../")
+end
+yline(target,'r--','DisplayName','Convergence target')
+legend
+title("Convergence history of " + replace(field,"_"," "))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+clearvars currentHistory evolution j
+%% LOGARITMIC PLOT
+figure('Name',"Logaritmic convergence history of " + field,'Position',[100,100,800,500])
+    
+for idx_f = 1: length(simuFolders)
+
+    testcase = "FARFIELD2/"+simuFolders(idx_f)+"/O2/caseG"+mesh;
+    cd(testcase)
+    
+    %% define from which files do the extraction
+    foldVec = ["first","second","third","fourth","fifth","sixth","seventh"]; % i frankly doubt you will have more than that
+    
+    listing = dir;
+    % extract how many restart of 10000 iterations have been done:
+    j = 0;
+    for i = 1:size(listing,1)
+        if contains(convertCharsToStrings(listing(i).name),"10000")
+            j= j+1;
+        end
+    end
+    for k = 1:j+1
+        if k <= j
+            currentHistory{k} = csvDataLogExtractor(foldVec(k)+"10000iter/history_G"+mesh+".csv","raw");
+        else
+            currentHistory{k} = csvDataLogExtractor("cfdG"+mesh+"/history_G"+mesh+".csv","raw");
+        end
+    end
+    
+    evolution.(field) = [];
+    for j = 1:length(currentHistory)
+        evolution.(field) = [evolution.(field); currentHistory{j}.(field)(10:end)];
+    end
+
+
+    %% plot
+    if contains(field,"rms")
+        semilogy(10.^evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
+        hold on;
+        xlabel('Iterations')
+        ylabel(field)
+        
+        legend
+    else   
+        semilogy(evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
+        hold on;
+        xlabel('Iterations')
+        ylabel(field)
         legend
     end
     cd("../../../../")
 end
+yline(target,'r--','DisplayName','Convergence target')
+title("Logarithmic history of " + replace(field,"_"," "))
