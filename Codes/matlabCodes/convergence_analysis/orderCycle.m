@@ -25,5 +25,6 @@ for idx_O = 1:length(orderNames)
     [CD.(orderNames(idx_O)),CL.(orderNames(idx_O)),CMz.(orderNames(idx_O))] = casesCycle();
     
     cd("../")
+    rmpath(orderNames(idx_O))
 end
 

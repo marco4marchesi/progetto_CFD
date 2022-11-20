@@ -1,6 +1,6 @@
 %{
 
-Matlab code for extracting data from history files of multiple mesh simulations.
+Matlab code for extracting data from history files of SINGLE mesh simulations.
 
 --------------------------------------------------------------------------
 Author: Marco Marchesi
@@ -29,8 +29,13 @@ running the code, otherwise it will return errors:
     simulations saved. The last folder should be "Simulation/". if it's not
     like that try asking for help to the author.
 
++   set
 
 %}
+
+
+
+
 
 %% select user
 
@@ -54,6 +59,10 @@ if user == "luca"
     simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations\";
 end
 
+
+
+
+
 %% init 
 clearvars -except matlabCodesPath simulationsFolderPath; 
 clc; close all;
@@ -70,75 +79,85 @@ addpath(matlabCodesPath+"/utilitiesFunctions")
 cd(simulationsFolderPath)
 matlab_graphics;
 
-%% 
+
+
+
+
+
+
+
+
+
+%% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %% 
 mesh = "21";
-folder = "SA_restart_mesh_piccola";
+simuFolders = ["SA_restart_mesh_piccola"
+               "SA_merk"
+               "SA_tagliato_evo"];
 
-testcase = "FARFIELD2/"+folder+"/O2/caseG"+mesh;
-cd(testcase)
+%% ---------------------------------------- select field ----------------------------------------------- %%
+field = "Cauchy_CD_";
+target = 1e-9;
 
-%% define from which files do the extraction
-% currentHistory{1} = csvDataLogExtractor("first10000iter/history_G"+mesh+".csv","raw");
-% currentHistory{2} = csvDataLogExtractor("second10000iter/history_G"+mesh+".csv","raw");
-% currentHistory{3} = csvDataLogExtractor("third10000iter/history_G"+mesh+".csv","raw");
 
-if exist('currentHistory','var')==1
-    counter = length(currentHistory)+1;
-else
-    counter = 1;
-end
-currentHistory{counter} = csvDataLogExtractor("cfdG"+mesh+"/history_G"+mesh+".csv","raw");
 
-%% select field
-fields = ["Cauchy_CD_";"rms_P_";"CD";"CL"];
-% target for the field chosen
-target = [1e-8,-13,1e-3,1];
 
-idx = 1;
-for i = idx
-    evolution.(fields(i)) = [];
+
+
+
+
+
+
+
+%% -------------------------------------- Loop on folder simulations! Let's goooooooooooooooooooo -------------------------%%
+
+figure('Name',"Convergence history of " + field,'Position',[100,100,800,500])
+    
+for idx_f = 1: length(simuFolders)
+
+    testcase = "FARFIELD2/"+simuFolders(idx_f)+"/O2/caseG"+mesh;
+    cd(testcase)
+    
+    %% define from which files do the extraction
+    foldVec = ["first","second","third","fourth","fifth","sixth","seventh"]; % i frankly doubt you will have more than that
+    
+    listing = dir;
+    % extract how many restart of 10000 iterations have been done:
+    for i = 1:size(listing,1)
+        if contains(convertCharsToStrings(listing(i).name),"10000")
+            j= j+1;
+        end
+    end
+    for k = 1:j+1
+        if k <= j
+            currentHistory{k} = csvDataLogExtractor(foldVec(k)+"10000iter/history_G"+mesh+".csv","raw");
+        else
+            currentHistory{k} = csvDataLogExtractor("cfdG"+mesh+"/history_G"+mesh+".csv","raw");
+        end
+    end
+    
+    evolution.(field) = [];
     for j = 1:length(currentHistory)
-        evolution.(fields(i)) = [evolution.(fields(i)); currentHistory{j}.(fields(i))(10:end)];
+        evolution.(field) = [evolution.(field); currentHistory{j}.(field)(10:end)];
     end
-end
-%% plot
-figure('Name',"Convergence history",'Position',[100,100,800,500])
-for i = idx
-    plot(evolution.(fields(i)),'DisplayName',replace(folder,'_',' '))
-    hold on;
-    xlabel('Iterations')
-    ylabel(fields(i))
-    if contains(fields(i),"rms")
-        yline(10.^target(i),'r--','DisplayName','Convergence target')
-    else
-        yline(target(i),'r--','DisplayName','Convergence target')
-    end
-    xlim([0,length(evolution.(fields(i)))])
-    title("Convergence history of " + replace(fields(i),"_"," "))
-    legend
-end
 
-% evolution.(field+"_filtered") = movmean()
-figure('Name',"Convergence history logarithmic",'Position',[100,100,800,500])
-for i = idx%:length(fields)
-%     subplot(2,1,i)
-    if contains(fields(i),"rms")
-        semilogy(10.^(movmean(evolution.(fields(i)),100)),'DisplayName',replace(folder,'_',' '))
-    else
-        semilogy(evolution.(fields(i)),'DisplayName',replace(folder,'_',' '))
-    end
-    hold on;
-    xlabel('Iterations')
-    ylabel(fields(i))
-    if contains(fields(i),"rms")
-        yline(10.^target(i),'r--','DisplayName','Convergence target')
-        ylim([10.^target(i)/10,10.^target(i)*100])
-    else
-        yline(target(i),'r--','DisplayName','Convergence target')
-        ylim([target(i)/10,target(i)*1000])
-    end
-    xlim([0,length(evolution.(fields(i)))])
-    title("Filtered logarithmic history of " + replace(fields(i),"_"," "))
-    legend
 
+    %% plot
+    if contains(field,"rms")
+        plot(10.^evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
+        hold on;
+        xlabel('Iterations')
+        ylabel(field)
+        yline(10.^target,'r--','DisplayName','Convergence target')
+        title("Convergence history of " + replace(field,"_"," "))
+        legend
+    else   
+        plot(evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
+        hold on;
+        xlabel('Iterations')
+        ylabel(field)
+        yline(target,'r--','DisplayName','Convergence target')
+        title("Filtered logarithmic history of " + replace(field,"_"," "))
+        legend
+    end
+    cd("../../../../")
 end

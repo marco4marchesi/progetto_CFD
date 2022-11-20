@@ -16,21 +16,29 @@ meshElem = [136104
             175720  
             178480];
 
+deltaPercentG4 = [  0
+                    5
+                    8
+                    12
+                    17
+                    -3
+                    29
+                    31];
+
+meshIncrement = (meshElem-meshElem(1))/meshElem(1)*100;
+
 % sort vector of mesh elements, just in case we did something fancy for no
 % reason -> the same is applied in the extraction
 [~,idx_sortElem] = sort(meshElem);
 meshElem = meshElem(idx_sortElem);
-% deltaH = [  0.173 SONO VALORI A CASACCIO
-%             0.139
-%             0.112
-%             0.096
-%             0.082
-%             0.069
-%             0.058
-%             0.046];
+meshIncrement = meshIncrement(idx_sortElem);
+meshPercent = meshPercent(idx_sortElem);
+deltaPercentG4 = deltaPercentG4(idx_sortElem);
 
 %% select to use meshElements or medium H
-xAxisValues = meshElem;
+xAxisLabel = "deltaPercentG4";
+xAxisValues = eval(xAxisLabel);
+
 
 faceColors = ["green","yellow"];
 lineColors = ["blue";"red"];
@@ -80,17 +88,23 @@ for idx_T = 1:length(fieldnames(CD))
         subplot(2,2,[1,3])
         plot(xAxisValues(2:length(CD_variation)+1), CD_variation,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O),'DisplayName',orderNames(idx_O))
         hold on;
-        xlabel("Nelem")
+        xlabel(xAxisLabel)
         ylabel("|\Delta CD_%|")
         legend
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end
 
         % CL - plot
         subplot(2,2,2)
         plot(xAxisValues(2:length(CL_variation)+1), CL_variation,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O),'DisplayName',orderNames(idx_O))
         hold on;
-        xlabel("Nelem")
+        xlabel(xAxisLabel)
         ylabel("|\Delta CL_%|")
         legend
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end
         
         % CMz - plot
         subplot(2,2,4)
@@ -99,7 +113,10 @@ for idx_T = 1:length(fieldnames(CD))
         xlabel("Nelem")
         ylabel("|\Delta CM_z%|")
         legend
-     
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end
+        
         sgtitle(figureNamer,'FontSize',20,'fontweight','bold')
         if savePlots
             exportgraphics(COEFFfigs.(tabName),"IMAGES/coeffsConvergencePlot_"+figureNamer+".pdf")
@@ -156,27 +173,36 @@ for idx_T = 1:length(fieldnames(CD))
         subplot(2,2,[1,3])
         plot(xAxisValues(1:length(CD_OO)), CD_OO,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O),'DisplayName',orderNames(idx_O))
         hold on;
-        xlabel("Nelem")
+        xlabel(xAxisLabel)
         ylabel("CD")
         legend
-
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end
+        
         % CL - plot
         subplot(2,2,2)
         plot(xAxisValues(1:length(CL_OO)), CL_OO,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O),'DisplayName',orderNames(idx_O))
         hold on;
-        xlabel("Nelem")
+        xlabel(xAxisLabel)
         ylabel("CL")
         legend
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end
         
         % CMz - plot
         subplot(2,2,4)
         plot(xAxisValues(1:length(CMz_OO)), CMz_OO,'o-','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O),'DisplayName',orderNames(idx_O))
         hold on;
-        xlabel("Nelem")
+        xlabel(xAxisLabel)
         ylabel("CMz")
         legend
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end
 
-     
+
         sgtitle(figureNamer,'FontSize',20,'fontweight','bold')
         if savePlots
             exportgraphics(COEFFfigs.(tabName),"IMAGES/coeffsConvergencePlot_"+figureNamer+".pdf")
@@ -229,6 +255,9 @@ for idx_T = 1:length(fieldnames(iterations))
         xlabel("Nelem")
         ylabel("Number of iterations")
         legend
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end       
         
         subplot(2,1,2)
         plot(xAxisValues(1:length(iter_OO)), cauchyCD_OO,'o','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O),'DisplayName',orderNames(idx_O))
@@ -237,7 +266,9 @@ for idx_T = 1:length(fieldnames(iterations))
         xlabel("Nelem")
         ylabel("cauchyCD")
         legend
-
+        if xAxisLabel == "meshIncrement"
+            xtickformat("percentage")
+        end
 
      
         sgtitle(figureNamer,'FontSize',20,'fontweight','bold')

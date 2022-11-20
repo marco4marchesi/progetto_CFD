@@ -38,6 +38,7 @@ if ~isempty(casesNames)
         CMz(idx_C) = currentHistory.CMz(end);
 
         cd("../../")
+        rmpath(casesNames(idx_C)+"/cfd"+cfdCase)
     end
 else
     CD = 0;

@@ -26,4 +26,5 @@ for idx_T = 1:length(turboNames)
     [CD.(turboNames(idx_T)),CL.(turboNames(idx_T)),CMz.(turboNames(idx_T))] = AoACycle();
 
     cd("../")
+    rmpath(turboNames(idx_T))
 end

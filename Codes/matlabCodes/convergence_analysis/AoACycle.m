@@ -27,4 +27,5 @@ for idx_A = 1:length(angleNames)
     [CD.(angleNames(idx_A)),CL.(angleNames(idx_A)),CMz.(angleNames(idx_A))] = orderCycle();
 
     cd("../")
+    rmpath(angleNames(idx_A))
 end
