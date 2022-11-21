@@ -90,9 +90,8 @@ matlab_graphics;
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %% 
 mesh = "21";
-simuFolders = ["SA_restart_mesh_piccola"
-               "SA_merk"
-               "SA_tagliato_evo"];
+simuFolders = [ "SST_different_CFL_max"
+                "SST_restart_mesh_piccola"];
 
 %% ---------------------------------------- select field ----------------------------------------------- %%
 field = "Cauchy_CD_";
@@ -157,6 +156,7 @@ for idx_f = 1: length(simuFolders)
         ylabel(field)
     end
     cd("../../../../")
+    rmpath(testcase)
 end
 yline(target,'r--','DisplayName','Convergence target')
 legend
