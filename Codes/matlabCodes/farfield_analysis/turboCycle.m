@@ -11,9 +11,7 @@ listingTurbolence = dir;
 
 turboNames = [];
 for i = 1:size(listingTurbolence,1)
-    if convertCharsToStrings(listingTurbolence(i).name==".")
-        continue
-    elseif convertCharsToStrings(listingTurbolence(i).name=="..")
+    if contains(convertCharsToStrings(listingTurbolence(i).name),".")
         continue
     end
     turboNames = [turboNames; convertCharsToStrings(listingTurbolence(i).name)];

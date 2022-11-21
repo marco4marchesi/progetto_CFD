@@ -12,9 +12,7 @@ listingAngles = dir;
 
 angleNames = [];
 for i = 1:size(listingAngles,1)
-    if convertCharsToStrings(listingAngles(i).name==".")
-        continue
-    elseif convertCharsToStrings(listingAngles(i).name=="..")
+    if contains(convertCharsToStrings(listingAngles(i).name),".")
         continue
     end
     angleNames = [angleNames; convertCharsToStrings(listingAngles(i).name)];

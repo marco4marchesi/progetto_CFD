@@ -10,9 +10,7 @@ Author: Marco Marchesi
 listingOrders = dir;
 orderNames = [];
 for i = 1:size(listingOrders,1)
-    if convertCharsToStrings(listingOrders(i).name==".")
-        continue
-    elseif convertCharsToStrings(listingOrders(i).name=="..")
+    if contains(convertCharsToStrings(listingOrders(i).name),".")
         continue
     end
     orderNames = [orderNames; convertCharsToStrings(listingOrders(i).name)];
