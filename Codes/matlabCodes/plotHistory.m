@@ -89,13 +89,14 @@ matlab_graphics;
 
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %% 
-mesh = "21";
-simuFolders = [ "SST_different_CFL_max"
-                "SST_restart_mesh_piccola"];
+mainFolder = "FARFIELD3";
+simuFolders = ["SST"];
+meshNum = "24";
+
 
 %% ---------------------------------------- select field ----------------------------------------------- %%
-field = "Cauchy_CD_";
-target = 1e-9;
+fields = ["rms_P_","Cauchy_CD_","CD","CL"];
+target = [1e-13;1e-9];
 
 
 
@@ -109,79 +110,14 @@ target = 1e-9;
 
 %% -------------------------------------- Loop on folder simulations! Let's goooooooooooooooooooo -------------------------%%
 
+for idx_field = 1: length(fields)
 
-%% NORMAL PLOT
-figure('Name',"Convergence history of " + field,'Position',[100,100,800,500])
-    
-for idx_f = 1: length(simuFolders)
-
-    testcase = "FARFIELD2/"+simuFolders(idx_f)+"/O2/caseG"+mesh;
-    cd(testcase)
-    
-    %% define from which files do the extraction
-    foldVec = ["first","second","third","fourth","fifth","sixth","seventh"]; % i frankly doubt you will have more than that
-    
-    listing = dir;
-    j = 0;
-    % extract how many restart of 10000 iterations have been done:
-    for i = 1:size(listing,1)
-        if contains(convertCharsToStrings(listing(i).name),"10000")
-            j= j+1;
-        end
-    end
-    for k = 1:j+1
-        if k <= j
-            currentHistory{k} = csvDataLogExtractor(foldVec(k)+"10000iter/history_G"+mesh+".csv","raw");
-        else
-            currentHistory{k} = csvDataLogExtractor("cfdG"+mesh+"/history_G"+mesh+".csv","raw");
-        end
-    end
-    
-    evolution.(field) = [];
-    for j = 1:length(currentHistory)
-        evolution.(field) = [evolution.(field); currentHistory{j}.(field)(10:end)];
-    end
-
-
-    %% plot
-    if contains(field,"rms")
-        plot(10.^evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
-        hold on;
-        xlabel('Iterations')
-        ylabel(field)
-    else   
-        plot(evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
-        hold on;
-        xlabel('Iterations')
-        ylabel(field)
-    end
-    cd("../../../../")
-    rmpath(testcase)
-end
-yline(target,'r--','DisplayName','Convergence target')
-legend
-title("Convergence history of " + replace(field,"_"," "))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-clearvars currentHistory evolution j
 %% LOGARITMIC PLOT
-figure('Name',"Logaritmic convergence history of " + field,'Position',[100,100,800,500])
+figure('Name',"Logaritmic convergence history of " + fields(idx_field),'Position',[100,100,800,500])
     
 for idx_f = 1: length(simuFolders)
 
-    testcase = "FARFIELD2/"+simuFolders(idx_f)+"/O2/caseG"+mesh;
+    testcase = mainFolder+"/"+simuFolders(idx_f)+"/O2/caseG"+meshNum;
     cd(testcase)
     
     %% define from which files do the extraction
@@ -197,34 +133,38 @@ for idx_f = 1: length(simuFolders)
     end
     for k = 1:j+1
         if k <= j
-            currentHistory{k} = csvDataLogExtractor(foldVec(k)+"10000iter/history_G"+mesh+".csv","raw");
+            currentHistory{k} = csvDataLogExtractor(foldVec(k)+"10000iter/history_G"+meshNum+".csv","raw");
         else
-            currentHistory{k} = csvDataLogExtractor("cfdG"+mesh+"/history_G"+mesh+".csv","raw");
+            currentHistory{k} = csvDataLogExtractor("cfdG"+meshNum+"/history_G"+meshNum+".csv","raw");
         end
     end
     
-    evolution.(field) = [];
+    evolution.(fields(idx_field)) = [];
     for j = 1:length(currentHistory)
-        evolution.(field) = [evolution.(field); currentHistory{j}.(field)(10:end)];
+        evolution.(fields(idx_field)) = [evolution.(fields(idx_field)); currentHistory{j}.(fields(idx_field))(10:end)];
     end
 
 
     %% plot
-    if contains(field,"rms")
-        semilogy(10.^evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
+    if contains(fields(idx_field),"rms")
+        semilogy(10.^evolution.(fields(idx_field)),'DisplayName',replace(simuFolders(idx_f),'_',' '))
         hold on;
         xlabel('Iterations')
-        ylabel(field)
+        ylabel(fields(idx_field))
         
         legend
     else   
-        semilogy(evolution.(field),'DisplayName',replace(simuFolders(idx_f),'_',' '))
+        semilogy(evolution.(fields(idx_field)),'DisplayName',replace(simuFolders(idx_f),'_',' '))
         hold on;
         xlabel('Iterations')
-        ylabel(field)
+        ylabel(fields(idx_field))
         legend
     end
     cd("../../../../")
 end
-yline(target,'r--','DisplayName','Convergence target')
-title("Logarithmic history of " + replace(field,"_"," "))
+if not(fields(idx_field) == "CD" || fields(idx_field) == "CL")
+    yline(target(idx_field),'r--','DisplayName','Convergence target')
+end
+title("Logarithmic history of " + replace(fields(idx_field),"_","") + " mesh: G"+meshNum)
+
+end
