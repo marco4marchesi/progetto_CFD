@@ -56,7 +56,7 @@ end
 
 %% init 
 clearvars -except matlabCodesPath simulationsFolderPath; 
-close all; clc;
+% close all; clc;
 
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/convergence_analysis")

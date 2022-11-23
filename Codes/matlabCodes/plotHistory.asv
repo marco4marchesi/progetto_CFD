@@ -91,12 +91,7 @@ matlab_graphics;
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
 mainFolder = 'PO';
 simuFolders = { 'SA/O2_stretto/case_A-4';
-                'SA/O2_stretto/case_A-2';
-                'SA/O2_stretto/case_A0';
-                'SA/O2_stretto/case_A2';
-                'SA/O2_stretto/case_A4';
-                'SA/O2_stretto/case_A6';
-                'SA/O2_stretto/case_A8'}; % use single apices because otherwise the erase function does not work as I want
+                'SST/O2_stretto/case_A-4'}; % use single apices because otherwise the erase function does not work as I want
 
 
 
@@ -173,7 +168,7 @@ for idx_field = 1: length(fields)
         semilogy(evolution.(fields(idx_field)),'DisplayName',replace(simuFolders{idx_f},'_',' '))
         hold on;
         xlabel('Iterations')
-        ylabel(replace(fields(idx_field),"_"," "))
+        ylabel(fields(idx_field))
         legend
         cd("../../../../")
     end

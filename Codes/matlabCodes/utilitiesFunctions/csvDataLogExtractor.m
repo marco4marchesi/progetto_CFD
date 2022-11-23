@@ -8,7 +8,7 @@ Author: Marco Marchesi - CTR iptl
 -       Release: 03/09/2022
 %}
 function [structOutput,structNames] = csvDataLogExtractor(name,options,varargin)
-
+warning('off')
 %{
 HELP:
 use this function to retrieve a struct that contains as fields all the arrays of the .csv
@@ -85,4 +85,5 @@ overflow = 2^32;
         end
     end
 end
+warning('on')
 

@@ -71,7 +71,7 @@ matlab_graphics;
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "FARFIELD2/";
+mainFolder = "FARFIELD3/";
 addpath(genpath(mainFolder))
 cd(mainFolder)
 %% retrieve values from multiple angles simulations:

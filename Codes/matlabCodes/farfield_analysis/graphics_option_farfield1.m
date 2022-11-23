@@ -8,21 +8,25 @@ close all;
 %% define graphical properties: 
 % elements of the meshes - plug here the values
 meshElem = [136104
+            130284            
             145958
             152048
             166530
             170748
-            130284
             175720  
+            178480
+            178480
             178480];
 
 deltaPercentG4 = [  0
+                    -3                    
                     5
                     8
                     12
                     17
-                    -3
                     29
+                    31
+                    31
                     31];
 
 meshIncrement = (meshElem-meshElem(1))/meshElem(1)*100;
@@ -32,7 +36,6 @@ meshIncrement = (meshElem-meshElem(1))/meshElem(1)*100;
 [~,idx_sortElem] = sort(meshElem);
 meshElem = meshElem(idx_sortElem);
 meshIncrement = meshIncrement(idx_sortElem);
-meshPercent = meshPercent(idx_sortElem);
 deltaPercentG4 = deltaPercentG4(idx_sortElem);
 
 %% select to use meshElements or medium H

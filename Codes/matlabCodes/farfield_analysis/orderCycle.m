@@ -10,7 +10,7 @@ Author: Marco Marchesi
 listingOrders = dir;
 orderNames = [];
 for i = 1:size(listingOrders,1)
-    if contains(convertCharsToStrings(listingOrders(i).name)".")
+    if contains(convertCharsToStrings(listingOrders(i).name),".")
         continue
     end
     orderNames = [orderNames; convertCharsToStrings(listingOrders(i).name)];
@@ -21,7 +21,7 @@ for idx_O = 1:length(orderNames)
     cd(orderNames(idx_O))
 
     [CD.(orderNames(idx_O)),CL.(orderNames(idx_O)),CMz.(orderNames(idx_O)),iter.(orderNames(idx_O)),cauchyCD.(orderNames(idx_O))] = casesCycle();
-    rmpath(orderNames(idx_O))
     cd("../")
+    rmpath(orderNames(idx_O))
 end
 
