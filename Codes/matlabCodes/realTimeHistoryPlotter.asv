@@ -89,25 +89,21 @@ matlab_graphics;
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
 mainFolder = 'noTransition/FARFIELD_stretto/';
-simuFolder = "SA/O2/caseG20/cfdG20"; % use single apices because otherwise the erase function does not work as I want
-fileName = "history_G20.csv";
+simuFolder = "SST/O2/caseG20/cfdG20"; % use single apices because otherwise the erase function does not work as I want
 
-%% LOGARITMIC PLOT
-
-testcase = mainFolder+"/"+simuFolder;
-warning('off');
-cd(testcase)
-warning('on');
 
 
 %% ---------------------------------------- select field ----------------------------------------------- %%
 fields = ["rms_P_","Cauchy_CD_","CD","CL"];
 target = [1e-13;1e-9];
-
+flagFirst = true;
 n = 0;
 n_iter = 0;
 time = 0;
 
+t = timer('TimerFcn', 'stat=false; disp(''Let''goooo'')');
+
+start(t)
 stat= true;
 figure('Name',"Logaritmic convergence real time",'Position',[300,200,800,500])
 while(stat==true)
@@ -117,10 +113,15 @@ tic
 
     for idx_field = 1: length(fields)
 
-
+        %% LOGARITMIC PLOT
+        
+        testcase = mainFolder+"/"+simuFolder;
+        warning('off');
+        cd(testcase)
+        warning('on');
         %% define from which files do the extraction
         
-        currentHistory = csvDataLogExtractor(fileName,"raw");
+        currentHistory = csvDataLogExtractor("/history_G20.csv","raw");
 
         evolution.(fields(idx_field)) = [currentHistory.(fields(idx_field))];
         n_iter_step = length(evolution.(fields(1)))-n_iter;
@@ -132,13 +133,14 @@ tic
         %% plot
         subplot(2,2,idx_field)
         try
-            plotsss(idx_field) = semilogy(n_iter+1:n_iter+n_iter_step,evolution.(fields(idx_field))(n_iter+1:n_iter+n_iter_step),'k-','DisplayName',replace(simuFolder,'_',' '));
+            plotsss(idx_field) = semilogy(n_iter+1:n_iter+n_iter_step,evolution.(fields(idx_field))(n_iter+1:n_iter+n_iter_step),'k-','DisplayName',replace(simuFolder{idx_f},'_',' '));
         catch
             stat = false;
         end
         hold on;
         xlabel('Iterations')
         ylabel(replace(fields(idx_field),"_"," "))
+        cd("../../../../../../")
         
     end
     if not(fields(idx_field) == "CD" || fields(idx_field) == "CL" || contains(fields(idx_field),"CFL"))
@@ -148,6 +150,11 @@ tic
     
     n_iter = n_iter+n_iter_step;
     drawnow 
+    if flagFirst
+        flagFirst = false;
+    else
+%         delete(plotsss(n-1,:))
+    end
     sgtitle("Real-time logarithmic plot of "+ simuFolder)
 pause(1)
 time = time + toc;

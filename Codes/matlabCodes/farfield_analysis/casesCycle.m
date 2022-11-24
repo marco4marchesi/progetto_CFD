@@ -22,11 +22,12 @@ if ~isempty(casesNames)
     casesNames = casesNames(idx_sort);
 
     % initialize for faster performance
-    CD = zeros(1,length(casesNames));
-    CL = zeros(1,length(casesNames));
-    CMz = zeros(1,length(casesNames));
-    
-
+    CD = zeros(length(casesNames),1);
+    CL = zeros(length(casesNames),1);
+    CMz = zeros(length(casesNames),1);
+    iter = zeros(length(casesNames),1);
+    cauchyCD = zeros(length(casesNames),1);
+    meshElem = zeros(length(casesNames),1);
 
     % array saving cycle
     for idx_C = 1:length(casesNames)

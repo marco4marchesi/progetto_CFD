@@ -34,12 +34,6 @@ for idx_T = 1:length(fieldnames(CD))
         CL_OO = CL_TT.(orderNames(idx_O));
         CMz_OO = CMz_TT.(orderNames(idx_O));
         meshElem_OO = meshElem_TT.(orderNames(idx_O));
-        %%sort vectors in mesh order
-%         if length(CD_OO)>5
-%             CD_OO = CD_OO(idx_sortElem(1:length(CD_OO)));
-%             CL_OO = CL_OO(idx_sortElem(1:length(CD_OO)));
-%             CMz_OO = CMz_OO(idx_sortElem(1:length(CD_OO)));
-%         end
 
         CD_variation = abs(100*(CD_OO(2:end)-CD_OO(1:end-1))./CD_OO(1:end-1));
         CL_variation = abs(100*(CL_OO(2:end)-CL_OO(1:end-1))./CL_OO(1:end-1));
@@ -123,12 +117,8 @@ for idx_T = 1:length(fieldnames(CD))
         CL_OO = CL_TT.(orderNames(idx_O));
         CMz_OO = CMz_TT.(orderNames(idx_O));
         meshElem_OO = meshElem_TT.(orderNames(idx_O));
-        %%sort vectors in mesh order
-%         if length(CD_OO)>6
-%             CD_OO = CD_OO(idx_sortElem);
-%             CL_OO = CL_OO(idx_sortElem);
-%             CMz_OO = CMz_OO(idx_sortElem);
-%         end
+
+
         % dynamic tab name
         figureNamer = turboNames(idx_T)+" "+orderNames(idx_O);
 
@@ -197,16 +187,13 @@ for idx_T = 1:length(fieldnames(iterations))
     turboNames = convertCharsToStrings(fieldnames(iterations));
     iter_TT = iterations.(turboNames(idx_T));
     cauchyCD_TT = cauchyCD.(turboNames(idx_T));
-
+    meshElem_TT = meshElem.(turboNames(idx_T));
     for idx_O = 1:length(fieldnames(iter_TT))
         orderNames = convertCharsToStrings(fieldnames(iter_TT));
         iter_OO = iter_TT.(orderNames(idx_O));
         cauchyCD_OO = cauchyCD_TT.(orderNames(idx_O));
-        %%sort elements as mesh
-%         if length(iter_OO)>6
-%             iter_OO = iter_OO(idx_sortElem);
-%             cauchyCD_OO = cauchyCD_OO(idx_sortElem);
-%         end
+        meshElem_OO = meshElem_TT.(orderNames(idx_O));
+
         % dynamic tab name
         figureNamer = turboNames(idx_T)+" "+orderNames(idx_O);
 
