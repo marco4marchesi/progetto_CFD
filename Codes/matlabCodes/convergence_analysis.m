@@ -72,7 +72,7 @@ matlab_graphics;
 %% select which folder (P for prova, SC for Simulation Case)
 
 mainFolder = "SC/";
-addpath(genpath(mainFolder))
+% addpath(genpath(mainFolder))
 cd(mainFolder)
 
 %% retrieve all the CD, CL, CMz values

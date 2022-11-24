@@ -72,7 +72,7 @@ matlab_graphics;
 %% select which folder (P for prova, SC for Simulation Case)
 
 mainFolder = "PO_trans/";
-addpath(genpath(mainFolder))
+% addpath(genpath(mainFolder))
 cd(mainFolder)
 %% retrieve values from multiple angles simulations:
 
@@ -82,6 +82,7 @@ cd(matlabCodesPath)
 %% plot values
 
 savePlots = false;
+warning('off')
 mkdir("IMAGES_polar")
 graphics_option;
 

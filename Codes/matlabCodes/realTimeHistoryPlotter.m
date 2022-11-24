@@ -45,8 +45,8 @@ user = "doppio fisso"; % choices: "doppio fisso" "luca" ...
 
 if user == "doppio fisso"
     matlabCodesPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Codes\matlabCodes";
-    simulationsFolderPath = "C:\Users\marco\OneDrive - Politecnico di Milano\MAGISTRALE\TerzoSemestre\CFD\PROGETTO CFD DRIVE\SIMULATIONS DRIVE\Simulations";
-    %     simulationsFolderPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Simulations\"; % locale
+    %     simulationsFolderPath = "C:\Users\marco\OneDrive - Politecnico di Milano\MAGISTRALE\TerzoSemestre\CFD\PROGETTO CFD DRIVE\SIMULATIONS DRIVE\Simulations"; % drive
+    simulationsFolderPath = "\\wsl.localhost\Ubuntu-20.04\SU2REPO\progetto_CFD\Simulations";
 end
 
 if user == "doppio portatile"
@@ -57,11 +57,9 @@ end
 
 if user == "luca"
     matlabCodesPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Codes/matlabCodes\";
-    simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations\";
+%     simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations\";
+    simulationsFolderPath= "C:\Users\lucag\Desktop\Universita\Magistrale Secondo Anno\Computational_fluid_dynamics\Progetto_CFD\progetto_CFD\Simulations";
 end
-
-
-
 
 
 %% init
@@ -90,8 +88,8 @@ matlab_graphics;
 
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
-mainFolder = 'PO';
-simuFolder = {'SA/O2_stretto/case_A8'}; % use single apices because otherwise the erase function does not work as I want
+mainFolder = 'noTransition/FARFIELD_stretto/';
+simuFolder = {'SST/O2/caseG26'}; % use single apices because otherwise the erase function does not work as I want
 
 
 
@@ -100,14 +98,10 @@ fields = ["rms_P_","Cauchy_CD_","CD","CL"];
 target = [1e-13;1e-9];
 flagFirst = true;
 n = 0;
+n_iter = 0;
 time = 0;
-t = timer('ExecutionMode', 'fixedSpacing', 'TimerFcn', @timerOut);
-start(t)
 
-
-
-stat=true;
-figure('Name',"Logaritmic convergence real time",'Position',[300,500,800,500])
+figure('Name',"Logaritmic convergence real time",'Position',[300,200,800,500])
 while(stat==true)
 n=n+1;
 tic
@@ -123,22 +117,15 @@ tic
             testcase = mainFolder+"/"+simuFolder{idx_f};
             idx_G = find((simuFolder{idx_f} == 'G')~=(simuFolder{idx_f} =='A'),1,'last');
             meshNum = str2num(erase(simuFolder{idx_f},simuFolder{idx_f}(1:idx_G)));
+            warning('off');
             cd(testcase)
-
+            warning('on');
             %% define from which files do the extraction
-            foldVec = ["first","second","third","fourth","fifth","sixth","seventh"]; % i frankly doubt you will have more than that
-
             listing = dir;
-            % extract how many restart of 10000 iterations have been done:
-            j = 0;
-            for i = 1:size(listing,1)
-                if contains(convertCharsToStrings(listing(i).name),"10000")
-                    j= j+1;
-                end
-            end
             flagPO = true;
+
             for kk = 1: length(listing)
-                if contains(listing(i).name,'cfd')
+                if contains(listing(kk).name,'cfd')
                     flagPO = false;
                 end
             end
@@ -149,44 +136,42 @@ tic
 
                 currentHistory = csvDataLogExtractor("history_aoa"+meshNum+".csv","raw");
             end
-         
+            
             evolution.(fields(idx_field)) = [currentHistory.(fields(idx_field))];
-         
+            n_iter_step = length(evolution.(fields(1)))-n_iter;
+
             if contains(fields(idx_field),"rms")
                 evolution.(fields(idx_field)) = 10.^evolution.(fields(idx_field));
             end
 
             %% plot
             subplot(2,2,idx_field)
-            plotsss(n,idx_field) = semilogy(evolution.(fields(idx_field)),'k-','DisplayName',replace(simuFolder{idx_f},'_',' '));
+            try
+                plotsss(n,idx_field) = semilogy(evolution.(fields(idx_field))(n_iter+1:n_iter+n_iter_step),'k-','DisplayName',replace(simuFolder{idx_f},'_',' '));
+            catch
+                stat = false;
+            end
             hold on;
             xlabel('Iterations')
             ylabel(replace(fields(idx_field),"_"," "))
-            cd("../../../../")
+            cd("../../../../../")
+            
         end
         if not(fields(idx_field) == "CD" || fields(idx_field) == "CL" || contains(fields(idx_field),"CFL"))
             yline(target(idx_field),'r--','DisplayName','Convergence target')
         end
-        title("Logarithmic history of " + replace(fields(idx_field),"_","") + " mesh: G"+meshNum)
-
+        title(replace(fields(idx_field),"_",""))
+        
     end
+    n_iter = n_iter+n_iter_step;
     drawnow 
     if flagFirst
-        legend
         flagFirst = false;
     else
         delete(plotsss(n-1,:))
     end
-    
-pause(1)
+    sgtitle("Real-time logarithmic plot of "+ simuFolder)
+pause(10)
 time = time + toc;
-display("time = "+ num2str(time,2))
-end
 
-
-function timerOut()
-    command = input();
-    if ~isempty(command)
-        stat= false;
-    end
 end

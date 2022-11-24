@@ -71,18 +71,18 @@ matlab_graphics;
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "FARFIELD3/";
-addpath(genpath(mainFolder))
+mainFolder = "FARFIELD_stretto/";
 cd(mainFolder)
 %% retrieve values from multiple angles simulations:
 
-[CD,CL,CMz,iterations,cauchyCD] = turboCycle();
+[CD,CL,CMz,iterations,cauchyCD,meshElem] = turboCycle();
 
 cd(matlabCodesPath)
 %% plot values
 
 
 savePlots = false;
+warning('off')
 mkdir("IMAGES_polar")
 graphics_option_farfield1;
 
