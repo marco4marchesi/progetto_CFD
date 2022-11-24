@@ -57,7 +57,7 @@ end
 
 if user == "luca"
     matlabCodesPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Codes/matlabCodes\";
-%     simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations\";
+    %     simulationsFolderPath = "C:/Users/lucag/Desktop/Universita/Magistrale Secondo Anno/Computational_fluid_dynamics/Progetto_CFD/progetto_CFD/Simulations\";
     simulationsFolderPath= "C:\Users\lucag\Desktop\Universita\Magistrale Secondo Anno\Computational_fluid_dynamics\Progetto_CFD\progetto_CFD\Simulations";
 end
 
@@ -66,7 +66,7 @@ end
 clearvars -except matlabCodesPath simulationsFolderPath;
 clc; close all;
 
-
+warning('off');
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/polar_plotter")
 rmpath(matlabCodesPath+"/farfield_analysis")
@@ -88,14 +88,13 @@ matlab_graphics;
 
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
-mainFolder = 'noTransition/FARFIELD_stretto/';
-simuFolder = "SA/O2/caseG20/cfdG20"; % use single apices because otherwise the erase function does not work as I want
-fileName = "history_G20.csv";
+mainFolder = 'noTransition/SC2/';
+simuFolder = "SST/A9/O2/caseG1/cfdG1"; % use single apices because otherwise the erase function does not work as I want
+fileName = "history_G1.csv";
 
 %% LOGARITMIC PLOT
 
 testcase = mainFolder+"/"+simuFolder;
-warning('off');
 cd(testcase)
 warning('on');
 
@@ -104,22 +103,21 @@ warning('on');
 fields = ["rms_P_","Cauchy_CD_","CD","CL"];
 target = [1e-13;1e-9];
 
-n = 0;
 n_iter = 0;
-time = 0;
+
 
 stat= true;
 figure('Name',"Logaritmic convergence real time",'Position',[300,200,800,500])
 while(stat==true)
-n=n+1;
-tic
+
+
     %% -------------------------------------- Loop on folder simulations! Let's goooooooooooooooooooo -------------------------%%
 
     for idx_field = 1: length(fields)
 
 
         %% define from which files do the extraction
-        
+
         currentHistory = csvDataLogExtractor(fileName,"raw");
 
         evolution.(fields(idx_field)) = [currentHistory.(fields(idx_field))];
@@ -132,24 +130,40 @@ tic
         %% plot
         subplot(2,2,idx_field)
         try
+            % tries to plot the updates from previous plot
             plotsss(idx_field) = semilogy(n_iter+1:n_iter+n_iter_step,evolution.(fields(idx_field))(n_iter+1:n_iter+n_iter_step),'k-','DisplayName',replace(simuFolder,'_',' '));
         catch
+            % check if the simulation has ended. if so: tell to stop
             stat = false;
         end
         hold on;
         xlabel('Iterations')
         ylabel(replace(fields(idx_field),"_"," "))
-        
+
     end
     if not(fields(idx_field) == "CD" || fields(idx_field) == "CL" || contains(fields(idx_field),"CFL"))
         yline(target(idx_field),'r--','DisplayName','Convergence target')
     end
     title(replace(fields(idx_field),"_",""))
-    
+
     n_iter = n_iter+n_iter_step;
-    drawnow 
+    drawnow
     sgtitle("Real-time logarithmic plot of "+ simuFolder)
-pause(1)
-time = time + toc;
+
+    %% return the result of the simulation (if ended)
+    if stat==false
+        fprintf('The simulation has ended! \n\n')
+        if evolution.rms_P_(end) < target(1) && evolution.Cauchy_CD_(end) <target(2)
+            fprintf('Status: convergence reached \n')
+        else
+            fprintf('Status: diverged \n')
+        end
+    else
+        % wait updates from the simulation
+        pause(10)
+    end
+
+
+
 
 end
