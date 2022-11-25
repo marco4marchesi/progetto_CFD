@@ -88,9 +88,9 @@ matlab_graphics;
 
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
-mainFolder = 'noTransition/SC2/';
-simuFolder = "SST/A9/O2/caseG1/cfdG1"; % use single apices because otherwise the erase function does not work as I want
-fileName = "history_G1.csv";
+mainFolder = 'noTransition/SC4/';
+simuFolder = "SA/A9/O2/caseG4/cfdG4"; % use single apices because otherwise the erase function does not work as I want
+fileName = "history_G4.csv";
 
 %% LOGARITMIC PLOT
 
@@ -100,7 +100,7 @@ warning('on');
 
 
 %% ---------------------------------------- select field ----------------------------------------------- %%
-fields = ["rms_P_","Cauchy_CD_","CD","CL"];
+fields = ["rms_Rho_","Cauchy_CD_","CD","CL"];
 target = [1e-13;1e-9];
 
 n_iter = 0;
@@ -142,7 +142,7 @@ while(stat==true)
         if not(fields(idx_field) == "CD" || fields(idx_field) == "CL" || contains(fields(idx_field),"CFL"))
             yline(target(idx_field),'r--','DisplayName','Convergence target')
         else
-            ylim([min(evolution.(fields(idx_field))(end-100:end))*0.999,max(evolution.(fields(idx_field))(end-100:end))*1.001])
+            ylim([min(evolution.(fields(idx_field))(end-min(length(evolution.(fields(idx_field))),1000):end))*0.99,max(evolution.(fields(idx_field))(end-min(length(evolution.(fields(idx_field))),1000):end))*1.01])
         end
     title(replace(fields(idx_field),"_",""))
     end
