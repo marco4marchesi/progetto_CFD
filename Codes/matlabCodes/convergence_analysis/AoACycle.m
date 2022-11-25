@@ -1,4 +1,4 @@
-function [CD,CL,CMz] = AoACycle()
+function [CD,CL,CMz,meshElem] = AoACycle()
 %{
 cycle on the order of the numerical scheme, first order or second order
 --------------------------------------------------------------------------
@@ -22,7 +22,7 @@ for idx_A = 1:length(angleNames)
 
     cd(angleNames(idx_A))
 
-    [CD.(angleNames(idx_A)),CL.(angleNames(idx_A)),CMz.(angleNames(idx_A))] = orderCycle();
+    [CD.(angleNames(idx_A)),CL.(angleNames(idx_A)),CMz.(angleNames(idx_A)),meshElem.(angleNames(idx_A))] = orderCycle();
 
     cd("../")
     rmpath(angleNames(idx_A))

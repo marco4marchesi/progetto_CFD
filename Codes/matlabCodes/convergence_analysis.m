@@ -71,34 +71,16 @@ matlab_graphics;
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "SC/";
+mainFolder = "SC2_stretto/";
 % addpath(genpath(mainFolder))
 cd(mainFolder)
 
 %% retrieve all the CD, CL, CMz values
-[CD,CL,CMz] = turboCycle();
+[CD,CL,CMz,meshElem] = turboCycle();
 
 cd(matlabCodesPath)
 
 %% plot values
-
-% elements of the meshes - plug here the values
-meshElem = [88546
-            136104
-            209052
-            289868
-            392644
-            549126
-            782484  ];
-
-deltaH = [  0.173
-            0.139
-            0.112
-            0.096
-            0.082
-            0.069
-            0.058   ];
-
 
 %{ 
 graphics: list of options:

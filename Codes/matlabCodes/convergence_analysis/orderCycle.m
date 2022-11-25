@@ -1,4 +1,4 @@
-function [CD,CL,CMz] = orderCycle()
+function [CD,CL,CMz,meshElem] = orderCycle()
 %{
 cycle on the order of the numerical scheme, first order or second order
 --------------------------------------------------------------------------
@@ -20,7 +20,7 @@ for idx_O = 1:length(orderNames)
 
     cd(orderNames(idx_O))
 
-    [CD.(orderNames(idx_O)),CL.(orderNames(idx_O)),CMz.(orderNames(idx_O))] = casesCycle();
+    [CD.(orderNames(idx_O)),CL.(orderNames(idx_O)),CMz.(orderNames(idx_O)),meshElem.(orderNames(idx_O))] = casesCycle();
     
     cd("../")
     rmpath(orderNames(idx_O))
