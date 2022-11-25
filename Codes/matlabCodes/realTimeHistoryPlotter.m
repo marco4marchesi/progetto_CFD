@@ -139,12 +139,15 @@ while(stat==true)
         hold on;
         xlabel('Iterations')
         ylabel(replace(fields(idx_field),"_"," "))
-
-    end
-    if not(fields(idx_field) == "CD" || fields(idx_field) == "CL" || contains(fields(idx_field),"CFL"))
-        yline(target(idx_field),'r--','DisplayName','Convergence target')
-    end
+        if not(fields(idx_field) == "CD" || fields(idx_field) == "CL" || contains(fields(idx_field),"CFL"))
+            yline(target(idx_field),'r--','DisplayName','Convergence target')
+        else
+            ylim([min(evolution.(fields(idx_field))(end-100:end))*0.999,max(evolution.(fields(idx_field))(end-100:end))*1.001])
+        end
     title(replace(fields(idx_field),"_",""))
+    end
+
+    
 
     n_iter = n_iter+n_iter_step;
     drawnow
