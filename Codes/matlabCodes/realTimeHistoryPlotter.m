@@ -89,36 +89,37 @@ matlab_graphics;
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
 mainFolder = 'noTransition/SC4/';
-simuFolder = "SA/A9/O2/caseG4/cfdG4"; % use single apices because otherwise the erase function does not work as I want
-fileName = "history_G4.csv";
+simuFolder = "SA/A9/O2/caseG5/cfdG5"; % use single apices because otherwise the erase function does not work as I want
+fileName = "history_G5.csv";
 
 %% LOGARITMIC PLOT
 
 testcase = mainFolder+"/"+simuFolder;
 cd(testcase)
-warning('on');
+
 
 
 %% ---------------------------------------- select field ----------------------------------------------- %%
-fields = ["rms_Rho_","Cauchy_CD_","CD","CL"];
+fields = ["rms_Rho_","Cauchy_CD_","CD","CL"]; % please, rms always first and cauchy always second!
 target = [1e-13;1e-9];
-
+zoomIter = 500; % zoom the CD and CL plots with reference to max and min values  over the last zoomIter iterations
 n_iter = 0;
 
 
 stat= true;
+retry = 0;
 figure('Name',"Logaritmic convergence real time",'Position',[300,200,800,500])
 while(stat==true)
 
 
     %% -------------------------------------- Loop on folder simulations! Let's goooooooooooooooooooo -------------------------%%
-
+    currentHistory = readtable(fileName);
+    tic
     for idx_field = 1: length(fields)
 
 
         %% define from which files do the extraction
 
-        currentHistory = csvDataLogExtractor(fileName,"raw");
 
         evolution.(fields(idx_field)) = [currentHistory.(fields(idx_field))];
         n_iter_step = length(evolution.(fields(1)))-n_iter;
@@ -131,19 +132,27 @@ while(stat==true)
         subplot(2,2,idx_field)
         try
             % tries to plot the updates from previous plot
-            plotsss(idx_field) = semilogy(n_iter+1:n_iter+n_iter_step,evolution.(fields(idx_field))(n_iter+1:n_iter+n_iter_step),'k-','DisplayName',replace(simuFolder,'_',' '));
+            if fields(idx_field) == "CD" || fields(idx_field) == "CL" || fields(idx_field) == "CMz"
+                plotsss(idx_field) = plot(n_iter+1:n_iter+n_iter_step,evolution.(fields(idx_field))(n_iter+1:n_iter+n_iter_step),'k-','DisplayName',replace(simuFolder,'_',' '));
+                ylim([min(evolution.(fields(idx_field))(end-min(length(evolution.(fields(idx_field)))-1,zoomIter):end))*0.99,max(evolution.(fields(idx_field))(end-min(length(evolution.(fields(idx_field)))-1,zoomIter):end))*1.01])
+            else
+                plotsss(idx_field) = semilogy(n_iter+1:n_iter+n_iter_step,evolution.(fields(idx_field))(n_iter+1:n_iter+n_iter_step),'k-','DisplayName',replace(simuFolder,'_',' '));
+                yline(target(idx_field),'r--','DisplayName','Convergence target')
+            end
+            retry = 0;
         catch
-            % check if the simulation has ended. if so: tell to stop
-            stat = false;
+
+            % check if the simulation has ended. Retry one time, if good: ok. if not: tell to stop
+            if retry < 2
+                retry = retry+1;
+            else
+                stat = false;
+            end
         end
         hold on;
         xlabel('Iterations')
         ylabel(replace(fields(idx_field),"_"," "))
-        if not(fields(idx_field) == "CD" || fields(idx_field) == "CL" || contains(fields(idx_field),"CFL"))
-            yline(target(idx_field),'r--','DisplayName','Convergence target')
-        else
-            ylim([min(evolution.(fields(idx_field))(end-min(length(evolution.(fields(idx_field))),1000):end))*0.99,max(evolution.(fields(idx_field))(end-min(length(evolution.(fields(idx_field))),1000):end))*1.01])
-        end
+
     title(replace(fields(idx_field),"_",""))
     end
 
@@ -156,14 +165,15 @@ while(stat==true)
     %% return the result of the simulation (if ended)
     if stat==false
         fprintf('The simulation has ended! \n\n')
-        if evolution.rms_P_(end) < target(1) && evolution.Cauchy_CD_(end) <target(2)
+        if evolution.(fields(1))(end) < target(1) && evolution.(fields(2))(end) <target(2)
             fprintf('Status: convergence reached \n')
         else
             fprintf('Status: diverged \n')
         end
     else
         % wait updates from the simulation
-        pause(10)
+        toc
+        pause(1)
     end
 
 

@@ -1,4 +1,4 @@
-function [CD,CL,CMz,meshElem] = casesCycle()
+function [CD,CL,CMz,meshElem,rms, cauchyCD] = casesCycle()
 %{
 cycle on the cases considered, basically on the N meshes used, first order or second order
 --------------------------------------------------------------------------
@@ -8,20 +8,27 @@ Author: Marco Marchesi
 % retrieve subfolders
 listingCases = dir;
 casesNames = [];
+flagIncompressible=false;
 for i = 1:size(listingCases,1)
     if contains(convertCharsToStrings(listingCases(i).name),"case") && not(contains(convertCharsToStrings(listingCases(i).name),"old"))
         casesNames = [casesNames; convertCharsToStrings(listingCases(i).name)];
     else
         continue
     end
-end
 
+    if contains(convertCharsToStrings(listingCases(i).name),"rms_P_")
+        flagIncompressible = true;
+    end
+end
+        
 if ~isempty(casesNames)
     % initialize for faster performance
     CD = zeros(length(casesNames),1);
     CL = zeros(length(casesNames),1);
     CMz = zeros(length(casesNames),1);
     meshElem = zeros(length(casesNames),1);
+    rms = zeros(length(casesNames),1);
+    cauchyCD= zeros(length(casesNames),1);
     % array saving cycle
     for idx_C = 1:length(casesNames)
 
@@ -36,8 +43,15 @@ if ~isempty(casesNames)
         CD(idx_C) = currentHistory.CD(end);
         CL(idx_C) = currentHistory.CL(end);
         CMz(idx_C) = currentHistory.CMz(end);
+        if flagIncompressible
+            rms(idx_C) = currentHistory.rms_P_(end);
 
+        else
+            rms(idx_C) = currentHistory.rms_Rho_(end);
+        end
+        cauchyCD(idx_C) = currentHistory.Cauchy_CD_(end);
         cd("../")
+        warning('off')
         rmpath("cfdG"+meshNum)
         %% extract mesh elements
         cd("meshG"+meshNum)

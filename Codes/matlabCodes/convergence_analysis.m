@@ -57,6 +57,7 @@ end
 %% init 
 clearvars -except matlabCodesPath simulationsFolderPath; 
 close all; clc;
+warning('off')
 
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/polar_plotter")
@@ -71,12 +72,13 @@ matlab_graphics;
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "SC2_stretto/";
+mainFolder = "SC4/";
 % addpath(genpath(mainFolder))
 cd(mainFolder)
 
 %% retrieve all the CD, CL, CMz values
-[CD,CL,CMz,meshElem] = turboCycle();
+
+[CD,CL,CMz,meshElem,rms,cauchyCD] = turboCycle();
 
 cd(matlabCodesPath)
 
