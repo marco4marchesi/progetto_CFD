@@ -56,7 +56,7 @@ end
 
 %% init 
 clearvars -except matlabCodesPath simulationsFolderPath; 
-close all; clc;
+% close all; clc;
 
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/convergence_analysis")
@@ -73,12 +73,13 @@ matlab_graphics;
 
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
-mainFolder = 'TC1/';
+mainFolder = ['TC1';'TC2'];
 % simuFolder = ''; % use single apices because otherwise the erase function does not work as I want
 
 %% LOGARITMIC PLOT
 
-testcase = strcat(mainFolder);%,simuFolder);
+for kk = 1:size(mainFolder,1)
+testcase = strcat(mainFolder(kk,:));%,simuFolder);
 cd(testcase)
 
 
@@ -98,23 +99,33 @@ history.CL = [history.CL; currentHistory.CL];
 end
 firstHistoryStep = str2double(listing(1).name(end-8:end-4));
 
+% simulation parameters (build alpha function)
 
-% build alpha function
-chord = 1.00898;                    % [m] airfoil chord length
-fsV = 68.05093;                     % [m/s] freestream velocity
 A = 10;                             % [°] amplitude
-time_step= 0.02 * chord/fsV;        % [s] timestep of the simulation
 omega = 13.5;                       % [rad/s] pitching pulsation of the simulation
 alpha_mean = 10;                    % [°] mean angle of the simulation
+chord = 1.00898;                    % [m] airfoil chord length
+fsV = 68.05093;                     % [m/s] freestream velocity
 
+switch mainFolder(kk,:) 
+    case 'TC1'
+        time_step= 0.02 * chord/fsV;        % [s] timestep of the simulation
+    case 'TC2'
+        time_step= 5*0.02 * chord/fsV;        % [s] timestep of the simulation
+    case 'TC3'
+        time_step= 0;
+    case 'TC4'
+        time_step= 0;
+end
 % extract variables from simulation
-time_iter = 1:(length(history.Inner_Iter)-mod(length(history.Inner_Iter),2))/2;
-t = time_iter * time_step;
-CL = history.CL(2:2:end);
+time_iter{:,kk} = 1:(length(history.Inner_Iter)-mod(length(history.Inner_Iter),2))/2;
+t{:,kk} = time_iter{:,kk} * time_step;
+CL{:,kk} = history.CL(2:2:end);
 
 % compute alpha
-alpha = A * sin(omega*(t+firstHistoryStep*time_step)) + alpha_mean; % [°] variable angle of the simulation
-
+alpha{:,kk} = A * sin(omega*(t{:,kk}+firstHistoryStep*time_step)) + alpha_mean; % [°] variable angle of the simulation
+cd('../')
+end
 %% extract Zanotti dataset
 
 
@@ -134,10 +145,13 @@ end
 
 %% plots
 figure
-plot(alpha,CL,'r.',"DisplayName","Our simulation")
 hold on;
-plot(dynamicCL_Zanotti_exp.alpha,dynamicCL_Zanotti_exp.CL, 'k-',"DisplayName",'Zanotti et Al. experiment')
-plot(dynamicCL_Zanotti_CFD.alpha,dynamicCL_Zanotti_CFD.CL, 'b-',"DisplayName",'Zanotti et Al. CFD')
+plot(alpha{:,1},CL{:,1},'color','#FFA500',"DisplayName","Our simulation, dt small")
+
+plot(alpha{:,2},CL{:,2},'color','#C100FF',"DisplayName","Our simulation, dt higher")
+
+plot(dynamicCL_Zanotti_exp.alpha,dynamicCL_Zanotti_exp.CL, 'k--',"DisplayName",'Zanotti et Al. experiment')
+plot(dynamicCL_Zanotti_CFD.alpha,dynamicCL_Zanotti_CFD.CL, 'b--',"DisplayName",'Zanotti et Al. CFD')
 
 xlabel('\alpha [°]')
 ylabel('CL [-]')

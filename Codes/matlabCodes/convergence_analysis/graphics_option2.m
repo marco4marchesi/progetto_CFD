@@ -169,16 +169,16 @@ CONVfigures = figure('Name','Drag Coefficient','Position',[0,0,1000,1000]);
 CONVfigs.h_tabgroup = uitabgroup(CONVfigures);
 
 idx_tab = 0;
-for idx_T = 1:length(fieldnames(CD))
+for idx_T = 1:length(fieldnames(rms))
 
-    turboNames = convertCharsToStrings(fieldnames(CD));
+    turboNames = convertCharsToStrings(fieldnames(rms));
     rms_TT = rms.(turboNames(idx_T));
     cauchy_TT = cauchyCD.(turboNames(idx_T));
     meshElem_TT = meshElem.(turboNames(idx_T));
 
-    for idx_A = 1:length(fieldnames(CD_TT))
+    for idx_A = 1:length(fieldnames(rms_TT))
 
-        AoANames = convertCharsToStrings(fieldnames(CD_TT));
+        AoANames = convertCharsToStrings(fieldnames(rms_TT));
         rms_AA = rms_TT.(AoANames(idx_A));
         cauchy_AA = cauchy_TT.(AoANames(idx_A));
         meshElem_AA = meshElem_TT.(AoANames(idx_A));
@@ -195,12 +195,12 @@ for idx_T = 1:length(fieldnames(CD))
         CONVfigs.(tabName).BackgroundColor = 'white';
         axes('parent',CONVfigs.(tabName));
 
-        for idx_O = 1:length(fieldnames(CD_AA))
+        for idx_O = 1:length(fieldnames(rms_AA))
 
-            orderNames = convertCharsToStrings(fieldnames(CD_AA));
+            orderNames = convertCharsToStrings(fieldnames(rms_AA));
             rms_OO = rms_AA.(orderNames(idx_O));
             cauchy_OO = cauchy_AA.(orderNames(idx_O));
-            meshElem_OO = meshElem_AA.(orderNames(idx_T));
+            meshElem_OO = meshElem_AA.(orderNames(idx_O));
 
             % CD - plot
             subplot(1,2,1)

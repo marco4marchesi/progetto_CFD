@@ -56,7 +56,7 @@ end
 
 %% init 
 clearvars -except matlabCodesPath simulationsFolderPath; 
-close all; clc;
+% close all; clc;
 
 % add matlab functions to the path
 rmpath(matlabCodesPath+"/convergence_analysis")
@@ -72,52 +72,65 @@ matlab_graphics;
 
 
 
-% %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
-% mainFolder = 'FARFIELD3/';
-% simuFolder = 'SST/O2/caseG24/cfdG24'; % use single apices because otherwise the erase function does not work as I want
-% fileName = "history_G24.csv";
-% 
-% %% LOGARITMIC PLOT
-% 
-% testcase = strcat(mainFolder,simuFolder);
-% cd(testcase)
+%% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
+mainFolder = ['TC1';'TC2'];
+% simuFolder = ''; % use single apices because otherwise the erase function does not work as I want
+
+%% LOGARITMIC PLOT
+
+for kk = 1:size(mainFolder,1)
+testcase = strcat(mainFolder(kk,:);%,simuFolder);
+cd(testcase)
 
 
-% cd('convergence_analysis\')
 
 
 
 %% data extraction and post processing
 
+% data extraction
 listing = dir("*.csv");
 
-currentHistory = struct('Inner_Iter',[],'CL',[])
+history = struct('Inner_Iter',[],'CL',[]);
 for j = 1:length(listing)
-currentHistoryExtr = csvDataLogExtractor(listing(j).name);
-currentHistory.Inner_Iter = [currentHistory.Inner_Iter; currentHistoryExtr.Inner_Iter];
-currentHistory.Inner_Iter = [currentHistory.Inner_Iter; currentHistoryExtr.Inner_Iter];
+currentHistory = csvDataLogExtractor(listing(j).name);
+history.Inner_Iter = [history.Inner_Iter; currentHistory.Inner_Iter];
+history.CL = [history.CL; currentHistory.CL];
 end
-% build alpha function
-chord = 1.00898;                    % [m] airfoil chord length
-fsV = 68.05093;                     % [m/s] freestream velocity
+firstHistoryStep = str2double(listing(1).name(end-8:end-4));
+
+% simulation parameters (build alpha function)
+
 A = 10;                             % [°] amplitude
-time_step= 0.02 * chord/fsV;        % [s] timestep of the simulation
 omega = 13.5;                       % [rad/s] pitching pulsation of the simulation
 alpha_mean = 10;                    % [°] mean angle of the simulation
+chord = 1.00898;                    % [m] airfoil chord length
+fsV = 68.05093;                     % [m/s] freestream velocity
 
+switch mainFolder 
+    case 'TC1'
+        time_step= 0.02 * chord/fsV;        % [s] timestep of the simulation
+    case 'TC2'
+        time_step= 5*0.02 * chord/fsV;        % [s] timestep of the simulation
+    case 'TC3'
+        time_step= 0;
+    case 'TC4'
+        time_step= 0;
+end
 % extract variables from simulation
-time_iter = 1:(length(currentHistory.Inner_Iter)-mod(length(currentHistory.Inner_Iter),2))/2;
-t = time_iter * time_step;
-CL = currentHistory.CL(2:2:end);
+time_iter(:,kk) = 1:(length(history.Inner_Iter)-mod(length(history.Inner_Iter),2))/2;
+t(:,kk) = time_iter * time_step;
+CL(:,kk) = history.CL(2:2:end);
 
 % compute alpha
-alpha = A * sin(omega*(t+2575*time_step)) + alpha_mean; % [°] variable angle of the simulation
-
+alpha(:,kk) = A * sin(omega*(t+firstHistoryStep*time_step)) + alpha_mean; % [°] variable angle of the simulation
+cd('../')
+end
 %% extract Zanotti dataset
 
 
-extract_exp = readtable("../plotDigitizer/DynamicCL_Zanotti_experimental.csv","Delimiter",';');
-extract_CFD_720TS = readtable("../plotDigitizer/DynamicCL_Zanotti_CFD_G1_720TS.csv","Delimiter",';');
+extract_exp = readtable(simulationsFolderPath+"../plotDigitizer/DynamicCL_Zanotti_experimental.csv","Delimiter",';');
+extract_CFD_720TS = readtable(simulationsFolderPath+"../plotDigitizer/DynamicCL_Zanotti_CFD_G1_720TS.csv","Delimiter",';');
 
 for i = 1: size(extract_exp,1)
     dynamicCL_Zanotti_exp.alpha(i,1) = str2double(replace(extract_exp{i,1}{1},",",".")) ;
@@ -132,11 +145,14 @@ end
 
 %% plots
 figure
-plot(alpha,CL,'r.',"DisplayName","CFD")
 hold on;
+plot(alpha(:,1),CL(:,1),'r.',"DisplayName","Our simulation, dt small")
+plot(alpha(:,2),CL(:,2),'g.',"DisplayName","Our simulation, dt higher")
+
 plot(dynamicCL_Zanotti_exp.alpha,dynamicCL_Zanotti_exp.CL, 'k-',"DisplayName",'Zanotti et Al. experiment')
 plot(dynamicCL_Zanotti_CFD.alpha,dynamicCL_Zanotti_CFD.CL, 'b-',"DisplayName",'Zanotti et Al. CFD')
 
 xlabel('\alpha [°]')
 ylabel('CL [-]')
 title('CL-alpha curve, dynamic simulation')
+legend
