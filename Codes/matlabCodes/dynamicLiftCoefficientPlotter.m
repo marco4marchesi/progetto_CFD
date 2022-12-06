@@ -72,24 +72,20 @@ matlab_graphics;
 
 
 
-% %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
-% mainFolder = 'FARFIELD3/';
-% simuFolder = 'SST/O2/caseG24/cfdG24'; % use single apices because otherwise the erase function does not work as I want
-% fileName = "history_G24.csv";
-% 
-% %% LOGARITMIC PLOT
-% 
-% testcase = strcat(mainFolder,simuFolder);
-% cd(testcase)
+%% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
+mainFolder = 'TC1/';
+% simuFolder = ''; % use single apices because otherwise the erase function does not work as I want
+
+%% LOGARITMIC PLOT
+
+testcase = strcat(mainFolder);%,simuFolder);
+cd(testcase)
 
 
-% cd('convergence_analysis\')
 
 
 
 %% data extraction and post processing
-% cd(cartella contenente gli history file delle simulazioni dinamiche: se
-% ce n'è più di una, perché si ha restartato, serve metterle tutte insieme)
 
 % data extraction
 listing = dir("*.csv");
@@ -122,8 +118,8 @@ alpha = A * sin(omega*(t+firstHistoryStep*time_step)) + alpha_mean; % [°] varia
 %% extract Zanotti dataset
 
 
-extract_exp = readtable("../plotDigitizer/DynamicCL_Zanotti_experimental.csv","Delimiter",';');
-extract_CFD_720TS = readtable("../plotDigitizer/DynamicCL_Zanotti_CFD_G1_720TS.csv","Delimiter",';');
+extract_exp = readtable(simulationsFolderPath+"../plotDigitizer/DynamicCL_Zanotti_experimental.csv","Delimiter",';');
+extract_CFD_720TS = readtable(simulationsFolderPath+"../plotDigitizer/DynamicCL_Zanotti_CFD_G1_720TS.csv","Delimiter",';');
 
 for i = 1: size(extract_exp,1)
     dynamicCL_Zanotti_exp.alpha(i,1) = str2double(replace(extract_exp{i,1}{1},",",".")) ;
