@@ -4,6 +4,7 @@ GRAPHICS OPTION 2 - TWO ORDER OF CONVERGENCE ON ONE PLOT
 
 %}
 
+function graphics_option_farfield1(CD,CL,CMz,iterations,cauchy,cauchyType,meshElem,savePlots)
 close all;
 %% define graphical properties: 
 
@@ -186,7 +187,7 @@ idx_tab = 0;
 for idx_T = 1:length(fieldnames(iterations))
     turboNames = convertCharsToStrings(fieldnames(iterations));
     iter_TT = iterations.(turboNames(idx_T));
-    cauchyCD_TT = cauchyCD.(turboNames(idx_T));
+    cauchyCD_TT = cauchy.(turboNames(idx_T));
     meshElem_TT = meshElem.(turboNames(idx_T));
     for idx_O = 1:length(fieldnames(iter_TT))
         orderNames = convertCharsToStrings(fieldnames(iter_TT));
@@ -224,7 +225,7 @@ for idx_T = 1:length(fieldnames(iterations))
         hold on;
         yline(1e-7,'r--','DisplayName','target')
         xlabel("Nelem")
-        ylabel("cauchyCD")
+        ylabel("cauchy"+cauchyType)
         legend
         if xAxisLabel == "meshIncrement"
             xtickformat("percentage")

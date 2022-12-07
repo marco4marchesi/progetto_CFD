@@ -1,3 +1,0 @@
-Mesh realizzata a partire da meshG3 incrementand il numero di elementi su dorso, ventre e scia in modo omogeneo
-
-209052 elementi

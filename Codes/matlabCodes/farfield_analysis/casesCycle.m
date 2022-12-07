@@ -1,4 +1,4 @@
-function [CD,CL,CMz,iter,cauchyCD,meshElem] = casesCycle()
+function [CD,CL,CMz,iter,cauchy,meshElem] = casesCycle()
 %{
 cycle on the cases considered for POLAR construction, basically on the N angles used, first order or second order
 --------------------------------------------------------------------------
@@ -26,7 +26,7 @@ if ~isempty(casesNames)
     CL = zeros(length(casesNames),1);
     CMz = zeros(length(casesNames),1);
     iter = zeros(length(casesNames),1);
-    cauchyCD = zeros(length(casesNames),1);
+    cauchy = zeros(length(casesNames),1);
     meshElem = zeros(length(casesNames),1);
 
     % array saving cycle
@@ -56,14 +56,18 @@ if ~isempty(casesNames)
             CL(idx_C) = currentHistory.CL(end);
             CMz(idx_C) = currentHistory.CMz(end);
             iter(idx_C) = currentHistory.Inner_Iter(end) + restart_counter*9999;
-            cauchyCD(idx_C) = currentHistory.Cauchy_CD_(end);
+            try
+                cauchy(idx_C) = currentHistory.Cauchy_CD_(end);
+            catch
+                cauchy(idx_C) = currentHistory.Cauchy_CL_(end);
+            end
         catch
             % simulation name
         CD(idx_C) = 0;
         CL(idx_C) = 0;
         CMz(idx_C) = 0;
         iter(idx_C) = 0;
-        cauchyCD(idx_C) = 0;
+        cauchy(idx_C) = 0;
         end
         cd("../")
         rmpath("cfdG"+meshNum)
@@ -86,7 +90,7 @@ else
     CL = 0;
     CMz = 0;
     iter = 0;
-    cauchyCD = 0;
+    cauchy = 0;
     meshElem = 0;
 end
 

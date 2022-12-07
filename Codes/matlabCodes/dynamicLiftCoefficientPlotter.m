@@ -99,12 +99,14 @@ alpha_mean = 10;                    % [°] mean angle of the simulation
 
 % extract variables from simulation
 time_iter = currentHistory.Time_Iter;
-t = time_iter * time_step;
 CL = currentHistory.CL;
+CL_avg = currentHistory.tavg_CL_;
 
 % compute alpha
+t = time_iter * time_step;
 alpha = A * sin(omega*t) + alpha_mean;
 
+% compute error
 
 %% plots
 figure
@@ -112,3 +114,12 @@ plot(alpha,CL,'r.')
 xlabel('\alpha [°]')
 ylabel('CL [-]')
 title('CL-alpha curve, dynamic simulation')
+
+
+%% plots
+figure
+plot(alpha,CL_avg,'r.')
+xlabel('\alpha [°]')
+ylabel('CL [-]')
+title('CL-alpha curve, dynamic simulation')
+
