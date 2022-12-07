@@ -8,7 +8,7 @@ Author: Marco Marchesi
 % retrieve subfolders
 listingCases = dir;
 casesNames = [];
-flagIncompressible=false;
+flagIncompressible=true;
 for i = 1:size(listingCases,1)
     if contains(convertCharsToStrings(listingCases(i).name),"case") && not(contains(convertCharsToStrings(listingCases(i).name),"old"))
         casesNames = [casesNames; convertCharsToStrings(listingCases(i).name)];

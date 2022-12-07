@@ -35,7 +35,7 @@ running the code, otherwise it will return errors:
 %% select user
 
 % user: set who is running the code so that the folder is chosen:
-user = "doppio fisso"; % choices: "doppio fisso" "luca" ...
+user = "doppio portatile"; % choices: "doppio fisso" "luca" ...
 
 if user == "doppio fisso"
     matlabCodesPath = "C:\Users\marco\Desktop\UNI\2 MAGISTRALE\CFD\CFD PROJECT\progetto_CFD\Codes\matlabCodes";
@@ -72,7 +72,7 @@ matlab_graphics;
 
 %% select which folder (P for prova, SC for Simulation Case)
 
-mainFolder = "SC4/";
+mainFolder = "SC2/";
 % addpath(genpath(mainFolder))
 cd(mainFolder)
 

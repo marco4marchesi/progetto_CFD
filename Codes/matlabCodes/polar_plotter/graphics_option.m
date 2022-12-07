@@ -214,13 +214,14 @@ CD_abbot = [0.009863507
             0.012715195];
 
 figure('Name','Comparison experimental data vs simulations','Position',[0,0,1000,1000])
-plot(alpha_NASA,CL_NASA,'d--','Color','black','DisplayName','NASA')
 hold on; grid on;
-plot(alpha_zano,CL_zano,'s--','Color','blue','DisplayName','Zanotti et al')
-plot(alpha_abbot,CL_abbot,'^--','Color','#7E2F8E','MarkerFaceColor','white','displayName','Abbot')
-plot(angles.SA.O2 ,CL.SA.O2,'o-','Color','red','MarkerFaceColor','yellow','DisplayName','Simulated SA transition O2');
-% plot(angles.SST.O2 ,CL.SST.O2,'o-','Color','magenta','MarkerFaceColor','green','DisplayName','Simulated SST O2 G5');
+plot(angles.SA.O2_stretto ,CL.SA.O2_stretto,    'd-' ,'Color','#C100FF'    ,'MarkerFace','#C100FF'    ,'MarkerEdge','k'      ,'DisplayName','Simulated SA');
+plot(angles.SST.O2_stretto,CL.SST.O2_stretto,   'o-' ,'Color','#FFA500'    ,'MarkerFace','#FFA500'    ,'MarkerEdge','k'      ,'DisplayName','Simulated SST')
+% plot(alpha_CFD_zano)
+plot(alpha_zano,CL_zano,                        's--','Color','m'          ,'MarkerFace','m'          ,'MarkerEdge','k'      ,'DisplayName','Zanotti et al')
+plot(alpha_NASA,CL_NASA,                        'd--','Color','g'          ,'MarkerFace','g'          ,'MarkerEdge','k'      ,'DisplayName','NASA')
 
+% plot(alpha_abbot,CL_abbot,           '^--','Color','#7E2F8E','MarkerFaceColor','white','displayName','Abbot')
 legend
 title('Experimental data vs simulations')
 xlabel('Angle of attack \alpha [°]')
