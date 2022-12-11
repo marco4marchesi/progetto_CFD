@@ -223,7 +223,7 @@ for idx_T = 1:length(fieldnames(iterations))
         subplot(2,1,2)
         plot(meshElem_OO(1:length(iter_OO)), cauchyCD_OO,'o','Color',lineColors(idx_O),'MarkerFaceColor',faceColors(idx_O),'DisplayName',orderNames(idx_O))
         hold on;
-        yline(1e-7,'r--','DisplayName','target')
+        yline(1e-9,'r--','DisplayName','target')
         xlabel("Nelem")
         ylabel("cauchy"+cauchyType)
         legend
