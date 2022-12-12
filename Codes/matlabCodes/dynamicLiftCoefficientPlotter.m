@@ -83,48 +83,50 @@ casePeriod = 'last'; % options: {'last', 'first', ''}
 
 %% extract Zanotti dataset
 
+
 extract_ZANO_exp = readtable(simulationsFolderPath+"../plotDigitizer/DynamicCL_Zanotti_experimental.csv","Delimiter",';');
 extract_ZANO_CFD_720TS = readtable(simulationsFolderPath+"../plotDigitizer/DynamicCL_Zanotti_CFD_G1_720TS.csv","Delimiter",';');
 
+for i = 1: size(extract_ZANO_CFD_720TS,1)
+    dynamicCL_Zanotti_CFD.alpha(i,1) = str2double(replace(extract_ZANO_CFD_720TS{i,1}{1},",",".")) ;
+    dynamicCL_Zanotti_CFD.CL(i,1) = str2double(replace(extract_ZANO_CFD_720TS{i,2}{1},",","."));
+end
+
+
+% extract area integral
+[~,idx_minzanocfd]  = min(dynamicCL_Zanotti_CFD.alpha);
+[~,idx_maxzanocfd]  = max(dynamicCL_Zanotti_CFD.alpha);
+
+if idx_minzanocfd<idx_maxzanocfd
+    area_upCFD = trapz(dynamicCL_Zanotti_CFD.alpha(idx_minzanocfd:idx_maxzanocfd),dynamicCL_Zanotti_CFD.CL(idx_minzanocfd:idx_maxzanocfd));
+    area_downCFD = trapz(dynamicCL_Zanotti_CFD.alpha(idx_maxzanocfd:end),dynamicCL_Zanotti_CFD.CL(idx_maxzanocfd:end));
+else
+    area_downCFD = trapz(dynamicCL_Zanotti_CFD.alpha(idx_maxzanocfd:idx_minzanocfd),dynamicCL_Zanotti_CFD.CL(idx_maxzanocfd:idx_minzanocfd));
+    area_upCFD = trapz(dynamicCL_Zanotti_CFD.alpha(1:idx_maxzanocfd),dynamicCL_Zanotti_CFD.CL(1:idx_maxzanocfd));
+end
+area_zanoCFD = area_upCFD-area_downCFD;
+
+
+
+
+% experiment
 for i = 1: size(extract_ZANO_exp,1)
     dynamicCL_Zanotti_exp.alpha(i,1) = str2double(replace(extract_ZANO_exp{i,1}{1},",",".")) ;
     dynamicCL_Zanotti_exp.CL(i,1) = str2double(replace(extract_ZANO_exp{i,2}{1},",","."));
 end
 
 % extract area integral
-[~,idx_mincfd]  = min(dynamicCL_Zanotti_exp.alpha);
-[~,idx_maxcfd]  = max(dynamicCL_Zanotti_exp.alpha);
+[~,idx_minzanoexp]  = min(dynamicCL_Zanotti_exp.alpha);
+[~,idx_maxzanoexp]  = max(dynamicCL_Zanotti_exp.alpha); 
 
-if idx_mincfd<idx_maxcfd
-    area_upEXP = trapz(dynamicCL_Zanotti_exp.alpha(idx_mincfd:idx_maxcfd),dynamicCL_Zanotti_exp.CL(idx_mincfd:idx_maxcfd));
-    area_downEXP = trapz(dynamicCL_Zanotti_exp.alpha(idx_maxcfd:end),dynamicCL_Zanotti_exp.CL(idx_maxcfd:end))+trapz(dynamicCL_Zanotti_exp.alpha(1:idx_mincfd),dynamicCL_Zanotti_exp.CL(1:idx_mincfd));
+if idx_minzanoexp<idx_maxzanoexp
+    area_upEXP = trapz(dynamicCL_Zanotti_exp.alpha(idx_minzanoexp:idx_maxzanoexp),dynamicCL_Zanotti_exp.CL(idx_minzanoexp:idx_maxzanoexp));
+    area_downEXP = trapz(dynamicCL_Zanotti_exp.alpha(idx_maxzanoexp:end),dynamicCL_Zanotti_exp.CL(idx_maxzanoexp:end))+trapz(dynamicCL_Zanotti_exp.alpha(1:idx_minzanoexp),dynamicCL_Zanotti_exp.CL(1:idx_minzanoexp));
 else
-    area_downEXP = trapz(dynamicCL_Zanotti_exp.alpha(idx_maxcfd:idx_mincfd),dynamicCL_Zanotti_exp.CL(idx_maxcfd:idx_mincfd));
-    area_upEXP = trapz(dynamicCL_Zanotti_exp.alpha(1:idx_maxcfd),dynamicCL_Zanotti_exp.CL(1:idx_maxcfd));
+    area_downEXP = trapz(dynamicCL_Zanotti_exp.alpha(idx_maxzanoexp:idx_minzanoexp),dynamicCL_Zanotti_exp.CL(idx_maxzanoexp:idx_minzanoexp));
+    area_upEXP = trapz(dynamicCL_Zanotti_exp.alpha(1:idx_maxzanoexp),dynamicCL_Zanotti_exp.CL(1:idx_maxzanoexp));
 end
 area_zanoEXP = area_upEXP-area_downEXP;
-
-
-% extract area integral
-for i = 1: size(extract_ZANO_CFD_720TS,1)
-    dynamicCL_Zanotti_CFD.alpha(i,1) = str2double(replace(extract_ZANO_CFD_720TS{i,1}{1},",",".")) ;
-    dynamicCL_Zanotti_CFD.CL(i,1) = str2double(replace(extract_ZANO_CFD_720TS{i,2}{1},",","."));
-end
-
-% [~,idx_mincfd]  = min(dynamicCL_Zanotti_CFD.alpha);
-% [~,idx_maxcfd]  = max(dynamicCL_Zanotti_CFD.alpha);
-% 
-% 
-% if idx_mincfd<idx_maxcfd
-%     area_upCFD = trapz(alpha{:,kk}(idx_mincfd(kk):idx_maxcfd(kk)),CL{:,kk}(idx_mincfd(kk):idx_maxcfd(kk)));
-%     area_downCFD = trapz(alpha{:,kk}(idx_maxcfd(kk):end),CL{:,kk}(idx_maxcfd(kk):end))+trapz(alpha{:,kk}(1:idx_mincfd(kk)),CL{:,kk}(1:idx_mincfd(kk)));
-% 
-% else
-%     area_downCFD(kk,1) = trapz(alpha{:,kk}(idx_maxcfd(kk):idx_mincfd(kk)),CL{:,kk}(idx_maxcfd(kk):idx_mincfd(kk)));
-%     area_upCFD(kk,1) = trapz(alpha{:,kk}(idx_mincfd(kk):end),CL{:,kk}(idx_mincfd(kk):end))+trapz(alpha{:,kk}(1:idx_maxcfd(kk)),CL{:,kk}(1:idx_maxcfd(kk)));
-% end
-% 
-% area_zanoCFD = area_upCFD-area_downCFD;
 
 %% cfd data
 for kk = 1:size(mainFolder,1)
@@ -237,8 +239,10 @@ end
 
 %% compute error on area cycle
 area = area_up-area_down;
-area_err_perc = (area - area_zanoEXP)/area_zanoEXP*100;
+area_err_perc_zanoEXP = (area - area_zanoEXP)/area_zanoEXP*100;
+area_err_perc_zanoCFD = (area - area_zanoCFD)/area_zanoEXP*100;
 
+table(area, area - area_zanoCFD, area - area_zanoEXP, area_err_perc_zanoCFD, area_err_perc_zanoEXP,'VariableNames',{'area','w.r.t. CFD','w.r.t. EXP','percent CFD','percent EXP'})
 
 
 %% plot CL vs alpha of the dynamic simulation
@@ -247,9 +251,9 @@ hold on;
 % plot(alpha{:,1},CL{:,1},'color','#FFA500',"DisplayName",replace(mainFolder(1),'_',' '))
 % plot(alpha{:,2},CL{:,2},'color','#C100FF',"DisplayName",replace(mainFolder(2),'_',' '))
 plot(alpha{:,3},CL{:,3},'color','r',"DisplayName",replace(mainFolder(3),'_',' '))
-% plot(alpha{:,4},CL{:,4},'color','g',"DisplayName",replace(mainFolder(4),'_',' '))
+plot(alpha{:,4},CL{:,4},'color','g',"DisplayName",replace(mainFolder(4),'_',' '))
 % plot(alpha{:,5},CL{:,5},'color','c',"DisplayName",replace(mainFolder(5),'_',' '))
-plot(alpha{:,6},CL{:,6},'color','c',"DisplayName",replace(mainFolder(6),'_',' '))
+% plot(alpha{:,6},CL{:,6},'color','c',"DisplayName",replace(mainFolder(6),'_',' '))
 
 plot(dynamicCL_Zanotti_exp.alpha,dynamicCL_Zanotti_exp.CL, 'k--',"DisplayName",'Zanotti et Al. experiment')
 plot(dynamicCL_Zanotti_CFD.alpha,dynamicCL_Zanotti_CFD.CL, 'b--',"DisplayName",'Zanotti et Al. CFD')

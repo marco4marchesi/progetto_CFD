@@ -86,8 +86,8 @@ matlab_graphics;
 
 %% ------------------------------------ CHOSE SIMULATION (FOLDER) -------------------------------------- %%
 mainFolder ='FARFIELD3/'; %'caseG4_ROE_highMach/';
-simuFolder ='SST/O2/caseG22/cfdG22'; %'caseG4_A10_newTVD\cfdG4'; % use single apices because otherwise the erase function does not work as I want
-fileName = "history_G22.csv";%'history_G4_O2_10g_newTVD.csv';%
+simuFolder ='SST/O2/caseG21/cfdG21'; %'caseG4_A10_newTVD\cfdG4'; % use single apices because otherwise the erase function does not work as I want
+fileName = "history_G21.csv";%'history_G4_O2_10g_newTVD.csv';%
 
 %% LOGARITMIC PLOT
 
